@@ -9,8 +9,13 @@ The backend for CodeBattle. It exposes match APIs with Express, broadcasts live 
 | `src/server.js` | Express routes, Socket.IO server, match orchestration, code execution, and AI review |
 | `src/db.js` | MongoDB connection helper |
 | `src/models/Match.js` | Match state schema |
+| `src/models/MatchHistory.js` | Persistent match history schema |
+| `src/models/Analytics.js` | Persistent analytics counters schema |
 | `src/models/Question.js` | Coding problem schema |
 | `src/utils/lang.js` | Frontend language to Piston runtime mapping |
+| `load-tests/` | k6 load-testing scenarios |
+| `docs/metrics-dashboard.md` | Metrics dashboard setup guide |
+| `docs/chaos-testing.md` | Failure/chaos testing plans |
 
 ## Setup
 
@@ -118,8 +123,17 @@ npm start
 | `POST` | `/match/submit` | Submit final code for judging |
 | `POST` | `/match/analyze` | Start AI review |
 | `GET` | `/match/:matchId` | Fetch match state |
+| `GET` | `/history/` | Fetch match history scoped to current identity |
+| `GET` | `/admin/analytics` | Fetch analytics snapshot (supports `x-admin-key`) |
+| `GET` | `/metrics` | Prometheus-style observability metrics |
 | `GET` | `/health` | Health check |
 
 ## Real-Time Events
 
 Clients connect with Socket.IO and emit `match:join` with a match ID. The server broadcasts `match:update` events such as `PLAYER_JOINED`, `START_RACE`, `CODE_FEEDBACK`, `GAME_OVER`, `AI_STATUS`, and `AI_ANALYSIS`.
+
+## Operations Docs
+
+- Metrics dashboard guide: `docs/metrics-dashboard.md`
+- Load testing scenarios: `load-tests/README.md`
+- Chaos/failure testing plan: `docs/chaos-testing.md`

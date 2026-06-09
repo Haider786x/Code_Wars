@@ -10,6 +10,9 @@ const MatchSchema = new Schema(
         guestId: { type: String, required: true },
         userId: { type: String, default: null },
         displayName: { type: String, default: '' },
+        rating: { type: Number, default: 1200 },
+        wins: { type: Number, default: 0 },
+        losses: { type: Number, default: 0 },
       },
     ],
     roomType: {
