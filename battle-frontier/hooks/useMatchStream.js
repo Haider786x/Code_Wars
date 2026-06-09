@@ -19,7 +19,7 @@ function getSocket() {
   return socket;
 }
 
-export const useMatchStream = (matchId) => {
+export const useMatchStream = (matchId, identity) => {
   const [data, setData] = useState(null);
   const activeMatchId = useMemo(() => matchId?.trim(), [matchId]);
 
@@ -33,14 +33,18 @@ export const useMatchStream = (matchId) => {
       }
     };
 
-    activeSocket.emit('match:join', activeMatchId);
+    activeSocket.emit('match:join', {
+      matchId: activeMatchId,
+      guestId: identity?.type === 'guest' ? identity.guestId : undefined,
+      userId: identity?.type === 'user' ? identity.userId : undefined,
+    });
     activeSocket.on('match:update', handleMatchUpdate);
 
     return () => {
       activeSocket.off('match:update', handleMatchUpdate);
       activeSocket.emit('match:leave', activeMatchId);
     };
-  }, [activeMatchId]);
+  }, [activeMatchId, identity?.type, identity?.guestId, identity?.userId]);
 
   return {
     gameState: data,

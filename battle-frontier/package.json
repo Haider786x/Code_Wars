@@ -6,7 +6,8 @@
     "dev": "vite --host 127.0.0.1 --port 2000",
     "start": "vite preview --host 127.0.0.1 --port 2000",
     "build": "vite build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --test lib/identity/*.test.js"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",

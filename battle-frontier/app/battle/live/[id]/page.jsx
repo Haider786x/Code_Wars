@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import {
   Play, Send, RotateCcw,
@@ -12,11 +12,18 @@ import toast, { Toaster } from 'react-hot-toast';
 import ReactMarkdown from 'react-markdown';
 
 import { Badge, PlayerCard } from '@/components/battle/PlayerCard.jsx';
+import { getCurrentIdentity } from '@/lib/identity/currentIdentity.js';
 import { api } from '@/lib/services/apiRequests.js';
 import { useMatchStream } from '@/hooks/useMatchStream.js';
 
 export default function BattlePage({ id }) {
-  const [myNickname] = useState(() => localStorage.getItem('battle_nickname') || '');
+  const identity = useMemo(() => getCurrentIdentity(), []);
+  const myParticipantId = identity.type === 'user' ? identity.userId : identity.guestId;
+  const [myNickname] = useState(() => (
+    identity.type === 'guest'
+      ? (identity.displayName || localStorage.getItem('battle_nickname') || '')
+      : (localStorage.getItem('battle_nickname') || '')
+  ));
   const [matchData, setMatchData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -31,12 +38,12 @@ export default function BattlePage({ id }) {
   const [activeTab, setActiveTab] = useState('desc');
   const [matchResult, setMatchResult] = useState('');
 
-  const { data: latestMessage } = useMatchStream(id);
+  const { data: latestMessage } = useMatchStream(id, identity);
 
   useEffect(() => {
     if (!latestMessage) return;
 
-    if (latestMessage.type === 'CODE_FEEDBACK' && latestMessage.playerId === myNickname) {
+    if (latestMessage.type === 'CODE_FEEDBACK' && latestMessage.playerId === myParticipantId) {
       toast.dismiss();
       setRunning(false);
       setSubmitting(false);
@@ -59,12 +66,12 @@ export default function BattlePage({ id }) {
       }
     }
 
-    if (latestMessage.type === 'AI_STATUS' && latestMessage.playerId === myNickname) {
+    if (latestMessage.type === 'AI_STATUS' && latestMessage.playerId === myParticipantId) {
       toast('AI Referee is thinking...');
       setAnalyzing(true);
     }
 
-    if (latestMessage.type === 'AI_ANALYSIS' && latestMessage.playerId === myNickname) {
+    if (latestMessage.type === 'AI_ANALYSIS' && latestMessage.playerId === myParticipantId) {
       setAnalyzing(false);
       setAiAnalysis(latestMessage.text || '');
       setActiveTab('analysis');
@@ -75,8 +82,8 @@ export default function BattlePage({ id }) {
       if (latestMessage.players) {
         setMatchData((prev) => (prev ? { ...prev, players: latestMessage.players } : null));
       }
-      if (latestMessage.playerId && latestMessage.playerId !== myNickname) {
-        toast(`${latestMessage.playerId} joined!`);
+      if (latestMessage.playerId && latestMessage.playerId !== myParticipantId) {
+        toast(`${latestMessage.displayName || latestMessage.playerId} joined!`);
       }
     }
 
@@ -87,7 +94,7 @@ export default function BattlePage({ id }) {
         winnerId: latestMessage.winner || null,
       } : null));
 
-      if (latestMessage.winner === myNickname) {
+      if (latestMessage.winner === myParticipantId) {
         toast('You won!', { duration: 5000 });
         setMatchResult('YOU WON');
       } else if (latestMessage.winner === null) {
@@ -108,7 +115,7 @@ export default function BattlePage({ id }) {
       } : null));
       toast('Race Started!');
     }
-  }, [latestMessage, myNickname]);
+  }, [latestMessage, myParticipantId]);
 
   useEffect(() => {
     const fetchMatch = async () => {
@@ -171,7 +178,7 @@ export default function BattlePage({ id }) {
   };
 
   const handleRun = async () => {
-    if (!matchData || !myNickname) return;
+    if (!matchData || !myParticipantId) return;
 
     setRunning(true);
     setTestResults(null);
@@ -180,7 +187,9 @@ export default function BattlePage({ id }) {
     try {
       await api.postAction('/match/run', {
         matchId: matchData.matchId,
-        playerId: myNickname,
+        playerId: myParticipantId,
+        guestId: identity.type === 'guest' ? identity.guestId : undefined,
+        displayName: myNickname || undefined,
         language,
         code,
         type: 'RUN_TESTS',
@@ -193,7 +202,7 @@ export default function BattlePage({ id }) {
   };
 
   const handleSubmit = async () => {
-    if (!matchData || !myNickname) return;
+    if (!matchData || !myParticipantId) return;
 
     setSubmitting(true);
     setSubmissionResult(null);
@@ -202,7 +211,9 @@ export default function BattlePage({ id }) {
     try {
       await api.postAction('/match/submit', {
         matchId: matchData.matchId,
-        playerId: myNickname,
+        playerId: myParticipantId,
+        guestId: identity.type === 'guest' ? identity.guestId : undefined,
+        displayName: myNickname || undefined,
         language,
         code,
         type: 'SUBMIT_SOLUTION',
@@ -215,14 +226,16 @@ export default function BattlePage({ id }) {
   };
 
   const handleAnalyze = async () => {
-    if (!matchData || !myNickname) return;
+    if (!matchData || !myParticipantId) return;
     setAnalyzing(true);
     setActiveTab('analysis');
 
     try {
       await api.postAction('/match/analyze', {
         matchId: matchData.matchId,
-        playerId: myNickname,
+        playerId: myParticipantId,
+        guestId: identity.type === 'guest' ? identity.guestId : undefined,
+        displayName: myNickname || undefined,
         language,
         code,
         problemTitle: matchData.problem?.title,
@@ -241,9 +254,14 @@ export default function BattlePage({ id }) {
     return <div className="h-screen flex items-center justify-center text-rose-500 font-bold">Match not found or API error</div>;
   }
 
-  const { problem, players, status } = matchData;
-  const opponentName = players.find((player) => player !== myNickname) || 'Opponent';
-  const isSpectator = !players.includes(myNickname);
+  const { problem, players = [], status, participants = [] } = matchData;
+  const participantById = new Map(participants.map((participant) => [participant.participantId, participant]));
+  const opponentId = players.find((player) => player !== myParticipantId);
+  const opponentName = participantById.get(opponentId)?.displayName || opponentId || 'Opponent';
+  const myDisplayName = participantById.get(myParticipantId)?.displayName || myNickname;
+  const playerOneName = participantById.get(players[0])?.displayName || players[0] || 'Player 1';
+  const playerTwoName = participantById.get(players[1])?.displayName || players[1] || 'Player 2';
+  const isSpectator = !players.includes(myParticipantId);
 
   let statusDotClass = 'bg-red-500';
 
@@ -409,7 +427,7 @@ export default function BattlePage({ id }) {
         </div>
 
         <div className="flex-1 flex flex-col min-w-0 bg-slate-50 relative min-h-0">
-          <PlayerCard name={isSpectator ? players[0] : opponentName} isOpponent timeLeft={timeLeft} status={status} />
+          <PlayerCard name={isSpectator ? playerOneName : opponentName} isOpponent timeLeft={timeLeft} status={status} />
 
           <div className="bg-white border-b border-slate-200 px-4 py-2 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
@@ -459,7 +477,7 @@ export default function BattlePage({ id }) {
             )}
           </div>
 
-          <PlayerCard name={isSpectator ? players[1] : myNickname} isOpponent={false} timeLeft={timeLeft} status={status} />
+          <PlayerCard name={isSpectator ? playerTwoName : myDisplayName} isOpponent={false} timeLeft={timeLeft} status={status} />
 
           <div className="bg-white border-t border-slate-200 p-4 flex items-center justify-between shrink-0">
             {matchResult && !isSpectator && (

@@ -4,6 +4,19 @@ const MatchSchema = new Schema(
   {
     matchId: { type: String, required: true, unique: true },
     players: [{ type: String }],
+    participants: [
+      {
+        participantId: { type: String, required: true },
+        guestId: { type: String, required: true },
+        userId: { type: String, default: null },
+        displayName: { type: String, default: '' },
+      },
+    ],
+    roomType: {
+      type: String,
+      enum: ['CASUAL', 'RANKED'],
+      default: 'CASUAL',
+    },
     status: {
       type: String,
       enum: ['WAITING', 'RACING', 'FINISHED', 'EXPIRED'],

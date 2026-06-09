@@ -3,11 +3,14 @@ import { Swords, X, Clock, Users, Copy, ArrowRight, User } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { api } from '@/lib/services/apiRequests.js';
+import { getCurrentIdentity } from '@/lib/identity/currentIdentity.js';
+import { setGuestDisplayName } from '@/lib/identity/guestIdentity.js';
 import { useMatchStream } from '@/hooks/useMatchStream.js';
 import { navigate } from '@/src/router.js';
 
 const MatchListener = ({ matchId }) => {
-  const { data: streamData } = useMatchStream(matchId);
+  const identity = getCurrentIdentity();
+  const { data: streamData } = useMatchStream(matchId, identity);
 
   useEffect(() => {
     if (streamData?.type === 'PLAYER_JOINED') {
@@ -25,7 +28,11 @@ export const MatchModal = ({ isOpen, onClose, setActiveTab, activeTab = 'create'
   const [selectedTime, setSelectedTime] = useState(10);
   const [generatedCode, setGeneratedCode] = useState(null);
   const [joinCode, setJoinCode] = useState('');
-  const [nickname, setNickname] = useState(() => localStorage.getItem('battle_nickname') || '');
+  const [nickname, setNickname] = useState(() => {
+    const identity = getCurrentIdentity();
+    if (identity.type === 'guest') return identity.displayName || '';
+    return '';
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -41,11 +48,14 @@ export const MatchModal = ({ isOpen, onClose, setActiveTab, activeTab = 'create'
 
     try {
       const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+      const identity = setGuestDisplayName(nickname);
 
       localStorage.setItem('battle_nickname', nickname);
 
       await api.postAction('/match/create', {
-        playerId: nickname,
+        playerId: identity.guestId,
+        guestId: identity.guestId,
+        displayName: identity.displayName || nickname.trim(),
         matchId: randomCode,
         time: selectedTime,
       });
@@ -74,10 +84,13 @@ export const MatchModal = ({ isOpen, onClose, setActiveTab, activeTab = 'create'
     const loadingToast = toast.loading('Joining match...');
 
     try {
+      const identity = setGuestDisplayName(nickname);
       localStorage.setItem('battle_nickname', nickname);
 
       await api.postAction('/match/join', {
-        playerId: nickname,
+        playerId: identity.guestId,
+        guestId: identity.guestId,
+        displayName: identity.displayName || nickname.trim(),
         matchId,
       });
 

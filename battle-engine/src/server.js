@@ -38,7 +38,9 @@ const requestBodyLimit = process.env.JSON_BODY_LIMIT || '256kb';
 const maxCodeBytes = readPositiveIntEnv('MAX_CODE_BYTES', 64 * 1024);
 const maxAiCodeBytes = readPositiveIntEnv('MAX_AI_CODE_BYTES', 32 * 1024);
 const maxMatchIdLength = readPositiveIntEnv('MAX_MATCH_ID_LENGTH', 64);
-const maxPlayerIdLength = readPositiveIntEnv('MAX_PLAYER_ID_LENGTH', 32);
+const maxPlayerIdLength = readPositiveIntEnv('MAX_PLAYER_ID_LENGTH', 64);
+const maxGuestIdLength = readPositiveIntEnv('MAX_GUEST_ID_LENGTH', 64);
+const maxDisplayNameLength = readPositiveIntEnv('MAX_DISPLAY_NAME_LENGTH', 40);
 const maxProblemTitleLength = readPositiveIntEnv('MAX_PROBLEM_TITLE_LENGTH', 120);
 const pistonApiUrl = process.env.PISTON_API_URL || 'https://emkc.org/api/v2/piston/execute';
 const pistonRequestTimeoutMs = readPositiveIntEnv('PISTON_REQUEST_TIMEOUT_MS', 15000);
@@ -87,6 +89,18 @@ const rateLimitProfiles = {
     max: readPositiveIntEnv('SOCKET_JOIN_RATE_LIMIT_MAX', 120),
     windowMs: readPositiveIntEnv('SOCKET_JOIN_RATE_LIMIT_WINDOW_MS', 60000),
   },
+  guestRoomCreate: {
+    max: readPositiveIntEnv('GUEST_ROOM_CREATE_RATE_LIMIT_MAX', 20),
+    windowMs: readPositiveIntEnv('GUEST_ROOM_CREATE_RATE_LIMIT_WINDOW_MS', 60000),
+  },
+  guestSubmission: {
+    max: readPositiveIntEnv('GUEST_SUBMISSION_RATE_LIMIT_MAX', 30),
+    windowMs: readPositiveIntEnv('GUEST_SUBMISSION_RATE_LIMIT_WINDOW_MS', 60000),
+  },
+  guestSocketEvent: {
+    max: readPositiveIntEnv('GUEST_SOCKET_EVENT_RATE_LIMIT_MAX', 180),
+    windowMs: readPositiveIntEnv('GUEST_SOCKET_EVENT_RATE_LIMIT_WINDOW_MS', 60000),
+  },
 };
 let queues = null;
 let rateLimitRedis = null;
@@ -115,11 +129,20 @@ app.use(jsonErrorHandler);
 await setupRedisScaling();
 
 io.on('connection', (socket) => {
-  socket.on('match:join', async (matchId) => {
+  socket.on('match:join', async (payload) => {
     try {
-      const activeMatchId = validateMatchId(cleanString(matchId));
+      const activeMatchId = validateMatchId(cleanString(
+        typeof payload === 'string' ? payload : payload?.matchId,
+      ));
+      const identity = getCurrentIdentity(payload || {}, { requireGuestId: false });
+      const guestId = identity.type === 'guest' ? identity.guestId : null;
+
       const allowed = await enforceSocketRateLimit(socket, 'socketJoin', [activeMatchId]);
       if (!allowed) return;
+      if (guestId) {
+        const guestAllowed = await enforceSocketRateLimit(socket, 'guestSocketEvent', [guestId, activeMatchId]);
+        if (!guestAllowed) return;
+      }
 
       socket.join(matchRoom(activeMatchId));
       await emitCurrentMatchState(socket, activeMatchId);
@@ -129,7 +152,7 @@ io.on('connection', (socket) => {
         error: error.message || 'Could not join match stream',
         timestamp: Date.now(),
       });
-      console.error(`Failed to join match stream for ${matchId}:`, error);
+      console.error('Failed to join match stream:', error);
     }
   });
 
@@ -186,6 +209,8 @@ app.get('/match/:matchId', async (req, res) => {
       matchId: game.matchId,
       status: game.status,
       players: game.players,
+      participants: game.participants || [],
+      roomType: game.roomType || 'CASUAL',
       winnerId: game.winnerId || null,
       startTime: game.startTime || null,
       endTime: game.endTime || null,
@@ -202,6 +227,7 @@ app.get('/match/:matchId', async (req, res) => {
 app.post('/match/:action', async (req, res) => {
   try {
     const { action } = req.params;
+    const identity = getCurrentIdentity(req.body || {});
     await enforceRateLimit(req, res, 'matchWrite', [action]);
 
     if (action === 'run' || action === 'submit') {
@@ -209,6 +235,9 @@ app.post('/match/:action', async (req, res) => {
         cleanString(req.body?.matchId),
         cleanString(req.body?.playerId),
       ]);
+      if (identity.type === 'guest') {
+        await enforceRateLimit(req, res, 'guestSubmission', [identity.guestId, action]);
+      }
     }
 
     if (action === 'analyze') {
@@ -216,6 +245,9 @@ app.post('/match/:action', async (req, res) => {
         cleanString(req.body?.matchId),
         cleanString(req.body?.playerId),
       ]);
+    }
+    if (action === 'create' && identity.type === 'guest') {
+      await enforceRateLimit(req, res, 'guestRoomCreate', [identity.guestId]);
     }
 
     await connectDB();
@@ -773,11 +805,16 @@ async function emitCurrentMatchState(socket, matchId) {
   if (!match) return;
 
   if (match.players.length >= 2) {
+    const joinedParticipant = (match.participants || []).find(
+      (participant) => participant.participantId === match.players[match.players.length - 1],
+    );
     socket.emit('match:update', {
       matchId,
       type: 'PLAYER_JOINED',
       playerId: match.players[match.players.length - 1],
+      displayName: joinedParticipant?.displayName || match.players[match.players.length - 1],
       players: match.players,
+      participants: match.participants || [],
       timestamp: Date.now(),
     });
   }
@@ -835,6 +872,82 @@ function validatePlayerId(value) {
   return playerId;
 }
 
+function validateGuestId(value) {
+  const guestId = cleanString(value);
+
+  if (!guestId) throw httpError(400, 'Missing guestId');
+  if (guestId.length > maxGuestIdLength) throw httpError(400, 'guestId is too long');
+  if (/[\u0000-\u001F\u007F]/.test(guestId)) {
+    throw httpError(400, 'guestId contains invalid characters');
+  }
+
+  return guestId;
+}
+
+function validateDisplayName(value, fallback = '') {
+  const displayName = cleanString(value || fallback);
+  if (!displayName) return '';
+  if (displayName.length > maxDisplayNameLength) {
+    return displayName.slice(0, maxDisplayNameLength);
+  }
+  if (/[\u0000-\u001F\u007F]/.test(displayName)) return '';
+  return displayName;
+}
+
+function normalizeRoomType(value) {
+  const roomType = cleanString(value).toUpperCase();
+  if (!roomType) return 'CASUAL';
+  if (roomType === 'CASUAL' || roomType === 'RANKED') return roomType;
+  throw httpError(400, 'Invalid roomType. Use CASUAL or RANKED');
+}
+
+function getCurrentIdentity(source = {}, options = {}) {
+  const { requireGuestId = true } = options;
+  const userId = cleanString(source.userId);
+  if (userId) {
+    return {
+      type: 'user',
+      userId: validatePlayerId(userId),
+    };
+  }
+
+  const fallbackGuestId = cleanString(source.guestId) || cleanString(source.playerId);
+  if (!fallbackGuestId && !requireGuestId) {
+    return {
+      type: 'guest',
+      guestId: null,
+    };
+  }
+  return {
+    type: 'guest',
+    guestId: validateGuestId(fallbackGuestId),
+  };
+}
+
+function resolveParticipant(body = {}) {
+  const identity = getCurrentIdentity(body);
+  const fallbackDisplayName = cleanString(body.displayName) || cleanString(body.playerId);
+  const displayName = validateDisplayName(body.displayName, fallbackDisplayName);
+
+  if (identity.type === 'user') {
+    return {
+      participantId: identity.userId,
+      userId: identity.userId,
+      guestId: validateGuestId(cleanString(body.guestId) || identity.userId),
+      displayName: displayName || identity.userId,
+      identity,
+    };
+  }
+
+  return {
+    participantId: identity.guestId,
+    userId: null,
+    guestId: identity.guestId,
+    displayName: displayName || identity.guestId,
+    identity,
+  };
+}
+
 function validateCode(value, maxBytes = maxCodeBytes) {
   if (typeof value !== 'string' || !value.trim()) {
     throw httpError(400, 'Missing code');
@@ -876,7 +989,11 @@ function ensureMatchPlayer(match, playerId) {
 }
 
 async function createMatch(body) {
-  const playerId = validatePlayerId(body.playerId);
+  const participant = resolveParticipant(body);
+  const roomType = normalizeRoomType(body.roomType);
+  if (roomType === 'RANKED' && participant.identity.type !== 'user') {
+    throw httpError(403, 'RANKED rooms require authenticated users');
+  }
   const requestedMatchId = cleanString(body.matchId);
   const { time } = body;
 
@@ -900,7 +1017,14 @@ async function createMatch(body) {
   try {
     await MatchModel.create({
       matchId: newMatchId,
-      players: [playerId],
+      players: [participant.participantId],
+      participants: [{
+        participantId: participant.participantId,
+        guestId: participant.guestId,
+        userId: participant.userId,
+        displayName: participant.displayName,
+      }],
+      roomType,
       status: 'WAITING',
       problemId: randomQuestion._id.toString(),
       duration: durationMs,
@@ -915,6 +1039,7 @@ async function createMatch(body) {
   return {
     matchId: newMatchId,
     msg: 'Match Created',
+    roomType,
     durationMinutes: validDuration,
     problemTitle: randomQuestion.title,
   };
@@ -922,16 +1047,27 @@ async function createMatch(body) {
 
 async function joinMatch(body) {
   const matchId = validateMatchId(body.matchId);
-  const playerId = validatePlayerId(body.playerId);
+  const participant = resolveParticipant(body);
 
   let game = await MatchModel.findOneAndUpdate(
     {
       matchId,
       status: 'WAITING',
-      players: { $ne: playerId },
+      players: { $ne: participant.participantId },
       $expr: { $lt: [{ $size: '$players' }, 2] },
+      ...(participant.identity.type !== 'user' ? { roomType: { $ne: 'RANKED' } } : {}),
     },
-    { $push: { players: playerId } },
+    {
+      $push: {
+        players: participant.participantId,
+        participants: {
+          participantId: participant.participantId,
+          guestId: participant.guestId,
+          userId: participant.userId,
+          displayName: participant.displayName,
+        },
+      },
+    },
     { new: true },
   );
 
@@ -939,7 +1075,11 @@ async function joinMatch(body) {
     game = await MatchModel.findOne({ matchId });
     if (!game) throw httpError(404, 'Match not found');
 
-    if (!game.players.includes(playerId)) {
+    if (game.roomType === 'RANKED' && participant.identity.type !== 'user') {
+      throw httpError(403, 'RANKED rooms require authenticated users');
+    }
+
+    if (!game.players.includes(participant.participantId)) {
       if (game.status !== 'WAITING') {
         throw httpError(400, `Cannot join. Match is ${game.status}`);
       }
@@ -951,8 +1091,10 @@ async function joinMatch(body) {
 
   publishMatchEvent(matchId, {
     type: 'PLAYER_JOINED',
-    playerId,
+    playerId: participant.participantId,
+    displayName: participant.displayName,
     players: game.players,
+    participants: game.participants || [],
   });
 
   const latestGame = await maybeStartRace(matchId);
@@ -961,6 +1103,7 @@ async function joinMatch(body) {
     msg: 'Joined',
     state: latestGame || game,
     durationMs: game.duration,
+    roomType: game.roomType || 'CASUAL',
     problem: { title: problem?.title, description: problem?.description },
   };
 }
@@ -970,13 +1113,13 @@ async function queueCodeRun(action, body) {
     ? body.type
     : (action === 'run' ? 'RUN_TESTS' : 'SUBMIT_SOLUTION');
   const matchId = validateMatchId(body.matchId);
-  const playerId = validatePlayerId(body.playerId);
+  const participant = resolveParticipant(body);
   const code = validateCode(body.code);
   const runtime = resolveRuntime(body.language);
 
   const match = await MatchModel.findOne({ matchId });
   if (!match) throw httpError(404, 'Match not found');
-  ensureMatchPlayer(match, playerId);
+  ensureMatchPlayer(match, participant.participantId);
 
   if (match.status !== 'RACING') {
     throw httpError(400, `Cannot run code. Match is ${match.status}`);
@@ -984,7 +1127,7 @@ async function queueCodeRun(action, body) {
 
   const jobData = {
     matchId,
-    playerId,
+    playerId: participant.participantId,
     code,
     action: requestType,
     language: runtime.pistonLang,
@@ -1009,23 +1152,23 @@ async function queueCodeRun(action, body) {
 
 async function queueAnalysis(body) {
   const matchId = validateMatchId(body.matchId);
-  const playerId = validatePlayerId(body.playerId);
+  const participant = resolveParticipant(body);
   const code = validateCode(body.code, maxAiCodeBytes);
   const runtime = resolveRuntime(body.language);
   const problemTitle = validateProblemTitle(body.problemTitle);
 
   const match = await MatchModel.findOne({ matchId });
   if (!match) throw httpError(404, 'Match not found');
-  ensureMatchPlayer(match, playerId);
+  ensureMatchPlayer(match, participant.participantId);
 
   publishMatchEvent(matchId, {
     type: 'AI_STATUS',
-    playerId,
+    playerId: participant.participantId,
   });
 
   const jobData = {
     matchId,
-    playerId,
+    playerId: participant.participantId,
     code,
     language: runtime.pistonLang,
     problemTitle,
