@@ -1,53 +1,76 @@
-import axios from 'axios';
 import { getToken, clearAuthSession } from '@/lib/auth/authStore.js';
 
 const BASE_URL = import.meta.env.VITE_API_GATEWAY_URL || 'http://localhost:3000';
 
-const axiosInstance = axios.create({
-  baseURL: BASE_URL,
-  headers: {
+/**
+ * Build headers for every request — always JSON, attach Bearer token if present.
+ */
+function buildHeaders(extra = {}) {
+  const headers = {
     'Content-Type': 'application/json',
-  },
-});
-
-// Attach auth token to every request if available
-axiosInstance.interceptors.request.use((config) => {
+    ...extra,
+  };
   const token = getToken();
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token}`;
   }
-  return config;
-});
+  return headers;
+}
 
-// Clear session on 401
-axiosInstance.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    if (err.response?.status === 401) {
+/**
+ * Central fetch wrapper.
+ * - Resolves with parsed JSON on 2xx.
+ * - Throws an enriched Error (with .status and .data) on non-2xx.
+ * - Clears the auth session on 401.
+ */
+async function request(method, path, { body, headers: extraHeaders } = {}) {
+  const url = `${BASE_URL}${path}`;
+
+  const init = {
+    method,
+    headers: buildHeaders(extraHeaders),
+  };
+
+  if (body !== undefined) {
+    init.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(url, init);
+
+  // Try to parse JSON regardless of status so we can attach it to the error
+  let data;
+  const contentType = response.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) {
+    data = await response.json();
+  } else {
+    data = await response.text();
+  }
+
+  if (!response.ok) {
+    if (response.status === 401) {
       clearAuthSession();
     }
-    return Promise.reject(err);
-  },
-);
+    const err = new Error(
+      (typeof data === 'object' ? data?.error : data) || `HTTP ${response.status}`,
+    );
+    err.status = response.status;
+    err.data = data;
+    throw err;
+  }
+
+  return data;
+}
 
 export const api = {
-  getAction: async (url, config) => {
-    const response = await axiosInstance.get(url, config);
-    return response.data;
-  },
+  getAction: (url, config) =>
+    request('GET', url, { headers: config?.headers }),
 
-  postAction: async (url, data, config) => {
-    const response = await axiosInstance.post(url, data, config);
-    return response.data;
-  },
+  postAction: (url, data, config) =>
+    request('POST', url, { body: data, headers: config?.headers }),
 
-  patchAction: async (url, data, config) => {
-    const response = await axiosInstance.patch(url, data, config);
-    return response.data;
-  },
+  patchAction: (url, data, config) =>
+    request('PATCH', url, { body: data, headers: config?.headers }),
 
-  deleteAction: async (url, config) => {
-    const response = await axiosInstance.delete(url, config);
-    return response.data;
-  },
+  deleteAction: (url, config) =>
+    request('DELETE', url, { headers: config?.headers }),
 };

@@ -40,6 +40,5 @@ const PlayerSchema = new Schema(
 
 PlayerSchema.index({ rating: -1 });
 PlayerSchema.index({ wins: -1 });
-PlayerSchema.index({ guestId: 1 });
 
 export const PlayerModel = mongoose.models.Player || mongoose.model('Player', PlayerSchema);

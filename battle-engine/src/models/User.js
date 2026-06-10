@@ -28,7 +28,7 @@ const UserSchema = new Schema(
   { timestamps: true },
 );
 
-UserSchema.index({ username: 1 });
+
 
 export const UserModel =
   mongoose.models.User || mongoose.model('User', UserSchema);

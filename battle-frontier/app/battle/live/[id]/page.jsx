@@ -462,6 +462,7 @@ export default function BattlePage({ id }) {
                 lineNumbers: 'on',
                 padding: { top: 16, bottom: 16 },
                 fontFamily: 'JetBrains Mono, monospace',
+                readOnly: isSpectator,
               }}
             />
             {submissionResult && (
@@ -492,10 +493,10 @@ export default function BattlePage({ id }) {
               </button>
             )}
             <div className="flex gap-3 ml-auto">
-              <button type="button" onClick={handleRun} disabled={running || submitting || isSpectator} className={`flex items-center gap-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-bold transition ${running ? 'opacity-70 cursor-not-allowed' : ''}`}>
+              <button type="button" onClick={handleRun} disabled={running || submitting || isSpectator || status !== 'RACING'} className={`flex items-center gap-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-bold transition ${(running || status !== 'RACING') ? 'opacity-70 cursor-not-allowed' : ''}`}>
                 {running ? 'Running...' : <><Play size={16} fill="currentColor" /> Run</>}
               </button>
-              <button type="button" onClick={handleSubmit} disabled={submitting || running || isSpectator} className={`flex items-center gap-2 px-6 py-2.5 text-white rounded-lg text-sm font-bold shadow-lg transition hover:translate-y-[-1px] ${submitting || isSpectator ? 'bg-slate-400 cursor-not-allowed shadow-none' : 'bg-green-600 hover:bg-green-700 shadow-green-600/20'}`}>
+              <button type="button" onClick={handleSubmit} disabled={submitting || running || isSpectator || status !== 'RACING'} className={`flex items-center gap-2 px-6 py-2.5 text-white rounded-lg text-sm font-bold shadow-lg transition hover:translate-y-[-1px] ${submitting || isSpectator || status !== 'RACING' ? 'bg-slate-400 cursor-not-allowed shadow-none' : 'bg-green-600 hover:bg-green-700 shadow-green-600/20'}`}>
                 {submitting ? 'Judging...' : <><Send size={16} /> Submit</>}
               </button>
             </div>
