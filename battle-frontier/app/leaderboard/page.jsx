@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Trophy, Flame, Swords, Star, TrendingUp, Crown, ArrowLeft } from 'lucide-react';
 
+import { AppHeader } from '@/components/layout/AppHeader.jsx';
 import { api } from '@/lib/services/apiRequests.js';
 import { navigate } from '@/src/router.js';
 import { getCurrentIdentity } from '@/lib/identity/currentIdentity.js';
@@ -43,27 +44,22 @@ export default function LeaderboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 font-sans">
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-slate-950/80 backdrop-blur-md border-b border-white/5 px-6 py-4">
+    <div className="min-h-screen bg-app-bg font-sans">
+      <AppHeader activeTab="Ranked" />
+
+      {/* Header Title */}
+      <div className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-slate-400 hover:text-white transition text-sm"
-          >
-            <ArrowLeft size={16} /> Back
-          </button>
           <div className="flex items-center gap-3">
-            <div className="bg-amber-500/20 p-2 rounded-xl border border-amber-500/30">
-              <Trophy size={20} className="text-amber-400" />
+            <div className="bg-amber-100 p-2 rounded-xl border border-amber-200">
+              <Trophy size={20} className="text-amber-500" />
             </div>
             <div>
-              <h1 className="text-lg font-extrabold text-white tracking-tight">Leaderboard</h1>
-              <p className="text-xs text-slate-400">Ranked by ELO Rating</p>
+              <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Leaderboard</h1>
+              <p className="text-sm text-slate-400">Ranked by ELO Rating</p>
             </div>
           </div>
-          <div className="text-xs text-slate-500">{data?.total || 0} players</div>
+          <div className="text-sm font-medium text-slate-500">{data?.total || 0} players</div>
         </div>
       </div>
 
@@ -94,12 +90,12 @@ export default function LeaderboardPage() {
                   return (
                     <div
                       key={player?.guestId}
-                      className={`relative flex flex-col items-center p-4 rounded-2xl border transition cursor-pointer hover:scale-105 ${
+                      className={`relative flex flex-col items-center p-4 rounded-2xl border transition cursor-pointer hover:scale-105 bg-white shadow-sm ${
                         actualRank === 1
-                          ? 'bg-gradient-to-b from-amber-950/60 to-amber-900/30 border-amber-500/40 py-8'
+                          ? 'border-amber-200 shadow-amber-500/10 py-8'
                           : actualRank === 2
-                            ? 'bg-gradient-to-b from-slate-800/60 to-slate-700/30 border-slate-500/40 py-6'
-                            : 'bg-gradient-to-b from-amber-950/30 to-amber-900/20 border-amber-700/30 py-5'
+                            ? 'border-slate-200 py-6'
+                            : 'border-amber-700/20 py-5'
                       } ${isMe ? 'ring-2 ring-blue-500' : ''}`}
                       onClick={() => player && navigate(`/profile/${player.guestId}`)}
                     >
@@ -107,15 +103,15 @@ export default function LeaderboardPage() {
                       <img
                         src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${player?.guestId || 'empty'}`}
                         alt={player?.displayName}
-                        className="w-14 h-14 rounded-full border-2 border-white/20 mb-2"
+                        className="w-14 h-14 rounded-full border-2 border-slate-100 bg-slate-50 mb-2"
                       />
-                      <p className="font-bold text-white text-sm truncate max-w-full">{player?.displayName}</p>
-                      <p className="text-xs text-slate-400 font-mono">{player?.rating} ELO</p>
-                      <div className="mt-1">
+                      <p className="font-bold text-slate-900 text-sm truncate max-w-full">{player?.displayName}</p>
+                      <p className="text-xs text-slate-500 font-mono">{player?.rating} ELO</p>
+                      <div className="mt-2">
                         <RatingBadge rating={player?.rating || 1200} />
                       </div>
                       {isMe && (
-                        <span className="absolute top-2 right-2 text-[10px] font-bold bg-blue-500 text-white px-1.5 py-0.5 rounded-full">YOU</span>
+                        <span className="absolute top-2 right-2 text-[10px] font-bold bg-blue-600 text-white px-1.5 py-0.5 rounded-full shadow-sm shadow-blue-600/20">YOU</span>
                       )}
                     </div>
                   );
@@ -124,11 +120,11 @@ export default function LeaderboardPage() {
             )}
 
             {/* Full Table */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/10 text-slate-400 text-xs uppercase tracking-wider">
+                    <tr className="border-b border-slate-100 text-slate-400 text-xs uppercase tracking-wider">
                       <th className="text-left px-4 py-3 w-12">#</th>
                       <th className="text-left px-4 py-3">Player</th>
                       <th className="text-right px-4 py-3">
@@ -150,7 +146,7 @@ export default function LeaderboardPage() {
                         <tr
                           key={player.guestId}
                           onClick={() => navigate(`/profile/${player.guestId}`)}
-                          className={`border-b border-white/5 transition cursor-pointer hover:bg-white/5 ${isMe ? 'bg-blue-900/20' : ''}`}
+                          className={`border-b border-slate-50 transition cursor-pointer hover:bg-slate-50 ${isMe ? 'bg-blue-50' : ''}`}
                         >
                           <td className="px-4 py-3">
                             {player.rank <= 3
@@ -163,12 +159,12 @@ export default function LeaderboardPage() {
                               <img
                                 src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${player.guestId}`}
                                 alt={player.displayName}
-                                className="w-8 h-8 rounded-full border border-white/10 shrink-0"
+                                className="w-8 h-8 rounded-full border border-slate-200 bg-slate-50 shrink-0"
                               />
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <span className="font-semibold text-white">{player.displayName}</span>
-                                  {isMe && <span className="text-[10px] font-bold bg-blue-500 text-white px-1.5 py-0.5 rounded-full">YOU</span>}
+                                  <span className="font-semibold text-slate-800">{player.displayName}</span>
+                                  {isMe && <span className="text-[10px] font-bold bg-blue-600 text-white px-1.5 py-0.5 rounded-full shadow-sm shadow-blue-600/20">YOU</span>}
                                 </div>
                                 <div className="flex items-center gap-2 mt-0.5">
                                   <RatingBadge rating={player.rating} />
@@ -180,26 +176,26 @@ export default function LeaderboardPage() {
                             </div>
                           </td>
                           <td className="px-4 py-3 text-right">
-                            <span className="font-bold text-amber-400 font-mono">{player.rating}</span>
+                            <span className="font-bold text-blue-600 font-mono">{player.rating}</span>
                           </td>
                           <td className="px-4 py-3 text-right hidden sm:table-cell">
-                            <span className="text-emerald-400">{player.wins}W</span>
-                            <span className="text-slate-500 mx-1">/</span>
-                            <span className="text-rose-400">{player.losses}L</span>
+                            <span className="text-emerald-600 font-medium">{player.wins}W</span>
+                            <span className="text-slate-300 mx-1">/</span>
+                            <span className="text-rose-500 font-medium">{player.losses}L</span>
                           </td>
                           <td className="px-4 py-3 text-right hidden md:table-cell">
                             <div className="flex items-center justify-end gap-1">
-                              <TrendingUp size={12} className={winRate(player) >= 60 ? 'text-emerald-400' : 'text-slate-400'} />
-                              <span className={`font-mono text-xs ${winRate(player) >= 60 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                              <TrendingUp size={12} className={winRate(player) >= 60 ? 'text-emerald-500' : 'text-slate-400'} />
+                              <span className={`font-mono text-xs ${winRate(player) >= 60 ? 'text-emerald-600 font-medium' : 'text-slate-500'}`}>
                                 {winRate(player)}%
                               </span>
                             </div>
                           </td>
                           <td className="px-4 py-3 text-right hidden lg:table-cell">
                             {player.currentStreak > 0 && (
-                              <span className="flex items-center justify-end gap-1 text-orange-400">
+                              <span className="flex items-center justify-end gap-1 text-amber-500">
                                 <Flame size={12} />
-                                <span className="font-mono text-xs">{player.currentStreak}</span>
+                                <span className="font-mono font-medium text-xs text-amber-600">{player.currentStreak}</span>
                               </span>
                             )}
                           </td>

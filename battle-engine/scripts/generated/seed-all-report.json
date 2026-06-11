@@ -1,0 +1,93 @@
+{
+  "totalFiles": 14,
+  "totalQuestions": 141,
+  "inserted": 141,
+  "skipped": 0,
+  "files": [
+    {
+      "file": "arrays.json",
+      "questions": 11,
+      "inserted": 11,
+      "skipped": 0
+    },
+    {
+      "file": "binarysearch.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "bst.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "dp.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "graphs.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "greedy.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "hashing.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "linkedlist.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "math.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "matrix.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "slidingwindow.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "strings.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "trees.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    },
+    {
+      "file": "twopointers.json",
+      "questions": 10,
+      "inserted": 10,
+      "skipped": 0
+    }
+  ],
+  "timestamp": "2026-06-11T09:42:14.453Z"
+}

@@ -6,6 +6,7 @@ import {
 import { api } from '@/lib/services/apiRequests.js';
 import { navigate } from '@/src/router.js';
 import { getCurrentIdentity } from '@/lib/identity/currentIdentity.js';
+import { AppHeader } from '@/components/layout/AppHeader.jsx';
 
 function MatchCard({ match, myGuestId }) {
   const me = match.players?.find((p) => p.guestId === myGuestId);
@@ -138,23 +139,20 @@ export default function MatchHistoryPage() {
   }).length;
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans">
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 py-4">
+    <div className="min-h-screen bg-app-bg font-sans">
+      <AppHeader activeTab="Arena" />
+      {/* Header Title */}
+      <div className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <button type="button" onClick={() => navigate('/')} className="flex items-center gap-2 text-slate-400 hover:text-slate-700 transition text-sm">
-            <ArrowLeft size={16} /> Back
-          </button>
           <div className="flex items-center gap-3">
             <div className="bg-blue-100 p-2 rounded-xl border border-blue-200">
               <History size={20} className="text-blue-600" />
             </div>
             <div>
-              <h1 className="text-lg font-extrabold text-slate-900 tracking-tight">Match History</h1>
-              <p className="text-xs text-slate-400">{history.length} total matches</p>
+              <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Match History</h1>
+              <p className="text-sm text-slate-500 mt-0.5">{history.length} total matches</p>
             </div>
           </div>
-          <div />
         </div>
       </div>
 

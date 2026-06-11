@@ -64,7 +64,7 @@ export async function getLeaderboard(req, res) {
         currentStreak: player.currentStreak,
         bestStreak: player.bestStreak,
         badges: player.badges || [],
-        languageStats: Object.fromEntries(player.languageStats || []),
+        languageStats: player.languageStats || {},
         lastActiveAt: player.lastActiveAt,
       })),
     });
@@ -104,7 +104,7 @@ export async function getProfile(req, res) {
       currentStreak: player.currentStreak,
       bestStreak: player.bestStreak,
       badges: player.badges || [],
-      languageStats: Object.fromEntries(player.languageStats || []),
+      languageStats: player.languageStats || {},
       lastActiveAt: player.lastActiveAt,
       recentMatches: recentHistory,
     });

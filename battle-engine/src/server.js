@@ -78,6 +78,7 @@ const matchTimers = new Map();
 const _memMatchSpectators = new Map();
 const _memMatchLanguage = new Map();
 const _memActivityFeed = [];
+const _memMatchmakingQueue = []; // Fallback for Matchmaking
 const jwtSecret = process.env.JWT_SECRET || 'codebattle-dev-secret-change-in-production';
 /** Single IORedis client used for ephemeral shared state (spectators, language, activity). */
 let stateRedis = null;
@@ -109,6 +110,41 @@ async function getActivityFeed(limit = 10) {
   }
   return _memActivityFeed.slice(0, limit);
 }
+
+// ── Matchmaking Helpers ──────────────────────────────────────────────────────
+
+const MATCHMAKING_KEY = 'cb:matchmaking:queue';
+
+async function enqueueMatchmaker(playerData) {
+  const entry = JSON.stringify(playerData);
+  if (stateRedis) {
+    try {
+      await stateRedis.rpush(MATCHMAKING_KEY, entry);
+      return;
+    } catch (_) { /* fallthrough */ }
+  }
+  _memMatchmakingQueue.push(playerData);
+}
+
+async function dequeueMatchmaker() {
+  if (stateRedis) {
+    try {
+      const entry = await stateRedis.lpop(MATCHMAKING_KEY);
+      if (entry) return JSON.parse(entry);
+    } catch (_) { /* fallthrough */ }
+  }
+  return _memMatchmakingQueue.shift() || null;
+}
+
+async function removeFromMatchmaker(socketId) {
+  // Since removing by arbitrary property inside JSON is hard in Redis lists,
+  // we either fetch all, filter, and rewrite, or rely on lazy removal.
+  // We'll implement lazy removal where the consumer checks if socket is connected.
+  // But for memory, we can explicitly remove it.
+  const index = _memMatchmakingQueue.findIndex(p => p.socketId === socketId);
+  if (index !== -1) _memMatchmakingQueue.splice(index, 1);
+}
+
 
 function spectatorKey(matchId) { return `cb:spectators:${matchId}`; }
 
@@ -258,6 +294,86 @@ await setupRedisScaling();
 io.on('connection', (socket) => {
   // Track which match rooms this socket is spectating
   const spectatingRooms = new Set();
+  
+  socket.on('matchmaking:find', async (payload) => {
+    try {
+      const identity = getCurrentIdentity(payload || {});
+      const participantId = identity.type === 'guest' ? identity.guestId : identity.userId;
+      
+      const playerData = {
+        socketId: socket.id,
+        participantId,
+        guestId: identity.type === 'guest' ? identity.guestId : null,
+        userId: identity.type === 'user' ? identity.userId : null,
+        displayName: validateDisplayName(payload?.displayName, participantId),
+        timestamp: Date.now()
+      };
+
+      let opponent = null;
+      let attempts = 0;
+      
+      // Try to find a valid opponent (someone whose socket is still connected)
+      while (attempts < 10) {
+        opponent = await dequeueMatchmaker();
+        if (!opponent) break;
+        
+        // Check if opponent is still connected (works across Redis adapter nodes)
+        const opponentSockets = await io.in(opponent.socketId).fetchSockets();
+        if (opponentSockets.length > 0 && opponent.participantId !== participantId) {
+          // Valid opponent found!
+          break;
+        }
+        // If not connected or same player (double click), loop again and discard them
+        opponent = null;
+        attempts++;
+      }
+
+      if (opponent) {
+        // MATCH FOUND!
+        try {
+          // 1. Create Match as the opponent
+          const matchResult = await createMatch({
+            playerId: opponent.participantId, // fallback
+            guestId: opponent.guestId,
+            userId: opponent.userId,
+            displayName: opponent.displayName,
+            roomType: 'CASUAL', // Matchmaking is CASUAL for MVP
+            time: 10, // Match seeded questions duration
+          });
+          
+          const matchId = matchResult.matchId;
+
+          // 2. Join Match as the current player
+          await joinMatch({
+            matchId,
+            playerId: playerData.participantId,
+            guestId: playerData.guestId,
+            userId: playerData.userId,
+            displayName: playerData.displayName,
+          });
+
+          // 3. Notify both players
+          io.to(opponent.socketId).emit('matchmaking:found', { matchId });
+          socket.emit('matchmaking:found', { matchId });
+          
+        } catch (error) {
+          console.error('[Matchmaking] Failed to pair players:', error);
+          socket.emit('matchmaking:error', { message: 'Failed to create match.' });
+        }
+      } else {
+        // No opponent found, enter queue
+        await enqueueMatchmaker(playerData);
+      }
+      
+    } catch (error) {
+      console.error('[Matchmaking ERROR]:', error);
+      socket.emit('matchmaking:error', { message: error.message || 'Error finding match' });
+    }
+  });
+
+  socket.on('matchmaking:cancel', async () => {
+    await removeFromMatchmaker(socket.id);
+  });
 
   socket.on('match:join', async (payload) => {
     try {
@@ -323,6 +439,22 @@ io.on('connection', (socket) => {
 
     } catch (_error) {
       // Ignore invalid leave requests.
+    }
+  });
+
+  socket.on('match:sync', async (payload) => {
+    try {
+      const activeMatchId = validateMatchId(cleanString(payload?.matchId));
+      if (!activeMatchId) return;
+      socket.to(matchRoom(activeMatchId)).emit('match:update', {
+        type: 'PLAYER_CODE_SYNC',
+        playerId: payload.playerId,
+        code: payload.code,
+        language: payload.language,
+        timestamp: Date.now(),
+      });
+    } catch (_err) {
+      // Ignore
     }
   });
 
@@ -1388,20 +1520,26 @@ export async function createMatch(body) {
   const validDuration = [5, 10, 20].includes(selectedTime) ? selectedTime : 5;
   const durationMs = validDuration * 60 * 1000;
 
-  const count = await measureMongoQuery(
-    'question.count',
-    () => Question.countDocuments({ timeLimitMinutes: validDuration }),
-  );
-  if (count === 0) {
-    throw httpError(500, `No questions found for ${validDuration} mins.`);
-  }
+  let randomQuestion;
+  if (body.problemId) {
+    randomQuestion = await measureMongoQuery('question.findById', () => Question.findById(body.problemId));
+    if (!randomQuestion) throw httpError(404, 'Specified problem not found.');
+  } else {
+    const count = await measureMongoQuery(
+      'question.count',
+      () => Question.countDocuments({ timeLimitMinutes: validDuration }),
+    );
+    if (count === 0) {
+      throw httpError(500, `No questions found for ${validDuration} mins.`);
+    }
 
-  const randomQuestion = await measureMongoQuery(
-    'question.pick',
-    () => Question.findOne({ timeLimitMinutes: validDuration }).skip(Math.floor(Math.random() * count)),
-  );
-  if (!randomQuestion) {
-    throw httpError(500, 'Error fetching question.');
+    randomQuestion = await measureMongoQuery(
+      'question.pick',
+      () => Question.findOne({ timeLimitMinutes: validDuration }).skip(Math.floor(Math.random() * count)),
+    );
+    if (!randomQuestion) {
+      throw httpError(500, 'Error fetching question.');
+    }
   }
 
   try {

@@ -1,1 +1,1792 @@
-[]
+[
+  {
+    "slug": "valid-palindrome-two-pointer",
+    "title": "Valid Palindrome (Two Pointer)",
+    "difficulty": "Easy",
+    "tags": [
+      "two pointers",
+      "string"
+    ],
+    "description": "A phrase is a **palindrome** if, after converting all uppercase letters to lowercase and removing all non-alphanumeric characters, it reads the same forward and backward.\n\nGiven a string `s`, return `true` if it is a palindrome, or `false` otherwise.\n\nUse the two-pointer approach: place one pointer at the start and one at the end, skip non-alphanumeric characters, and compare characters moving inward.\n\n**Example:**\n- Input: `s = \"A man, a plan, a canal: Panama\"` → Output: `true`\n- Input: `s = \"race a car\"` → Output: `false`",
+    "constraints": [
+      "1 <= s.length <= 200000",
+      "s consists only of printable ASCII characters",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "isPalindrome",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "The input string to check"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          "A man, a plan, a canal: Panama"
+        ],
+        "expected": true,
+        "explanation": "After removing non-alphanumeric chars and lowercasing: 'amanaplanacanalpanama', which reads the same forward and backward."
+      },
+      {
+        "args": [
+          "race a car"
+        ],
+        "expected": false,
+        "explanation": "After cleaning: 'raceacar', which is NOT a palindrome (r≠r but a≠c mismatch)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          " "
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "a"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "ab"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "0P"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "Was it a car or a cat I saw?"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "No lemon, no melon"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "hello"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "Madam, I'm Adam"
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @return {boolean}\n */\nfunction isPalindrome(s) {\n    // Your code here\n}\n",
+      "java": "public boolean isPalindrome(String s) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "three-sum",
+    "title": "Three Sum",
+    "difficulty": "Medium",
+    "tags": [
+      "two pointers",
+      "sorting",
+      "array"
+    ],
+    "description": "Given an integer array `nums`, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.\n\nThe solution set must **not contain duplicate triplets**.\n\n**Approach:** Sort the array. For each element `nums[i]`, use two pointers `left = i+1` and `right = n-1` to find pairs that sum to `-nums[i]`. Skip duplicate values to avoid duplicate triplets.\n\n**Example:**\n- Input: `nums = [-1, 0, 1, 2, -1, -4]` → Output: `[[-1, -1, 2], [-1, 0, 1]]`\n- Input: `nums = [0, 1, 1]` → Output: `[]`",
+    "constraints": [
+      "3 <= nums.length <= 3000",
+      "-100000 <= nums[i] <= 100000",
+      "Return triplets in any order; each triplet must be sorted in non-decreasing order",
+      "Expected time complexity: O(n^2)",
+      "Expected auxiliary space: O(n) for output"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "threeSum",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers"
+      }
+    ],
+    "returnType": "integer[][]",
+    "examples": [
+      {
+        "args": [
+          [
+            -1,
+            0,
+            1,
+            2,
+            -1,
+            -4
+          ]
+        ],
+        "expected": [
+          [
+            -1,
+            -1,
+            2
+          ],
+          [
+            -1,
+            0,
+            1
+          ]
+        ],
+        "explanation": "The two unique triplets that sum to zero are [-1,-1,2] and [-1,0,1]."
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "explanation": "Only one triplet exists: [0,0,0] which sums to 0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0,
+            1,
+            1
+          ]
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            -2,
+            0,
+            0,
+            2,
+            2
+          ]
+        ],
+        "expected": [
+          [
+            -2,
+            0,
+            2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            -4,
+            -2,
+            -2,
+            -2,
+            0,
+            1,
+            2,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+            6,
+            6
+          ]
+        ],
+        "expected": [
+          [
+            -4,
+            -2,
+            6
+          ],
+          [
+            -4,
+            0,
+            4
+          ],
+          [
+            -4,
+            1,
+            3
+          ],
+          [
+            -4,
+            2,
+            2
+          ],
+          [
+            -2,
+            -2,
+            4
+          ],
+          [
+            -2,
+            0,
+            2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            -1,
+            -1,
+            -1,
+            0,
+            1,
+            2
+          ]
+        ],
+        "expected": [
+          [
+            -1,
+            -1,
+            2
+          ],
+          [
+            -1,
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nfunction threeSum(nums) {\n    // Your code here\n}\n",
+      "java": "import java.util.List;\nimport java.util.ArrayList;\n\npublic List<List<Integer>> threeSum(int[] nums) {\n    // Your code here\n    return new ArrayList<>();\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "container-with-most-water",
+    "title": "Container With Most Water",
+    "difficulty": "Medium",
+    "tags": [
+      "two pointers",
+      "array",
+      "greedy"
+    ],
+    "description": "You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the `i-th` line are at `(i, 0)` and `(i, height[i])`.\n\nFind two lines that together with the x-axis form a container, such that the container contains the most water.\n\nReturn the **maximum amount of water** a container can store.\n\n**Key insight:** Use two pointers starting at both ends. The water stored between lines `i` and `j` is `min(height[i], height[j]) * (j - i)`. Always move the pointer with the smaller height inward, since moving the taller one can only decrease or keep the width the same while possibly reducing the height.\n\n**Example:**\n- Input: `height = [1,8,6,2,5,4,8,3,7]` → Output: `49`\n- Input: `height = [1,1]` → Output: `1`",
+    "constraints": [
+      "2 <= height.length <= 100000",
+      "0 <= height[i] <= 10000",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "maxArea",
+    "params": [
+      {
+        "name": "height",
+        "type": "integer[]",
+        "description": "Array of line heights"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            8,
+            6,
+            2,
+            5,
+            4,
+            8,
+            3,
+            7
+          ]
+        ],
+        "expected": 49,
+        "explanation": "Lines at index 1 (height=8) and index 8 (height=7): water = min(8,7)*(8-1) = 7*7 = 49."
+      },
+      {
+        "args": [
+          [
+            1,
+            1
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Only two lines, both of height 1: water = min(1,1)*(1-0) = 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            4,
+            3,
+            2,
+            1,
+            4
+          ]
+        ],
+        "expected": 16
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            4,
+            3
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            0,
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        ],
+        "expected": 40
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            10,
+            5,
+            7,
+            8,
+            9
+          ]
+        ],
+        "expected": 36
+      },
+      {
+        "args": [
+          [
+            1,
+            3,
+            2,
+            5,
+            25,
+            24,
+            5
+          ]
+        ],
+        "expected": 24
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def maxArea(self, height: List[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} height\n * @return {number}\n */\nfunction maxArea(height) {\n    // Your code here\n}\n",
+      "java": "public int maxArea(int[] height) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "trapping-rain-water",
+    "title": "Trapping Rain Water",
+    "difficulty": "Hard",
+    "tags": [
+      "two pointers",
+      "array",
+      "dynamic programming"
+    ],
+    "description": "Given `n` non-negative integers representing an elevation map where the width of each bar is `1`, compute how much water it can trap after raining.\n\nWater trapped at index `i` is `max(0, min(maxLeft[i], maxRight[i]) - height[i])`, where `maxLeft[i]` is the max height to the left (including `i`) and `maxRight[i]` is the max height to the right (including `i`).\n\n**Two-pointer approach:** Maintain `left` and `right` pointers and running `leftMax`, `rightMax`. If `leftMax < rightMax`, the water at `left` is determined by `leftMax`; move `left` inward. Otherwise, the water at `right` is determined by `rightMax`; move `right` inward.\n\n**Example:**\n- Input: `height = [0,1,0,2,1,0,1,3,2,1,2,1]` → Output: `6`\n- Input: `height = [4,2,0,3,2,5]` → Output: `9`",
+    "constraints": [
+      "1 <= height.length <= 20000",
+      "0 <= height[i] <= 100000",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "trap",
+    "params": [
+      {
+        "name": "height",
+        "type": "integer[]",
+        "description": "Elevation map heights"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": 6,
+        "explanation": "The total trapped water is 6 units (1 between index 0-3, 1 at index 4, 2 between index 5-6, and 1 at index 9)."
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            0,
+            3,
+            2,
+            5
+          ]
+        ],
+        "expected": 9,
+        "explanation": "Water trapped: 2 at index 1, 4 at index 2, 1 at index 3, 2 at index 4 = 9 total."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            3,
+            0,
+            2,
+            0,
+            4
+          ]
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            5,
+            5
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            3,
+            1,
+            2,
+            4,
+            0,
+            1,
+            3,
+            2
+          ]
+        ],
+        "expected": 11
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def trap(self, height: List[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} height\n * @return {number}\n */\nfunction trap(height) {\n    // Your code here\n}\n",
+      "java": "public int trap(int[] height) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "remove-duplicates-sorted-array",
+    "title": "Remove Duplicates from Sorted Array",
+    "difficulty": "Easy",
+    "tags": [
+      "two pointers",
+      "array"
+    ],
+    "description": "Given an integer array `nums` sorted in **non-decreasing order**, remove the duplicates **in-place** such that each unique element appears only once. The relative order of the elements should be kept the same.\n\nReturn `k` — the number of unique elements in `nums` after removal. The first `k` elements of `nums` should contain the unique elements.\n\n**Two-pointer approach:** Use a slow pointer `k` starting at 1, and a fast pointer `i` iterating from 1. Whenever `nums[i] != nums[i-1]`, copy `nums[i]` to `nums[k]` and increment `k`.\n\n**Example:**\n- Input: `nums = [1,1,2]` → Output: `2` (nums becomes `[1,2,...]`)\n- Input: `nums = [0,0,1,1,1,2,2,3,3,4]` → Output: `5` (nums becomes `[0,1,2,3,4,...]`)",
+    "constraints": [
+      "1 <= nums.length <= 30000",
+      "-100 <= nums[i] <= 100",
+      "nums is sorted in non-decreasing order",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "removeDuplicates",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Sorted array of integers (may contain duplicates)"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            1,
+            2
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Two unique elements: 1 and 2. Return k=2."
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            1,
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            4
+          ]
+        ],
+        "expected": 5,
+        "explanation": "Five unique elements: 0, 1, 2, 3, 4. Return k=5."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            -3,
+            -1,
+            0,
+            0,
+            2,
+            2,
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            2,
+            2,
+            3,
+            3
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            -100,
+            -100,
+            0,
+            100,
+            100
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": 1
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def removeDuplicates(self, nums: List[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction removeDuplicates(nums) {\n    // Your code here\n}\n",
+      "java": "public int removeDuplicates(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "merge-sorted-array",
+    "title": "Merge Sorted Array",
+    "difficulty": "Easy",
+    "tags": [
+      "two pointers",
+      "array",
+      "sorting"
+    ],
+    "description": "You are given two integer arrays `nums1` and `nums2`, sorted in **non-decreasing order**, and two integers `m` and `n`, representing the number of elements in `nums1` and `nums2` respectively.\n\nMerge `nums2` into `nums1` as one sorted array **in-place**. `nums1` has a length of `m + n`, where the last `n` elements are set to `0` and should be ignored.\n\n**Two-pointer approach (from the end):** Use three pointers: `p1 = m-1`, `p2 = n-1`, and `p = m+n-1`. Compare from the back and place the larger element at position `p`, working backward to avoid overwriting unprocessed elements.\n\n**Example:**\n- Input: `nums1 = [1,2,3,0,0,0]`, `m = 3`, `nums2 = [2,5,6]`, `n = 3` → Output: `[1,2,2,3,5,6]`\n- Input: `nums1 = [1]`, `m = 1`, `nums2 = []`, `n = 0` → Output: `[1]`",
+    "constraints": [
+      "nums1.length == m + n",
+      "nums2.length == n",
+      "0 <= m, n <= 200",
+      "1 <= m + n <= 200",
+      "-10^9 <= nums1[i], nums2[j] <= 10^9",
+      "Expected time complexity: O(m + n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "merge",
+    "params": [
+      {
+        "name": "nums1",
+        "type": "integer[]",
+        "description": "First sorted array with extra space at end (length m+n)"
+      },
+      {
+        "name": "m",
+        "type": "integer",
+        "description": "Number of valid elements in nums1"
+      },
+      {
+        "name": "nums2",
+        "type": "integer[]",
+        "description": "Second sorted array"
+      },
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "Number of elements in nums2"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            0,
+            0,
+            0
+          ],
+          3,
+          [
+            2,
+            5,
+            6
+          ],
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          2,
+          3,
+          5,
+          6
+        ],
+        "explanation": "Merging [1,2,3] and [2,5,6] gives [1,2,2,3,5,6]."
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          1,
+          [],
+          0
+        ],
+        "expected": [
+          1
+        ],
+        "explanation": "nums2 is empty, so nums1 remains [1]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ],
+          0,
+          [
+            1
+          ],
+          1
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            0
+          ],
+          1,
+          [
+            1
+          ],
+          1
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            4,
+            0,
+            0,
+            0
+          ],
+          3,
+          [
+            3,
+            5,
+            6
+          ],
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            0,
+            0,
+            3,
+            3,
+            3,
+            0,
+            0,
+            0
+          ],
+          6,
+          [
+            1,
+            2,
+            2
+          ],
+          3
+        ],
+        "expected": [
+          -1,
+          0,
+          0,
+          1,
+          2,
+          2,
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            4,
+            5,
+            6,
+            0,
+            0,
+            0
+          ],
+          3,
+          [
+            1,
+            2,
+            3
+          ],
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            3,
+            5,
+            7,
+            0,
+            0,
+            0,
+            0
+          ],
+          4,
+          [
+            2,
+            4,
+            6,
+            8
+          ],
+          4
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ],
+          0,
+          [
+            1,
+            2,
+            3
+          ],
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> List[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number} m\n * @param {number[]} nums2\n * @param {number} n\n * @return {number[]}\n */\nfunction merge(nums1, m, nums2, n) {\n    // Your code here\n}\n",
+      "java": "public int[] merge(int[] nums1, int m, int[] nums2, int n) {\n    // Your code here\n    return new int[0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "sort-colors-dutch-flag",
+    "title": "Sort Colors (Dutch National Flag)",
+    "difficulty": "Medium",
+    "tags": [
+      "two pointers",
+      "array",
+      "sorting"
+    ],
+    "description": "Given an array `nums` with `n` objects colored red, white, or blue (represented as integers `0`, `1`, and `2` respectively), sort them **in-place** so that objects of the same color are adjacent, in the order red → white → blue.\n\nYou must solve this without using the library's sort function and in a **single pass**.\n\n**Dutch National Flag Algorithm:** Maintain three pointers — `low`, `mid`, and `high`.\n- `nums[0..low-1]` = 0s (red)\n- `nums[low..mid-1]` = 1s (white)\n- `nums[high+1..n-1]` = 2s (blue)\n\nIterate with `mid`: if `nums[mid] == 0`, swap with `low` and advance both; if `nums[mid] == 2`, swap with `high` and decrement `high`; otherwise advance `mid`.\n\n**Example:**\n- Input: `nums = [2,0,2,1,1,0]` → Output: `[0,0,1,1,2,2]`\n- Input: `nums = [2,0,1]` → Output: `[0,1,2]`",
+    "constraints": [
+      "1 <= nums.length <= 300",
+      "nums[i] is either 0, 1, or 2",
+      "Must sort in a single pass with O(1) extra space",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "sortColors",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of 0s, 1s, and 2s"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            2,
+            0,
+            2,
+            1,
+            1,
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          1,
+          1,
+          2,
+          2
+        ],
+        "explanation": "All 0s come first, then 1s, then 2s."
+      },
+      {
+        "args": [
+          [
+            2,
+            0,
+            1
+          ]
+        ],
+        "expected": [
+          0,
+          1,
+          2
+        ],
+        "explanation": "One of each color, sorted to [0, 1, 2]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": [
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            2
+          ]
+        ],
+        "expected": [
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            2,
+            2
+          ]
+        ],
+        "expected": [
+          2,
+          2,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            2,
+            1,
+            0,
+            2,
+            0,
+            1
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          2,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            2,
+            1,
+            1,
+            2,
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          2,
+          2
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def sortColors(self, nums: List[int]) -> List[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nfunction sortColors(nums) {\n    // Your code here\n}\n",
+      "java": "public int[] sortColors(int[] nums) {\n    // Your code here\n    return new int[0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "remove-element",
+    "title": "Remove Element",
+    "difficulty": "Easy",
+    "tags": [
+      "two pointers",
+      "array"
+    ],
+    "description": "Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in `nums` **in-place**. The order of the remaining elements may be changed.\n\nReturn `k` — the number of elements in `nums` which are not equal to `val`. The first `k` elements of `nums` should hold the result.\n\n**Two-pointer approach:** Keep a write pointer `k = 0`. For each element `nums[i]`, if it is not equal to `val`, copy it to `nums[k]` and increment `k`.\n\n**Example:**\n- Input: `nums = [3,2,2,3]`, `val = 3` → Output: `2` (nums = `[2,2,...]`)\n- Input: `nums = [0,1,2,2,3,0,4,2]`, `val = 2` → Output: `5` (nums = `[0,1,3,0,4,...]`)",
+    "constraints": [
+      "0 <= nums.length <= 100",
+      "0 <= nums[i] <= 50",
+      "0 <= val <= 100",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "removeElement",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers"
+      },
+      {
+        "name": "val",
+        "type": "integer",
+        "description": "Value to remove"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            2,
+            2,
+            3
+          ],
+          3
+        ],
+        "expected": 2,
+        "explanation": "After removing all 3s, 2 elements remain: [2, 2]."
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            2,
+            3,
+            0,
+            4,
+            2
+          ],
+          2
+        ],
+        "expected": 5,
+        "explanation": "After removing all 2s, 5 elements remain: [0, 1, 3, 0, 4]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [],
+          3
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          2
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            4,
+            4,
+            4,
+            4
+          ],
+          4
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          6
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            2,
+            2,
+            3
+          ],
+          2
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            2,
+            3,
+            1
+          ],
+          1
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def removeElement(self, nums: List[int], val: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} val\n * @return {number}\n */\nfunction removeElement(nums, val) {\n    // Your code here\n}\n",
+      "java": "public int removeElement(int[] nums, int val) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "two-sum-ii-sorted-input",
+    "title": "Two Sum II - Input Array Is Sorted",
+    "difficulty": "Easy",
+    "tags": [
+      "two pointers",
+      "array",
+      "binary search"
+    ],
+    "description": "Given a **1-indexed** array of integers `numbers` that is already sorted in non-decreasing order, find two numbers such that they add up to a specific `target` number.\n\nReturn the indices of the two numbers (1-indexed) as an integer array `[index1, index2]` of length 2 where `1 <= index1 < index2 <= numbers.length`.\n\nThe tests are generated such that there is **exactly one solution**. You may not use the same element twice.\n\n**Two-pointer approach:** Place `left = 0` and `right = n-1`. If `numbers[left] + numbers[right] == target`, return `[left+1, right+1]`. If the sum is less than target, move `left` right; if greater, move `right` left.\n\n**Example:**\n- Input: `numbers = [2,7,11,15]`, `target = 9` → Output: `[1,2]`\n- Input: `numbers = [2,3,4]`, `target = 6` → Output: `[1,3]`",
+    "constraints": [
+      "2 <= numbers.length <= 30000",
+      "-1000 <= numbers[i] <= 1000",
+      "numbers is sorted in non-decreasing order",
+      "-1000 <= target <= 1000",
+      "Exactly one valid answer exists",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "twoSumII",
+    "params": [
+      {
+        "name": "numbers",
+        "type": "integer[]",
+        "description": "Sorted array of integers (1-indexed)"
+      },
+      {
+        "name": "target",
+        "type": "integer",
+        "description": "Target sum"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            2,
+            7,
+            11,
+            15
+          ],
+          9
+        ],
+        "expected": [
+          1,
+          2
+        ],
+        "explanation": "numbers[0] + numbers[1] = 2 + 7 = 9. Return [1, 2] (1-indexed)."
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            4
+          ],
+          6
+        ],
+        "expected": [
+          1,
+          3
+        ],
+        "explanation": "numbers[0] + numbers[2] = 2 + 4 = 6. Return [1, 3] (1-indexed)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            -1,
+            0
+          ],
+          -1
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          9
+        ],
+        "expected": [
+          4,
+          5
+        ]
+      },
+      {
+        "args": [
+          [
+            -3,
+            -1,
+            0,
+            2,
+            4
+          ],
+          1
+        ],
+        "expected": [
+          2,
+          5
+        ]
+      },
+      {
+        "args": [
+          [
+            5,
+            25,
+            75
+          ],
+          100
+        ],
+        "expected": [
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            4,
+            9,
+            56,
+            90
+          ],
+          8
+        ],
+        "expected": [
+          4,
+          5
+        ]
+      },
+      {
+        "args": [
+          [
+            -10,
+            -5,
+            0,
+            5,
+            10
+          ],
+          0
+        ],
+        "expected": [
+          2,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            4,
+            6,
+            8,
+            10
+          ],
+          12
+        ],
+        "expected": [
+          2,
+          5
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def twoSumII(self, numbers: List[int], target: int) -> List[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} numbers\n * @param {number} target\n * @return {number[]}\n */\nfunction twoSumII(numbers, target) {\n    // Your code here\n}\n",
+      "java": "public int[] twoSumII(int[] numbers, int target) {\n    // Your code here\n    return new int[0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "four-sum-count",
+    "title": "4Sum Count",
+    "difficulty": "Medium",
+    "tags": [
+      "two pointers",
+      "hash map",
+      "array"
+    ],
+    "description": "Given four integer arrays `nums1`, `nums2`, `nums3`, and `nums4` all of length `n`, return the number of tuples `(i, j, k, l)` such that:\n- `0 <= i, j, k, l < n`\n- `nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0`\n\n**Approach:** Use a hash map to count all pairwise sums from `nums1` and `nums2`. Then for each pair `(k, l)` from `nums3` and `nums4`, check if `-(nums3[k] + nums4[l])` exists in the map and accumulate the count.\n\nThis reduces a brute-force O(n^4) to O(n^2) time.\n\n**Example:**\n- Input: `nums1=[1,2]`, `nums2=[-2,-1]`, `nums3=[-1,2]`, `nums4=[0,2]` → Output: `2`\n- Input: `nums1=[0]`, `nums2=[0]`, `nums3=[0]`, `nums4=[0]` → Output: `1`",
+    "constraints": [
+      "1 <= n <= 200",
+      "All four arrays have length n",
+      "-2^28 <= nums1[i], nums2[i], nums3[i], nums4[i] <= 2^28",
+      "Expected time complexity: O(n^2)",
+      "Expected auxiliary space: O(n^2)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "fourSumCount",
+    "params": [
+      {
+        "name": "nums1",
+        "type": "integer[]",
+        "description": "First array"
+      },
+      {
+        "name": "nums2",
+        "type": "integer[]",
+        "description": "Second array"
+      },
+      {
+        "name": "nums3",
+        "type": "integer[]",
+        "description": "Third array"
+      },
+      {
+        "name": "nums4",
+        "type": "integer[]",
+        "description": "Fourth array"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          [
+            -2,
+            -1
+          ],
+          [
+            -1,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Tuples: (0,0,0,1): 1+(-2)+(-1)+2=0 and (1,1,0,0): 2+(-1)+(-1)+0=0."
+      },
+      {
+        "args": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Only one tuple (0,0,0,0) and 0+0+0+0=0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          [
+            -1
+          ],
+          [
+            1
+          ],
+          [
+            -1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            -3,
+            -5
+          ],
+          [
+            -1,
+            -2
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            -1,
+            -1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            -1,
+            -1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "expected": 16
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            -1
+          ],
+          [
+            -1,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            -1
+          ]
+        ],
+        "expected": 17
+      },
+      {
+        "args": [
+          [
+            2
+          ],
+          [
+            -2
+          ],
+          [
+            1
+          ],
+          [
+            -1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            -1,
+            -2,
+            -3
+          ],
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            -1,
+            -2,
+            -3
+          ]
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          [
+            5
+          ],
+          [
+            -5
+          ],
+          [
+            10
+          ],
+          [
+            -10
+          ]
+        ],
+        "expected": 1
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @param {number[]} nums3\n * @param {number[]} nums4\n * @return {number}\n */\nfunction fourSumCount(nums1, nums2, nums3, nums4) {\n    // Your code here\n}\n",
+      "java": "public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  }
+]

@@ -1,1 +1,1379 @@
-[]
+[
+  {
+    "slug": "maximum-sum-subarray-of-size-k",
+    "title": "Maximum Sum Subarray of Size K",
+    "difficulty": "Easy",
+    "tags": [
+      "sliding-window",
+      "array",
+      "subarray"
+    ],
+    "description": "Given an array of integers `nums` and a positive integer `k`, find the maximum sum of any contiguous subarray of size exactly `k`.\n\nA subarray is a contiguous portion of an array. You must slide a window of size `k` across the array and track the maximum sum seen.\n\n**Example:**\nFor `nums = [2, 1, 5, 1, 3, 2]` and `k = 3`, the subarrays of size 3 are:\n- [2,1,5] → sum = 8\n- [1,5,1] → sum = 7\n- [5,1,3] → sum = 9 ✓\n- [1,3,2] → sum = 6\n\nSo the answer is `9`.",
+    "constraints": [
+      "1 <= k <= nums.length <= 10^5",
+      "1 <= nums[i] <= 10^4",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "maxSumSubarrayOfSizeK",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of positive integers"
+      },
+      {
+        "name": "k",
+        "type": "integer",
+        "description": "Size of the sliding window"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            2,
+            1,
+            5,
+            1,
+            3,
+            2
+          ],
+          3
+        ],
+        "expected": 9,
+        "explanation": "The subarray [5, 1, 3] has the maximum sum of 9."
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            4,
+            1,
+            5
+          ],
+          2
+        ],
+        "expected": 7,
+        "explanation": "The subarray [3, 4] has the maximum sum of 7."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          5
+        ],
+        "expected": 25
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          1
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            10,
+            1,
+            1,
+            1,
+            10
+          ],
+          3
+        ],
+        "expected": 12
+      },
+      {
+        "args": [
+          [
+            1,
+            4,
+            2,
+            9,
+            7,
+            3
+          ],
+          3
+        ],
+        "expected": 18
+      },
+      {
+        "args": [
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          4
+        ],
+        "expected": 12
+      },
+      {
+        "args": [
+          [
+            100,
+            200,
+            300,
+            400
+          ],
+          2
+        ],
+        "expected": 700
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def maxSumSubarrayOfSizeK(self, nums: list[int], k: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nfunction maxSumSubarrayOfSizeK(nums, k) {\n    // Your code here\n}\n",
+      "java": "public int maxSumSubarrayOfSizeK(int[] nums, int k) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "longest-substring-without-repeating-characters",
+    "title": "Longest Substring Without Repeating Characters",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "string",
+      "hash-map"
+    ],
+    "description": "Given a string `s`, find the length of the longest substring that contains no repeating characters.\n\nA substring is a contiguous sequence of characters within the string. Use a sliding window approach with a set or hash map to efficiently track characters in the current window.\n\n**Example:**\nFor `s = \"abcabcbb\"`, the longest substring without repeating characters is `\"abc\"` with length `3`.\n\nFor `s = \"pwwkew\"`, the answer is `\"wke\"` with length `3`.",
+    "constraints": [
+      "0 <= s.length <= 5 * 10^4",
+      "s consists of English letters, digits, symbols and spaces",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(min(n, 128))"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "lengthOfLongestSubstring",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "Input string"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "abcabcbb"
+        ],
+        "expected": 3,
+        "explanation": "The longest substring without repeating characters is 'abc', which has length 3."
+      },
+      {
+        "args": [
+          "bbbbb"
+        ],
+        "expected": 1,
+        "explanation": "The longest substring is 'b', with length 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          ""
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "pwwkew"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "abcdefg"
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          "dvdf"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "aab"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "tmmzuxt"
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          "abba"
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def lengthOfLongestSubstring(self, s: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nfunction lengthOfLongestSubstring(s) {\n    // Your code here\n}\n",
+      "java": "public int lengthOfLongestSubstring(String s) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "minimum-size-subarray-sum",
+    "title": "Minimum Size Subarray Sum",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "array",
+      "two-pointers"
+    ],
+    "description": "Given an array of positive integers `nums` and a positive integer `target`, return the **minimum length** of a contiguous subarray whose sum is **greater than or equal to** `target`. If no such subarray exists, return `0`.\n\nThe key insight is to use a variable-size sliding window: expand the window to the right until the sum meets the target, then shrink from the left to minimize the window size while still satisfying the condition.\n\n**Example:**\nFor `nums = [2, 3, 1, 2, 4, 3]` and `target = 7`:\n- Window [4, 3] has sum 7 and length 2 — this is the minimum.",
+    "constraints": [
+      "1 <= target <= 10^9",
+      "1 <= nums.length <= 10^5",
+      "1 <= nums[i] <= 10^4",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "minSubArrayLen",
+    "params": [
+      {
+        "name": "target",
+        "type": "integer",
+        "description": "The minimum target sum"
+      },
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of positive integers"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          7,
+          [
+            2,
+            3,
+            1,
+            2,
+            4,
+            3
+          ]
+        ],
+        "expected": 2,
+        "explanation": "The subarray [4, 3] has sum 7 >= 7 and length 2, which is the minimum."
+      },
+      {
+        "args": [
+          4,
+          [
+            1,
+            4,
+            4
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Either [4] at index 1 or index 2 satisfies the condition with length 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          11,
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          7,
+          [
+            2,
+            3,
+            1,
+            2,
+            4,
+            3
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          15,
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          6,
+          [
+            10,
+            2,
+            3
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          100,
+          [
+            100
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          5,
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          8,
+          [
+            3,
+            4,
+            1,
+            1,
+            6
+          ]
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def minSubArrayLen(self, target: int, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} target\n * @param {number[]} nums\n * @return {number}\n */\nfunction minSubArrayLen(target, nums) {\n    // Your code here\n}\n",
+      "java": "public int minSubArrayLen(int target, int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "max-consecutive-ones-iii",
+    "title": "Max Consecutive Ones III",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "array",
+      "binary"
+    ],
+    "description": "Given a binary array `nums` and an integer `k`, return the maximum number of consecutive `1`s in the array if you can flip at most `k` `0`s to `1`s.\n\nThe idea is to maintain a sliding window where the count of `0`s inside the window never exceeds `k`. Expand the right pointer and when you exceed `k` zeros, shrink from the left.\n\n**Example:**\nFor `nums = [1,1,1,0,0,0,1,1,1,1,0]` and `k = 2`:\n- You can flip two of the zeros. The optimal window is `[1,1,1,0,0,1,1,1,1,0,1]` → not quite. The longest window where at most 2 zeros are included is positions 3–10: `[0,0,0,1,1,1,1,0]` — wait, that has 3 zeros. The answer is the window `[0,0,1,1,1,1,0]` flipping the last 0 and one earlier 0, giving length `6`.",
+    "constraints": [
+      "1 <= nums.length <= 10^5",
+      "nums[i] is either 0 or 1",
+      "0 <= k <= nums.length",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "longestOnes",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Binary array of 0s and 1s"
+      },
+      {
+        "name": "k",
+        "type": "integer",
+        "description": "Maximum number of 0s that can be flipped"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          2
+        ],
+        "expected": 6,
+        "explanation": "Flip the 0s at indices 4 and 5 (or 4 and 10). The window [0,0,1,1,1,1] from index 4 to 9 with 2 flips gives length 6."
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          3
+        ],
+        "expected": 10,
+        "explanation": "Flipping 3 zeros in the optimal window gives a run of 10 ones."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1,
+            1,
+            1
+          ],
+          0
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ],
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ],
+          3
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            1,
+            0,
+            1
+          ],
+          1
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            0
+          ],
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          2
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          0
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def longestOnes(self, nums: list[int], k: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nfunction longestOnes(nums, k) {\n    // Your code here\n}\n",
+      "java": "public int longestOnes(int[] nums, int k) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "longest-repeating-character-replacement",
+    "title": "Longest Repeating Character Replacement",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "string",
+      "hash-map"
+    ],
+    "description": "Given a string `s` and an integer `k`, you can choose any character in the string and change it to any other uppercase English letter. You can perform this operation at most `k` times.\n\nReturn the length of the longest substring containing the same letter you can get after performing the above operations.\n\nThe key insight: within a window of length `L`, if the most frequent character appears `maxFreq` times, then we need `L - maxFreq` replacements. If `L - maxFreq <= k`, the window is valid.\n\n**Example:**\nFor `s = \"AABABBA\"` and `k = 1`:\n- Replace the one 'A' or 'B' in window `\"ABABB\"` to get `\"AABBB\"` or `\"AAABB\"` → length 5. Actually `\"AABAB\"` substrings... The optimal answer is 4.",
+    "constraints": [
+      "1 <= s.length <= 10^5",
+      "s consists of only uppercase English letters",
+      "0 <= k <= s.length",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "characterReplacement",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "Uppercase English string"
+      },
+      {
+        "name": "k",
+        "type": "integer",
+        "description": "Maximum number of character replacements allowed"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "ABAB",
+          2
+        ],
+        "expected": 4,
+        "explanation": "Replace the two 'B's with 'A' (or two 'A's with 'B') to get 'AAAA' or 'BBBB', length 4."
+      },
+      {
+        "args": [
+          "AABABBA",
+          1
+        ],
+        "expected": 4,
+        "explanation": "Replace the one 'A' at index 4 in 'ABAB' (indices 2–5) to get 'BBBB', which has length 4."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "A",
+          0
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "AAAA",
+          2
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          "ABCDE",
+          1
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "AABB",
+          0
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "BAAAB",
+          2
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          "KRSCDCSONAKRK",
+          2
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          "AAABBBCCCC",
+          2
+        ],
+        "expected": 6
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @param {number} k\n * @return {number}\n */\nfunction characterReplacement(s, k) {\n    // Your code here\n}\n",
+      "java": "public int characterReplacement(String s, int k) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "number-of-subarrays-with-sum-k",
+    "title": "Number of Subarrays with Sum Equals K",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "array",
+      "prefix-sum",
+      "hash-map"
+    ],
+    "description": "Given an array of integers `nums` and an integer `k`, return the total number of subarrays whose sum equals `k`.\n\nNote that nums may contain negative numbers, so a pure two-pointer sliding window won't work in the general case. Instead, use a **prefix sum** combined with a hash map: for each index, if `prefixSum - k` has been seen before, those previous prefix sums form valid subarrays ending at the current index.\n\n**Example:**\nFor `nums = [1, 1, 1]` and `k = 2`:\n- Subarrays: [1,1] at indices [0,1] and [1,2] both sum to 2. Answer = 2.",
+    "constraints": [
+      "1 <= nums.length <= 2 * 10^4",
+      "-1000 <= nums[i] <= 1000",
+      "-10^7 <= k <= 10^7",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "subarraySum",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers (may include negatives)"
+      },
+      {
+        "name": "k",
+        "type": "integer",
+        "description": "Target sum"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            1,
+            1
+          ],
+          2
+        ],
+        "expected": 2,
+        "explanation": "Subarrays [1,1] at positions [0,1] and [1,2] both sum to 2."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          3
+        ],
+        "expected": 2,
+        "explanation": "Subarrays [3] and [1,2] both sum to 3."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ],
+          0
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            -1,
+            -1,
+            1
+          ],
+          0
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          5
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            -1,
+            1,
+            -1,
+            1
+          ],
+          0
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            3,
+            4,
+            7,
+            2,
+            -3,
+            1,
+            4,
+            2
+          ],
+          7
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          3
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def subarraySum(self, nums: list[int], k: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nfunction subarraySum(nums, k) {\n    // Your code here\n}\n",
+      "java": "public int subarraySum(int[] nums, int k) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "maximum-average-subarray-i",
+    "title": "Maximum Average Subarray I",
+    "difficulty": "Easy",
+    "tags": [
+      "sliding-window",
+      "array"
+    ],
+    "description": "Given an integer array `nums` consisting of `n` elements, and an integer `k`, find a contiguous subarray whose **length is equal to** `k` that has the maximum average value and return this value.\n\nAny answer with a calculation error less than `10^-5` will be accepted.\n\nSlide a fixed window of size `k` across the array, maintaining the running sum to avoid recomputing the sum from scratch at each position.\n\n**Example:**\nFor `nums = [1, 12, -5, -6, 50, 3]` and `k = 4`:\n- Windows: [1,12,-5,-6]→2/4=0.5, [12,-5,-6,50]→51/4=12.75, [-5,-6,50,3]→42/4=10.5\n- Maximum average = 12.75",
+    "constraints": [
+      "n == nums.length",
+      "1 <= k <= n <= 10^5",
+      "-10^4 <= nums[i] <= 10^4",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "findMaxAverage",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers"
+      },
+      {
+        "name": "k",
+        "type": "integer",
+        "description": "Window size"
+      }
+    ],
+    "returnType": "float",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            12,
+            -5,
+            -6,
+            50,
+            3
+          ],
+          4
+        ],
+        "expected": 12.75,
+        "explanation": "The subarray [12,-5,-6,50] has sum 51 and average 51/4 = 12.75."
+      },
+      {
+        "args": [
+          [
+            5
+          ],
+          1
+        ],
+        "expected": 5,
+        "explanation": "Only one element, so the average is 5.0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0,
+            1,
+            1,
+            3,
+            3
+          ],
+          4
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            -1,
+            -2,
+            -3,
+            -4
+          ],
+          2
+        ],
+        "expected": -1.5
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            1,
+            3,
+            3
+          ],
+          2
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            10000,
+            10000,
+            10000
+          ],
+          1
+        ],
+        "expected": 10000
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          3
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            -10000,
+            10000,
+            -10000,
+            10000
+          ],
+          2
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            3,
+            3,
+            3,
+            3
+          ],
+          4
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findMaxAverage(self, nums: list[int], k: int) -> float:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nfunction findMaxAverage(nums, k) {\n    // Your code here\n}\n",
+      "java": "public double findMaxAverage(int[] nums, int k) {\n    // Your code here\n    return 0.0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "fruit-into-baskets",
+    "title": "Fruit Into Baskets",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "array",
+      "hash-map"
+    ],
+    "description": "You are visiting a farm that has a row of fruit trees. The trees are represented by an integer array `fruits` where `fruits[i]` is the **type** of fruit the `i`th tree produces.\n\nYou want to collect as much fruit as possible. However, you only have **two baskets**, and each basket can only hold **one type** of fruit (but unlimited quantity). Starting from any tree, you must pick exactly one fruit from every tree — stopping when you would need a third basket type.\n\nReturn the **maximum number of fruits** you can pick.\n\nThis is equivalent to finding the **longest subarray with at most 2 distinct values**.\n\n**Example:**\nFor `fruits = [1, 2, 1, 2, 3]`:\n- [1,2,1,2] uses 2 types → length 4\n- [2,1,2,3] uses 3 types → invalid\n- Answer = 4",
+    "constraints": [
+      "1 <= fruits.length <= 10^5",
+      "0 <= fruits[i] < fruits.length",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "totalFruit",
+    "params": [
+      {
+        "name": "fruits",
+        "type": "integer[]",
+        "description": "Array of fruit types per tree"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 4,
+        "explanation": "Pick the first 4 trees [1,2,1,2] using baskets for type 1 and type 2."
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            2
+          ]
+        ],
+        "expected": 3,
+        "explanation": "Pick [1,2,2] — 3 fruits using baskets for type 1 and type 2."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            3,
+            3,
+            3,
+            1,
+            2,
+            1,
+            1,
+            2,
+            3,
+            3,
+            4
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            6,
+            6,
+            4,
+            4,
+            6
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            1,
+            4,
+            1,
+            4,
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 5
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def totalFruit(self, fruits: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} fruits\n * @return {number}\n */\nfunction totalFruit(fruits) {\n    // Your code here\n}\n",
+      "java": "public int totalFruit(int[] fruits) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "permutation-in-string",
+    "title": "Permutation in String",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "string",
+      "hash-map",
+      "anagram"
+    ],
+    "description": "Given two strings `s1` and `s2`, return `true` if `s2` contains a permutation of `s1`, or `false` otherwise.\n\nIn other words, return `true` if one of `s1`'s permutations is a substring of `s2`.\n\nA permutation of a string is any rearrangement of its characters. Use a fixed-size sliding window of size `len(s1)` on `s2` and compare character frequency maps.\n\n**Example:**\n- `s1 = \"ab\"`, `s2 = \"eidbaooo\"` → `true` because `\"ba\"` is a permutation of `\"ab\"` and appears in `s2`.\n- `s1 = \"ab\"`, `s2 = \"eidboaoo\"` → `false`.",
+    "constraints": [
+      "1 <= s1.length, s2.length <= 10^4",
+      "s1 and s2 consist of lowercase English letters only",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "checkInclusion",
+    "params": [
+      {
+        "name": "s1",
+        "type": "string",
+        "description": "The pattern string whose permutation we're looking for"
+      },
+      {
+        "name": "s2",
+        "type": "string",
+        "description": "The string to search in"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          "ab",
+          "eidbaooo"
+        ],
+        "expected": true,
+        "explanation": "'ba' is a permutation of 'ab' and appears as a substring in 'eidbaooo'."
+      },
+      {
+        "args": [
+          "ab",
+          "eidboaoo"
+        ],
+        "expected": false,
+        "explanation": "No permutation of 'ab' appears as a contiguous substring in 'eidboaoo'."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "a",
+          "a"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "a",
+          "b"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "abc",
+          "bbbca"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "adc",
+          "dcda"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "hello",
+          "ooolleoooleh"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "ab",
+          "ab"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "abcd",
+          "abcde"
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def checkInclusion(self, s1: str, s2: str) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s1\n * @param {string} s2\n * @return {boolean}\n */\nfunction checkInclusion(s1, s2) {\n    // Your code here\n}\n",
+      "java": "public boolean checkInclusion(String s1, String s2) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "find-all-anagrams-in-string",
+    "title": "Find All Anagrams in a String",
+    "difficulty": "Medium",
+    "tags": [
+      "sliding-window",
+      "string",
+      "hash-map",
+      "anagram"
+    ],
+    "description": "Given two strings `s` and `p`, find all start indices of `p`'s anagrams (permutations) in `s` and return the **count** of such starting indices.\n\nAn anagram is a rearrangement of all characters of a string. Use a fixed sliding window of size `len(p)` over `s` and compare character frequency maps.\n\n**Example:**\nFor `s = \"cbaebabacd\"` and `p = \"abc\"`:\n- At index 0: `\"cba\"` is an anagram of `\"abc\"` ✓\n- At index 6: `\"bac\"` is an anagram of `\"abc\"` ✓\n- Total count = 2",
+    "constraints": [
+      "1 <= s.length, p.length <= 3 * 10^4",
+      "s and p consist of lowercase English letters",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "findAnagrams",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "The main string to search in"
+      },
+      {
+        "name": "p",
+        "type": "string",
+        "description": "The pattern string"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "cbaebabacd",
+          "abc"
+        ],
+        "expected": 2,
+        "explanation": "Anagrams of 'abc' start at index 0 ('cba') and index 6 ('bac'), so the count is 2."
+      },
+      {
+        "args": [
+          "abab",
+          "ab"
+        ],
+        "expected": 3,
+        "explanation": "Anagrams of 'ab' start at indices 0, 1, and 2 ('ab', 'ba', 'ab'), total count = 3."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "a",
+          "b"
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "a",
+          "a"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "aaaaaaaaaa",
+          "aaaa"
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          "abacbabc",
+          "abc"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "baa",
+          "aa"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "aabbcc",
+          "abc"
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "aabc",
+          "abc"
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findAnagrams(self, s: str, p: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @param {string} p\n * @return {number}\n */\nfunction findAnagrams(s, p) {\n    // Your code here\n}\n",
+      "java": "public int findAnagrams(String s, String p) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  }
+]

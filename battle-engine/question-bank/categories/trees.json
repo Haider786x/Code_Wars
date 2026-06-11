@@ -1,1 +1,1646 @@
-[]
+[
+  {
+    "slug": "maximum-depth-binary-tree",
+    "title": "Maximum Depth of Binary Tree",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "depth-first-search",
+      "breadth-first-search",
+      "recursion"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array**, return its **maximum depth**.\n\nThe maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node. For example, `[3,9,20,-1,-1,15,7]` represents:\n```\n    3\n   / \\\n  9  20\n    /  \\\n   15   7\n```\nThis tree has a maximum depth of **3**.\n\nIf the tree is empty (array is empty or `[-1]`), return `0`.\n\n**Intuition:** Recursively find the depth of the left and right subtrees and return `1 + max(leftDepth, rightDepth)`. Alternatively, use BFS and count levels.",
+    "constraints": [
+      "0 <= number of nodes <= 10^4",
+      "Node values are in range [-100, 100]",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(h) where h is the height of the tree"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "maxDepth",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            9,
+            20,
+            -1,
+            -1,
+            15,
+            7
+          ]
+        ],
+        "expected": 3,
+        "explanation": "The tree has root 3, left child 9, right child 20. 20 has children 15 and 7. The longest path is 3->20->15 (or 3->20->7), giving depth 3."
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Root is 1 with a single left child 2. The maximum depth is 2."
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": 0,
+        "explanation": "An empty tree has depth 0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            -1,
+            2,
+            -1,
+            -1,
+            -1,
+            3
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            -1,
+            3,
+            -1,
+            -1,
+            -1,
+            4
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            8,
+            1,
+            4,
+            7,
+            9,
+            0,
+            2,
+            -1,
+            -1,
+            6,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ]
+        ],
+        "expected": 4
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def maxDepth(self, root: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @return {number}\n */\nfunction maxDepth(root) {\n    // Your code here\n}\n",
+      "java": "public int maxDepth(int[] root) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "minimum-depth-binary-tree",
+    "title": "Minimum Depth of Binary Tree",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "breadth-first-search",
+      "depth-first-search"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array**, return its **minimum depth**.\n\nThe minimum depth is the number of nodes along the **shortest** path from the root node down to the nearest **leaf** node. A leaf is a node with no children.\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node.\n\nExample:\n```\n    2\n     \\\n      3\n       \\\n        4\n         \\\n          5\n           \\\n            6\n```\nRepresented as `[2,-1,3,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,5,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,6]`, minimum depth is **5**.\n\nFor `[3,9,20,-1,-1,15,7]`, minimum depth is **2** (path 3->9).\n\n**Note:** If a node has only one child, it is NOT a leaf — you must continue down to find the actual leaf.\n\n**Intuition:** BFS is ideal here — return the level number when you first reach a leaf node.",
+    "constraints": [
+      "0 <= number of nodes <= 10^5",
+      "Node values are in range [-1000, 1000]",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "minDepth",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            9,
+            20,
+            -1,
+            -1,
+            15,
+            7
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Node 9 is a leaf at depth 2. That is the shortest path from root to any leaf."
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            -1,
+            4,
+            -1,
+            -1,
+            -1,
+            5,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ]
+        ],
+        "expected": 4,
+        "explanation": "The tree is a left-skewed chain 2->3->4->5. The only leaf is 5, so minimum depth is 4."
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": 0,
+        "explanation": "An empty tree has minimum depth 0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            -1,
+            3,
+            -1,
+            -1,
+            -1,
+            4
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            -1,
+            -1
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            -1,
+            18
+          ]
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def minDepth(self, root: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @return {number}\n */\nfunction minDepth(root) {\n    // Your code here\n}\n",
+      "java": "public int minDepth(int[] root) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "symmetric-tree",
+    "title": "Symmetric Tree",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "depth-first-search",
+      "breadth-first-search",
+      "recursion"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array**, check whether it is a **mirror of itself** (i.e., symmetric around its center).\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node.\n\nA symmetric tree looks the same when reflected — the left subtree is a mirror of the right subtree.\n\nExample of a symmetric tree:\n```\n    1\n   / \\\n  2   2\n / \\ / \\\n3  4 4  3\n```\nRepresented as `[1,2,2,3,4,4,3]` → returns `true`.\n\nExample of a non-symmetric tree:\n```\n    1\n   / \\\n  2   2\n   \\   \\\n    3   3\n```\nRepresented as `[1,2,2,-1,3,-1,3]` → returns `false`.\n\n**Intuition:** Recursively check if the left subtree and right subtree are mirrors — i.e., left's left matches right's right, and left's right matches right's left.",
+    "constraints": [
+      "0 <= number of nodes <= 1000",
+      "Node values are in range [-100, 100]",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(h) where h is the height of the tree"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "isSymmetric",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            2,
+            3,
+            4,
+            4,
+            3
+          ]
+        ],
+        "expected": true,
+        "explanation": "The tree is symmetric: left subtree (2,3,4) is a mirror of right subtree (2,4,3)."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            2,
+            -1,
+            3,
+            -1,
+            3
+          ]
+        ],
+        "expected": false,
+        "explanation": "The tree is not symmetric: node 2 on the left has only a right child 3, but node 2 on the right also has only a right child 3 — they are not mirrors of each other."
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": true,
+        "explanation": "An empty tree is trivially symmetric."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            2
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            2,
+            3,
+            -1,
+            -1,
+            3
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            2,
+            -1,
+            3,
+            3,
+            -1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            4,
+            3,
+            2,
+            2,
+            3,
+            1,
+            -1,
+            -1,
+            1,
+            1,
+            -1,
+            -1,
+            1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            2,
+            3,
+            4,
+            3,
+            4
+          ]
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isSymmetric(self, root: list[int]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @return {boolean}\n */\nfunction isSymmetric(root) {\n    // Your code here\n}\n",
+      "java": "public boolean isSymmetric(int[] root) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "invert-binary-tree",
+    "title": "Invert Binary Tree",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "depth-first-search",
+      "breadth-first-search",
+      "recursion"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array**, invert the tree (mirror it) and return the resulting tree as a **level-order integer array**.\n\nInverting a binary tree means swapping the left and right children of every node.\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node. The output must also be in the same level-order format.\n\nExample:\n```\nInput:        Output:\n    4             4\n   / \\           / \\\n  2   7   →    7   2\n / \\ / \\       / \\ / \\\n1  3 6  9     9  6 3  1\n```\nInput: `[4,2,7,1,3,6,9]` → Output: `[4,7,2,9,6,3,1]`\n\n**Intuition:** Recursively swap left and right children for every node. Then re-serialize the tree back to level-order format, using `-1` for null positions.",
+    "constraints": [
+      "0 <= number of nodes <= 100",
+      "Node values are in range [-100, 100]",
+      "-1 represents a null node in the level-order array",
+      "Trailing -1 values may be omitted in the output",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "invertTree",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            6,
+            9
+          ]
+        ],
+        "expected": [
+          4,
+          7,
+          2,
+          9,
+          6,
+          3,
+          1
+        ],
+        "explanation": "Left and right subtrees are swapped at every level. Root stays 4, then 7 and 2 swap places, and their children are also swapped."
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            3
+          ]
+        ],
+        "expected": [
+          2,
+          3,
+          1
+        ],
+        "explanation": "Root is 2. Left child 1 and right child 3 are swapped, producing [2,3,1]."
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": [],
+        "explanation": "Inverting an empty tree returns an empty array."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            -1
+          ]
+        ],
+        "expected": [
+          1,
+          -1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            -1,
+            2
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          -1
+        ]
+      },
+      {
+        "args": [
+          [
+            3,
+            1,
+            2,
+            4,
+            5,
+            6,
+            7
+          ]
+        ],
+        "expected": [
+          3,
+          2,
+          1,
+          7,
+          6,
+          5,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            -1,
+            -1,
+            5
+          ]
+        ],
+        "expected": [
+          1,
+          3,
+          2,
+          5,
+          -1,
+          -1,
+          4
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def invertTree(self, root: list[int]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @return {number[]}\n */\nfunction invertTree(root) {\n    // Your code here\n}\n",
+      "java": "public int[] invertTree(int[] root) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "same-tree",
+    "title": "Same Tree",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "depth-first-search",
+      "breadth-first-search"
+    ],
+    "description": "Given the roots of two binary trees `p` and `q`, each represented as a **level-order (BFS) integer array**, check if the two trees are the **same**.\n\nTwo trees are considered the same if they are **structurally identical** and the nodes have the **same values**.\n\nThe trees are encoded in level-order (BFS) format where `-1` represents a null node.\n\nExamples:\n- `p = [1,2,3]`, `q = [1,2,3]` → `true` (identical structure and values)\n- `p = [1,2]`, `q = [1,-1,2]` → `false` (different structure: 2 is left child in p but right child in q)\n- `p = [1,2,1]`, `q = [1,1,2]` → `false` (same structure, different values)\n\n**Intuition:** Simultaneously traverse both trees and at each step verify that the current nodes are both null, or both non-null with equal values.",
+    "constraints": [
+      "0 <= number of nodes in each tree <= 100",
+      "Node values are in range [-10^4, 10^4]",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(h) where h is the height of the trees"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "isSameTree",
+    "params": [
+      {
+        "name": "p",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the first binary tree, -1 represents null nodes"
+      },
+      {
+        "name": "q",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the second binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": true,
+        "explanation": "Both trees have identical structure and node values at every position."
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            -1,
+            2
+          ]
+        ],
+        "expected": false,
+        "explanation": "In tree p, 2 is the left child of 1. In tree q, 2 is the right child of 1. Different structures."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            1
+          ],
+          [
+            1,
+            1,
+            2
+          ]
+        ],
+        "expected": false,
+        "explanation": "Both trees have the same structure but differ in values: p has (2,1) as children while q has (1,2)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [],
+          []
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [],
+          [
+            1
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          [
+            1,
+            2,
+            3,
+            4,
+            6
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            -1
+          ],
+          [
+            1,
+            -1,
+            2
+          ]
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isSameTree(self, p: list[int], q: list[int]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} p - Level-order BFS array, -1 = null\n * @param {number[]} q - Level-order BFS array, -1 = null\n * @return {boolean}\n */\nfunction isSameTree(p, q) {\n    // Your code here\n}\n",
+      "java": "public boolean isSameTree(int[] p, int[] q) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "path-sum",
+    "title": "Path Sum",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "depth-first-search",
+      "breadth-first-search"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array** and an integer `targetSum`, return `true` if the tree has a **root-to-leaf path** such that adding up all the values along the path equals `targetSum`.\n\nA **leaf** is a node with no children.\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node.\n\nExample:\n```\n        5\n       / \\\n      4   8\n     /   / \\\n    11  13   4\n   /  \\       \\\n  7    2       1\n```\nWith `targetSum = 22`, the path `5 → 4 → 11 → 2` sums to 22 → returns `true`.\n\nRepresented as `[5,4,8,11,-1,13,4,7,2,-1,-1,-1,-1,-1,1]` with `targetSum = 22`.\n\n**Intuition:** Use DFS. At each node, subtract its value from the target. When you reach a leaf, check if the remaining target equals 0.",
+    "constraints": [
+      "0 <= number of nodes <= 5000",
+      "Node values are in range [-1000, 1000]",
+      "-1000 <= targetSum <= 1000",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(h) where h is the height of the tree"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "hasPathSum",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      },
+      {
+        "name": "targetSum",
+        "type": "integer",
+        "description": "The target sum to find along a root-to-leaf path"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            5,
+            4,
+            8,
+            11,
+            -1,
+            13,
+            4,
+            7,
+            2,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            1
+          ],
+          22
+        ],
+        "expected": true,
+        "explanation": "The path 5 → 4 → 11 → 2 sums to 5+4+11+2 = 22, which equals targetSum."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          5
+        ],
+        "expected": false,
+        "explanation": "Possible root-to-leaf paths: 1+2=3 and 1+3=4. Neither equals 5."
+      },
+      {
+        "args": [
+          [],
+          0
+        ],
+        "expected": false,
+        "explanation": "An empty tree has no root-to-leaf paths, so return false."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          2
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          1
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          3
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            -2,
+            -3
+          ],
+          -5
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          8
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          4
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def hasPathSum(self, root: list[int], targetSum: int) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @param {number} targetSum\n * @return {boolean}\n */\nfunction hasPathSum(root, targetSum) {\n    // Your code here\n}\n",
+      "java": "public boolean hasPathSum(int[] root, int targetSum) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "count-complete-tree-nodes",
+    "title": "Count Nodes in Complete Binary Tree",
+    "difficulty": "Medium",
+    "tags": [
+      "trees",
+      "binary-search",
+      "bit-manipulation"
+    ],
+    "description": "Given the root of a **complete** binary tree represented as a **level-order (BFS) integer array**, return the **number of nodes** in the tree.\n\nIn a **complete binary tree**, every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible.\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node.\n\nExample:\n```\n        1\n       / \\\n      2   3\n     / \\ /\n    4  5 6\n```\nRepresented as `[1,2,3,4,5,6]` → 6 nodes.\n\n**Challenge:** A naive O(n) solution works, but for a complete binary tree you can do better using the property that the height of the left and right subtrees lets you determine if a subtree is a perfect binary tree, enabling O(log²n) performance.\n\n**Intuition:** Compare heights of leftmost path and rightmost path of subtree. If equal, it's a perfect tree with 2^h - 1 nodes. Otherwise, recurse on both children.",
+    "constraints": [
+      "0 <= number of nodes <= 5 * 10^4",
+      "Node values are in range [0, 5 * 10^4]",
+      "The input tree is guaranteed to be a complete binary tree",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(log^2 n)",
+      "Expected auxiliary space: O(log n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "countNodes",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of a complete binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        ],
+        "expected": 6,
+        "explanation": "The complete binary tree has 6 nodes: 1, 2, 3, 4, 5, and 6."
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": 0,
+        "explanation": "An empty tree has 0 nodes."
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1,
+        "explanation": "A single-node tree has exactly 1 node."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        ],
+        "expected": 15
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def countNodes(self, root: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array of a complete binary tree, -1 = null\n * @return {number}\n */\nfunction countNodes(root) {\n    // Your code here\n}\n",
+      "java": "public int countNodes(int[] root) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "sum-of-left-leaves",
+    "title": "Sum of Left Leaves",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "depth-first-search",
+      "breadth-first-search"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array**, return the **sum of all left leaves**.\n\nA **leaf** is a node with no children. A **left leaf** is a leaf that is the left child of its parent.\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node.\n\nExample:\n```\n    3\n   / \\\n  9  20\n    /  \\\n   15   7\n```\nRepresented as `[3,9,20,-1,-1,15,7]`. The left leaves are `9` and `15`. Their sum is `9 + 15 = 24`.\n\nNote: `7` is a leaf, but it's a **right** leaf, so it doesn't count. `9` is the left child of `3` and has no children, so it's a left leaf. `15` is the left child of `20` and has no children, so it's also a left leaf.\n\n**Intuition:** DFS with a flag indicating whether the current node is a left child. When you reach a leaf marked as a left child, add its value to the sum.",
+    "constraints": [
+      "1 <= number of nodes <= 1000",
+      "Node values are in range [-1000, 1000]",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(h) where h is the height of the tree"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "sumOfLeftLeaves",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            9,
+            20,
+            -1,
+            -1,
+            15,
+            7
+          ]
+        ],
+        "expected": 24,
+        "explanation": "Left leaves are 9 (left child of 3) and 15 (left child of 20). Sum = 9 + 15 = 24."
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 0,
+        "explanation": "There is only one node (the root) and it is not a left leaf. Sum = 0."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 4,
+        "explanation": "Nodes: root=1, left=2, right=3, 2's left=4, 2's right=5. Left leaf is 4 (left child of 2 and has no children). Sum = 4."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            -1
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            -1,
+            2
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            -9,
+            -3,
+            2,
+            -1,
+            -1,
+            4,
+            0,
+            -1,
+            -1,
+            1,
+            -2
+          ]
+        ],
+        "expected": -3
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            -1,
+            18
+          ]
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def sumOfLeftLeaves(self, root: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @return {number}\n */\nfunction sumOfLeftLeaves(root) {\n    // Your code here\n}\n",
+      "java": "public int sumOfLeftLeaves(int[] root) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "diameter-of-binary-tree",
+    "title": "Diameter of Binary Tree",
+    "difficulty": "Easy",
+    "tags": [
+      "trees",
+      "depth-first-search"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array**, return the **diameter** of the tree.\n\nThe **diameter** of a binary tree is the **length of the longest path** between any two nodes in the tree. This path may or may not pass through the root. The length of a path is measured by the **number of edges** between the two nodes.\n\nThe tree is encoded in level-order (BFS) format where `-1` represents a null node.\n\nExample:\n```\n        1\n       / \\\n      2   3\n     / \\\n    4   5\n```\nRepresented as `[1,2,3,4,5]`. The longest path is `4 → 2 → 1 → 3` or `5 → 2 → 1 → 3`, both of length **3** (3 edges).\n\nFor a single node `[1]`, the diameter is **0** (no edges).\n\n**Intuition:** For each node, the longest path through that node is `leftHeight + rightHeight`. Use DFS to compute heights and track the maximum diameter seen.",
+    "constraints": [
+      "1 <= number of nodes <= 10^4",
+      "Node values are in range [-100, 100]",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(h) where h is the height of the tree"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "diameterOfBinaryTree",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 3,
+        "explanation": "The longest path is between nodes 4 and 3 (or 5 and 3): 4→2→1→3 has 3 edges."
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 1,
+        "explanation": "There are only two nodes, connected by 1 edge, so the diameter is 1."
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 0,
+        "explanation": "A single node has no edges, so the diameter is 0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            6,
+            1,
+            3,
+            5,
+            7
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            -1,
+            3,
+            -1,
+            -1,
+            -1,
+            4
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            -1,
+            2,
+            -1,
+            -1,
+            -1,
+            3
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            -1,
+            -1,
+            6
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            -1,
+            5,
+            -1,
+            6,
+            -1,
+            7,
+            -1
+          ]
+        ],
+        "expected": 6
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def diameterOfBinaryTree(self, root: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @return {number}\n */\nfunction diameterOfBinaryTree(root) {\n    // Your code here\n}\n",
+      "java": "public int diameterOfBinaryTree(int[] root) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "level-order-traversal-flattened",
+    "title": "Level Order Traversal (Flattened)",
+    "difficulty": "Medium",
+    "tags": [
+      "trees",
+      "breadth-first-search",
+      "queue"
+    ],
+    "description": "Given the root of a binary tree represented as a **level-order (BFS) integer array**, return a **flattened integer array** containing all node values visited **level by level, left to right** (standard BFS order), but with **null nodes excluded**.\n\nThe input tree is encoded in level-order (BFS) format where `-1` represents a null node. The output is a flat array of only the real node values.\n\nThis question tests your ability to reconstruct the tree from its BFS encoding and then re-traverse it cleanly.\n\nExample:\n```\n        3\n       / \\\n      9  20\n        /  \\\n       15   7\n```\nInput: `[3,9,20,-1,-1,15,7]` → Output: `[3,9,20,15,7]`\n\n```\n    1\n   / \\\n  2   3\n / \\\n4   5\n```\nInput: `[1,2,3,4,5]` → Output: `[1,2,3,4,5]` (already in correct order).\n\nFor `[1,-1,2,-1,-1,-1,3]` the tree is:\n```\n1\n \\\n  2\n   \\\n    3\n```\nOutput: `[1,2,3]`\n\n**Intuition:** Build the actual tree from the BFS array, then perform standard BFS and collect values.",
+    "constraints": [
+      "0 <= number of nodes <= 2000",
+      "Node values are in range [-1000, 1000]",
+      "-1 represents a null node in the level-order array",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "levelOrder",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer[]",
+        "description": "Level-order BFS representation of the binary tree, -1 represents null nodes"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            9,
+            20,
+            -1,
+            -1,
+            15,
+            7
+          ]
+        ],
+        "expected": [
+          3,
+          9,
+          20,
+          15,
+          7
+        ],
+        "explanation": "Level 1: [3], Level 2: [9,20], Level 3: [15,7] (null children of 9 are excluded). Flattened: [3,9,20,15,7]."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "explanation": "Level 1: [1], Level 2: [2,3], Level 3: [4,5]. Flattened: [1,2,3,4,5]."
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": [],
+        "explanation": "An empty tree produces an empty traversal."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            -1
+          ]
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            -1,
+            2
+          ]
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            8,
+            1,
+            4,
+            7,
+            9
+          ]
+        ],
+        "expected": [
+          5,
+          3,
+          8,
+          1,
+          4,
+          7,
+          9
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            -1,
+            4,
+            -1,
+            5
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def levelOrder(self, root: list[int]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} root - Level-order BFS array, -1 = null\n * @return {number[]}\n */\nfunction levelOrder(root) {\n    // Your code here\n}\n",
+      "java": "public int[] levelOrder(int[] root) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  }
+]

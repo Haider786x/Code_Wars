@@ -1,1 +1,3279 @@
-[]
+[
+  {
+    "slug": "transpose-matrix",
+    "title": "Transpose a Matrix",
+    "difficulty": "Easy",
+    "tags": [
+      "matrix",
+      "array",
+      "simulation"
+    ],
+    "description": "Given a 2D integer matrix `matrix`, return the **transpose** of the matrix.\n\nThe transpose of a matrix is obtained by flipping the matrix over its main diagonal — swapping the row and column indices of each element. Formally, the element at position `[i][j]` in the original matrix becomes the element at position `[j][i]` in the transposed matrix.\n\nIf the original matrix has dimensions `m x n`, the transposed matrix will have dimensions `n x m`.\n\n**Example:**\n```\nInput:  [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [[1,4,7],[2,5,8],[3,6,9]]\n```",
+    "constraints": [
+      "1 <= matrix.length <= 1000",
+      "1 <= matrix[0].length <= 1000",
+      "Matrix may not be square",
+      "-10^9 <= matrix[i][j] <= 10^9",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "transpose",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]",
+        "description": "A 2D integer matrix of dimensions m x n"
+      }
+    ],
+    "returnType": "integer[][]",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            4,
+            7
+          ],
+          [
+            2,
+            5,
+            8
+          ],
+          [
+            3,
+            6,
+            9
+          ]
+        ],
+        "explanation": "Swapping rows and columns: row 0 becomes column 0, row 1 becomes column 1, row 2 becomes column 2."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        "explanation": "A 2x3 matrix becomes a 3x2 matrix. Each element [i][j] moves to [j][i]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            4,
+            6
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              -1,
+              2
+            ],
+            [
+              -3,
+              4,
+              -5
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            -3
+          ],
+          [
+            -1,
+            4
+          ],
+          [
+            2,
+            -5
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              100,
+              200,
+              300,
+              400
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            100
+          ],
+          [
+            200
+          ],
+          [
+            300
+          ],
+          [
+            400
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              5,
+              10,
+              15
+            ],
+            [
+              20,
+              25,
+              30
+            ],
+            [
+              35,
+              40,
+              45
+            ],
+            [
+              50,
+              55,
+              60
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            5,
+            20,
+            35,
+            50
+          ],
+          [
+            10,
+            25,
+            40,
+            55
+          ],
+          [
+            15,
+            30,
+            45,
+            60
+          ]
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def transpose(self, matrix: list[list[int]]) -> list[list[int]]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {number[][]}\n */\nfunction transpose(matrix) {\n    // Your code here\n}\n",
+      "java": "public int[][] transpose(int[][] matrix) {\n    // Your code here\n    return new int[0][0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "spiral-order-traversal",
+    "title": "Spiral Order Traversal",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "array",
+      "simulation"
+    ],
+    "description": "Given an `m x n` integer matrix `matrix`, return all elements of the matrix in **spiral order** (clockwise starting from the top-left).\n\nSpiral order means: traverse the top row left-to-right, then the right column top-to-bottom, then the bottom row right-to-left, then the left column bottom-to-top, and repeat inward for the remaining submatrix.\n\n**Example:**\n```\nInput:  [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [1,2,3,6,9,8,7,4,5]\n```\n\nFor a single row matrix `[[1,2,3]]`, the output is simply `[1,2,3]`.",
+    "constraints": [
+      "1 <= matrix.length <= 10",
+      "1 <= matrix[0].length <= 10",
+      "-100 <= matrix[i][j] <= 100",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "spiralOrder",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]",
+        "description": "A 2D integer matrix of dimensions m x n"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          6,
+          9,
+          8,
+          7,
+          4,
+          5
+        ],
+        "explanation": "Top row: 1,2,3 → Right col: 6,9 → Bottom row: 8,7 → Left col: 4 → Center: 5"
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7,
+              8
+            ],
+            [
+              9,
+              10,
+              11,
+              12
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          12,
+          11,
+          10,
+          9,
+          5,
+          6,
+          7
+        ],
+        "explanation": "Top row: 1,2,3,4 → Right col: 8,12 → Bottom row: 11,10,9 → Left col: 5 → Inner row: 6,7"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          4,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ],
+            [
+              10,
+              11,
+              12
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          6,
+          9,
+          12,
+          11,
+          10,
+          7,
+          4,
+          5,
+          8
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              -1,
+              2
+            ],
+            [
+              -3,
+              4,
+              -5
+            ],
+            [
+              6,
+              -7,
+              8
+            ]
+          ]
+        ],
+        "expected": [
+          0,
+          -1,
+          2,
+          -5,
+          8,
+          -7,
+          6,
+          -3,
+          4
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def spiralOrder(self, matrix: list[list[int]]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {number[]}\n */\nfunction spiralOrder(matrix) {\n    // Your code here\n}\n",
+      "java": "public int[] spiralOrder(int[][] matrix) {\n    // Your code here\n    return new int[0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "rotate-image-90-degrees",
+    "title": "Rotate Image 90 Degrees",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "array",
+      "simulation",
+      "in-place"
+    ],
+    "description": "Given an `n x n` integer matrix `matrix`, rotate the matrix **90 degrees clockwise** and return the result.\n\nA 90-degree clockwise rotation means that the element at position `[i][j]` moves to position `[j][n-1-i]`.\n\nOne efficient approach: first **transpose** the matrix (swap `[i][j]` with `[j][i]`), then **reverse each row**.\n\n**Example:**\n```\nInput:  [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [[7,4,1],[8,5,2],[9,6,3]]\n```",
+    "constraints": [
+      "1 <= matrix.length == matrix[0].length <= 20",
+      "matrix is always a square (n x n)",
+      "-1000 <= matrix[i][j] <= 1000",
+      "Expected time complexity: O(n^2)",
+      "Expected auxiliary space: O(1) (in-place)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "rotateImage",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]",
+        "description": "An n x n 2D integer matrix to rotate 90 degrees clockwise"
+      }
+    ],
+    "returnType": "integer[][]",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            7,
+            4,
+            1
+          ],
+          [
+            8,
+            5,
+            2
+          ],
+          [
+            9,
+            6,
+            3
+          ]
+        ],
+        "explanation": "Transpose gives [[1,4,7],[2,5,8],[3,6,9]], then reversing each row gives [[7,4,1],[8,5,2],[9,6,3]]."
+      },
+      {
+        "args": [
+          [
+            [
+              5,
+              1,
+              9,
+              11
+            ],
+            [
+              2,
+              4,
+              8,
+              10
+            ],
+            [
+              13,
+              3,
+              6,
+              7
+            ],
+            [
+              15,
+              14,
+              12,
+              16
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            15,
+            13,
+            2,
+            5
+          ],
+          [
+            14,
+            3,
+            4,
+            1
+          ],
+          [
+            12,
+            6,
+            8,
+            9
+          ],
+          [
+            16,
+            7,
+            10,
+            11
+          ]
+        ],
+        "explanation": "Each column of the original (read bottom-to-top) becomes a row in the output."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              -1,
+              -2
+            ],
+            [
+              -3,
+              -4
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            -3,
+            -1
+          ],
+          [
+            -4,
+            -2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7,
+              8
+            ],
+            [
+              9,
+              10,
+              11,
+              12
+            ],
+            [
+              13,
+              14,
+              15,
+              16
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            13,
+            9,
+            5,
+            1
+          ],
+          [
+            14,
+            10,
+            6,
+            2
+          ],
+          [
+            15,
+            11,
+            7,
+            3
+          ],
+          [
+            16,
+            12,
+            8,
+            4
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              100,
+              -100
+            ],
+            [
+              0,
+              50
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            100
+          ],
+          [
+            -100,
+            50
+          ]
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def rotateImage(self, matrix: list[list[int]]) -> list[list[int]]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {number[][]}\n */\nfunction rotateImage(matrix) {\n    // Your code here\n}\n",
+      "java": "public int[][] rotateImage(int[][] matrix) {\n    // Your code here\n    return new int[0][0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "set-matrix-zeroes",
+    "title": "Set Matrix Zeroes",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "array",
+      "in-place"
+    ],
+    "description": "Given an `m x n` integer matrix `matrix`, if any element is `0`, set its **entire row** and **entire column** to `0`. Return the modified matrix.\n\nThe key challenge is to not propagate zeros from cells that were originally set to zero by this operation — only cells that were **originally** zero should trigger row/column zeroing.\n\n**Example:**\n```\nInput:  [[1,1,1],[1,0,1],[1,1,1]]\nOutput: [[1,0,1],[0,0,0],[1,0,1]]\n```\n\nAn efficient approach is to use the first row and first column as markers to record which rows and columns need to be zeroed.",
+    "constraints": [
+      "1 <= matrix.length <= 200",
+      "1 <= matrix[0].length <= 200",
+      "-2^31 <= matrix[i][j] <= 2^31 - 1",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "setZeroes",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]",
+        "description": "An m x n 2D integer matrix"
+      }
+    ],
+    "returnType": "integer[][]",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            1
+          ]
+        ],
+        "explanation": "The element at [1][1] is 0, so the entire row 1 and column 1 are set to 0."
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              1,
+              2,
+              0
+            ],
+            [
+              3,
+              4,
+              5,
+              2
+            ],
+            [
+              1,
+              3,
+              1,
+              5
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            4,
+            5,
+            0
+          ],
+          [
+            1,
+            3,
+            1,
+            0
+          ]
+        ],
+        "explanation": "Row 0 has zeros at columns 0 and 3. So column 0 and column 3 become all zeros, and row 0 becomes all zeros."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ],
+          [
+            7,
+            8,
+            9
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def setZeroes(self, matrix: list[list[int]]) -> list[list[int]]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {number[][]}\n */\nfunction setZeroes(matrix) {\n    // Your code here\n}\n",
+      "java": "public int[][] setZeroes(int[][] matrix) {\n    // Your code here\n    return new int[0][0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "search-2d-matrix",
+    "title": "Search a 2D Matrix",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "binary search",
+      "array"
+    ],
+    "description": "You are given an `m x n` integer matrix `matrix` with the following two properties:\n- Each row is sorted in non-decreasing order.\n- The first integer of each row is greater than the last integer of the previous row.\n\nGiven an integer `target`, return `true` if `target` is in the matrix, or `false` otherwise.\n\nBecause of the sorted structure, you can treat the entire matrix as a flat sorted array and apply **binary search** in `O(log(m*n))` time.\n\n**Example:**\n```\nmatrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3\nOutput: true\n```",
+    "constraints": [
+      "1 <= matrix.length <= 100",
+      "1 <= matrix[0].length <= 100",
+      "-10^4 <= matrix[i][j] <= 10^4",
+      "-10^4 <= target <= 10^4",
+      "Each row is sorted in non-decreasing order",
+      "First integer of each row is greater than last of previous row",
+      "Expected time complexity: O(log(m * n))",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "searchMatrix",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]",
+        "description": "An m x n sorted integer matrix"
+      },
+      {
+        "name": "target",
+        "type": "integer",
+        "description": "The integer value to search for"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              3,
+              5,
+              7
+            ],
+            [
+              10,
+              11,
+              16,
+              20
+            ],
+            [
+              23,
+              30,
+              34,
+              60
+            ]
+          ],
+          3
+        ],
+        "expected": true,
+        "explanation": "3 is found at position [0][1] in the matrix."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3,
+              5,
+              7
+            ],
+            [
+              10,
+              11,
+              16,
+              20
+            ],
+            [
+              23,
+              30,
+              34,
+              60
+            ]
+          ],
+          13
+        ],
+        "expected": false,
+        "explanation": "13 does not exist in the matrix; it would fall between 11 and 16 in row 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ],
+          1
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ],
+          2
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1
+            ]
+          ],
+          0
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3,
+              5
+            ],
+            [
+              7,
+              9,
+              11
+            ],
+            [
+              13,
+              15,
+              17
+            ]
+          ],
+          17
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3,
+              5
+            ],
+            [
+              7,
+              9,
+              11
+            ],
+            [
+              13,
+              15,
+              17
+            ]
+          ],
+          1
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3,
+              5
+            ],
+            [
+              7,
+              9,
+              11
+            ],
+            [
+              13,
+              15,
+              17
+            ]
+          ],
+          14
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3,
+              5
+            ],
+            [
+              7,
+              9,
+              11
+            ],
+            [
+              13,
+              15,
+              17
+            ]
+          ],
+          13
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} matrix\n * @param {number} target\n * @return {boolean}\n */\nfunction searchMatrix(matrix, target) {\n    // Your code here\n}\n",
+      "java": "public boolean searchMatrix(int[][] matrix, int target) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "count-islands",
+    "title": "Count Islands",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "graph",
+      "DFS",
+      "BFS",
+      "union-find"
+    ],
+    "description": "Given an `m x n` 2D integer grid where `1` represents land and `0` represents water, return the **number of islands**.\n\nAn island is formed by connecting adjacent lands **horizontally or vertically**. You may assume all four edges of the grid are surrounded by water.\n\nUse DFS or BFS: for each unvisited `1`, increment the island count and flood-fill (mark all connected `1`s as visited).\n\n**Example:**\n```\nInput:\n[[1,1,1,1,0],\n [1,1,0,1,0],\n [1,1,0,0,0],\n [0,0,0,0,0]]\nOutput: 1\n```",
+    "constraints": [
+      "1 <= grid.length <= 300",
+      "1 <= grid[0].length <= 300",
+      "grid[i][j] is 0 or 1",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "numIslands",
+    "params": [
+      {
+        "name": "grid",
+        "type": "integer[][]",
+        "description": "An m x n grid of 0s (water) and 1s (land)"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": 1,
+        "explanation": "All the 1s are connected, forming a single large island."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 3,
+        "explanation": "There are three distinct groups of connected 1s: top-left block, center cell, and bottom-right pair."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def numIslands(self, grid: list[list[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} grid\n * @return {number}\n */\nfunction numIslands(grid) {\n    // Your code here\n}\n",
+      "java": "public int numIslands(int[][] grid) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "valid-sudoku-row-check",
+    "title": "Valid Sudoku Row Check",
+    "difficulty": "Easy",
+    "tags": [
+      "matrix",
+      "hash set",
+      "array",
+      "sudoku"
+    ],
+    "description": "Given a 9x9 integer matrix `board` representing a partially filled Sudoku board, determine if **every row** is valid.\n\nA row is **valid** if it contains no duplicate digits between 1 and 9. Empty cells are represented by `0` and should be **ignored** (they do not count as duplicates).\n\nNote: You only need to validate rows — not columns or 3x3 boxes.\n\n**Example:**\n```\nRow [5,3,0,0,7,0,0,0,0] is valid (no duplicates among non-zero values).\nRow [8,0,0,0,6,0,0,0,8] is invalid (8 appears twice).\n```",
+    "constraints": [
+      "board.length == 9",
+      "board[0].length == 9",
+      "0 <= board[i][j] <= 9 (0 means empty)",
+      "Expected time complexity: O(1) — fixed 9x9 grid",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "isValidSudokuRows",
+    "params": [
+      {
+        "name": "board",
+        "type": "integer[][]",
+        "description": "A 9x9 integer matrix where 0 represents an empty cell"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              5,
+              3,
+              0,
+              0,
+              7,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              6,
+              0,
+              0,
+              1,
+              9,
+              5,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              9,
+              8,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0
+            ],
+            [
+              8,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0,
+              0,
+              3
+            ],
+            [
+              4,
+              0,
+              0,
+              8,
+              0,
+              3,
+              0,
+              0,
+              1
+            ],
+            [
+              7,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              6
+            ],
+            [
+              0,
+              6,
+              0,
+              0,
+              0,
+              0,
+              2,
+              8,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4,
+              1,
+              9,
+              0,
+              0,
+              5
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              8,
+              0,
+              0,
+              7,
+              9
+            ]
+          ]
+        ],
+        "expected": true,
+        "explanation": "No row contains a repeated non-zero digit, so all rows are valid."
+      },
+      {
+        "args": [
+          [
+            [
+              8,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0,
+              0,
+              8
+            ],
+            [
+              6,
+              0,
+              0,
+              1,
+              9,
+              5,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              9,
+              8,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0
+            ],
+            [
+              8,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0,
+              0,
+              3
+            ],
+            [
+              4,
+              0,
+              0,
+              8,
+              0,
+              3,
+              0,
+              0,
+              1
+            ],
+            [
+              7,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              6
+            ],
+            [
+              0,
+              6,
+              0,
+              0,
+              0,
+              0,
+              2,
+              8,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4,
+              1,
+              9,
+              0,
+              0,
+              5
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              8,
+              0,
+              0,
+              7,
+              9
+            ]
+          ]
+        ],
+        "expected": false,
+        "explanation": "Row 0 contains 8 twice (positions 0 and 8), making it invalid."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            [
+              9,
+              8,
+              7,
+              6,
+              5,
+              4,
+              3,
+              2,
+              1
+            ],
+            [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              1
+            ],
+            [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              1,
+              2
+            ],
+            [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              1,
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7,
+              8,
+              9,
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              6,
+              7,
+              8,
+              9,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              7,
+              8,
+              9,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            [
+              8,
+              9,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              5,
+              3,
+              0,
+              0,
+              7,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              6,
+              0,
+              0,
+              1,
+              9,
+              5,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              9,
+              8,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0
+            ],
+            [
+              8,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0,
+              0,
+              3
+            ],
+            [
+              4,
+              0,
+              0,
+              8,
+              0,
+              3,
+              0,
+              0,
+              1
+            ],
+            [
+              7,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              6
+            ],
+            [
+              0,
+              6,
+              0,
+              0,
+              0,
+              0,
+              2,
+              8,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4,
+              1,
+              9,
+              0,
+              0,
+              5
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              8,
+              0,
+              0,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              9
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              9,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isValidSudokuRows(self, board: list[list[int]]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} board\n * @return {boolean}\n */\nfunction isValidSudokuRows(board) {\n    // Your code here\n}\n",
+      "java": "public boolean isValidSudokuRows(int[][] board) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "diagonal-traverse",
+    "title": "Diagonal Traverse",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "array",
+      "simulation"
+    ],
+    "description": "Given an `m x n` integer matrix `matrix`, return an array of all the elements of the matrix in **diagonal traversal order**.\n\nThe traversal alternates direction: the first diagonal goes from bottom-left to top-right, the second goes from top-right to bottom-left, and so on.\n\nFor a 3x3 matrix:\n```\n[[1,2,3],\n [4,5,6],\n [7,8,9]]\n```\nThe diagonals (by sum of indices) are:\n- d=0: [1]\n- d=1: [2,4] (going down, so reversed: [4,2]... wait, first diagonal goes up: [2,4] → traversed upward → [4,2])\n\nActually the standard diagonal order is: `[1,2,4,7,5,3,6,8,9]`\n\nThe direction alternates: diagonal 0 goes up-right, diagonal 1 goes down-left, etc.",
+    "constraints": [
+      "1 <= matrix.length <= 10^4",
+      "1 <= matrix[0].length <= 10^4",
+      "1 <= matrix.length * matrix[0].length <= 10^4",
+      "-10^5 <= matrix[i][j] <= 10^5",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "findDiagonalOrder",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]",
+        "description": "An m x n 2D integer matrix"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          4,
+          7,
+          5,
+          3,
+          6,
+          8,
+          9
+        ],
+        "explanation": "Diagonal 0 (up): [1]. Diagonal 1 (down): [2,4]. Diagonal 2 (up): [7,5,3]. Diagonal 3 (down): [6,8]. Diagonal 4 (up): [9]."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "explanation": "Diagonal 0 (up): [1]. Diagonal 1 (down): [2,3]. Diagonal 2 (up): [4]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          5,
+          4,
+          6
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          4,
+          5,
+          3,
+          6
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              -1,
+              2
+            ],
+            [
+              -3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          -1,
+          2,
+          -3,
+          4
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findDiagonalOrder(self, matrix: list[list[int]]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {number[]}\n */\nfunction findDiagonalOrder(matrix) {\n    // Your code here\n}\n",
+      "java": "public int[] findDiagonalOrder(int[][] matrix) {\n    // Your code here\n    return new int[0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "flipping-an-image",
+    "title": "Flipping an Image",
+    "difficulty": "Easy",
+    "tags": [
+      "matrix",
+      "array",
+      "bit manipulation",
+      "simulation"
+    ],
+    "description": "Given an `n x n` binary integer matrix `image` (each element is `0` or `1`), **flip** the image horizontally, then **invert** it, and return the resulting matrix.\n\n- **Flipping** horizontally means reversing each row: `[1,1,0]` becomes `[0,1,1]`.\n- **Inverting** means replacing every `0` with `1` and every `1` with `0`: `[0,1,1]` becomes `[1,0,0]`.\n\nYou can perform both operations in a single pass using XOR: for a row, walk from both ends inward. If both elements are the same, both get flipped. If they differ, they swap (which when flipped results in no net change).\n\n**Example:**\n```\nInput:  [[1,1,0],[1,0,1],[0,0,0]]\nOutput: [[1,0,0],[0,1,0],[1,1,1]]\n```",
+    "constraints": [
+      "1 <= image.length == image[0].length <= 20",
+      "image[i][j] is 0 or 1",
+      "Expected time complexity: O(n^2)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "flipAndInvertImage",
+    "params": [
+      {
+        "name": "image",
+        "type": "integer[][]",
+        "description": "An n x n binary integer matrix (values are 0 or 1)"
+      }
+    ],
+    "returnType": "integer[][]",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "explanation": "Row [1,1,0] → flip → [0,1,1] → invert → [1,0,0]. Row [1,0,1] → flip → [1,0,1] → invert → [0,1,0]. Row [0,0,0] → flip → [0,0,0] → invert → [1,1,1]."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            1,
+            0
+          ]
+        ],
+        "explanation": "Each row is reversed then each bit is flipped."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            0,
+            1,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            0,
+            0
+          ]
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def flipAndInvertImage(self, image: list[list[int]]) -> list[list[int]]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} image\n * @return {number[][]}\n */\nfunction flipAndInvertImage(image) {\n    // Your code here\n}\n",
+      "java": "public int[][] flipAndInvertImage(int[][] image) {\n    // Your code here\n    return new int[0][0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "lucky-numbers-in-matrix",
+    "title": "Lucky Numbers in a Matrix",
+    "difficulty": "Easy",
+    "tags": [
+      "matrix",
+      "array",
+      "greedy"
+    ],
+    "description": "Given an `m x n` integer matrix `matrix`, return the **count of lucky numbers** in the matrix.\n\nA **lucky number** is an element that is:\n- The **minimum** element in its row, AND\n- The **maximum** element in its column.\n\nIt can be proven that there is at most one lucky number in the matrix.\n\n**Approach:** Find the minimum of each row, then check if that minimum is the maximum of its column.\n\n**Example:**\n```\nInput:  [[3,7,8],[9,11,13],[15,16,17]]\nOutput: 1\n```\n`15` is the minimum in its row (row 2) and the maximum in its column (column 0), so it is the lucky number.",
+    "constraints": [
+      "1 <= matrix.length, matrix[0].length <= 50",
+      "1 <= matrix[i][j] <= 10^5",
+      "All elements in the matrix are distinct",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m + n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "luckyNumbers",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]",
+        "description": "An m x n integer matrix with distinct positive elements"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              3,
+              7,
+              8
+            ],
+            [
+              9,
+              11,
+              13
+            ],
+            [
+              15,
+              16,
+              17
+            ]
+          ]
+        ],
+        "expected": 1,
+        "explanation": "15 is the minimum of row 2 and the maximum of column 0. It is the only lucky number."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              10,
+              4,
+              2
+            ],
+            [
+              9,
+              3,
+              8,
+              7
+            ],
+            [
+              15,
+              16,
+              17,
+              12
+            ]
+          ]
+        ],
+        "expected": 1,
+        "explanation": "12 is the minimum of row 2 and the maximum of column 3, so it is the lucky number."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              7,
+              8
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              5
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              3,
+              6
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              9
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              10,
+              1,
+              3
+            ],
+            [
+              9,
+              2,
+              4
+            ],
+            [
+              8,
+              7,
+              6
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              2,
+              15
+            ],
+            [
+              17,
+              5
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ],
+        "expected": 0
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def luckyNumbers(self, matrix: list[list[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {number}\n */\nfunction luckyNumbers(matrix) {\n    // Your code here\n}\n",
+      "java": "public int luckyNumbers(int[][] matrix) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  }
+]

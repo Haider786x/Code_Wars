@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Swords, Eye, ChevronRight, TrendingUp, Calendar, Users, Menu, X, Settings, LogOut } from 'lucide-react';
 
+import { AppHeader } from '@/components/layout/AppHeader.jsx';
 import { MatchModal } from '@/components/MatchModel.jsx';
 import { navigate } from '@/src/router.js';
-import { getStoredUser, clearAuthSession, isLoggedIn, avatarUrl } from '@/lib/auth/authStore.js';
+import { getStoredUser, isLoggedIn, avatarUrl } from '@/lib/auth/authStore.js';
+import { getGuestIdentity } from '@/lib/identity/guestIdentity.js';
 import { api } from '@/lib/services/apiRequests.js';
+import { getSocket } from '@/hooks/useMatchStream.js';
 
 function formatAgo(ts) {
   const diff = Date.now() - ts;
@@ -26,8 +29,7 @@ export default function ArenaPage() {
   const [matchModal, setMatchModal] = useState(null); // 'find' | 'create' | 'join' | null
   const [liveData, setLiveData] = useState(null);
   const [timers, setTimers] = useState({});
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   const user = getStoredUser();
   const loggedIn = isLoggedIn();
@@ -60,25 +62,51 @@ export default function ArenaPage() {
     return () => clearInterval(tick);
   }, []);
 
+  useEffect(() => {
+    const socket = getSocket();
+    
+    const onMatchFound = ({ matchId }) => {
+      setIsSearching(false);
+      navigate(`/battle/live/${matchId}`);
+    };
+
+    const onError = (err) => {
+      setIsSearching(false);
+      console.error('Matchmaking error:', err);
+    };
+
+    socket.on('matchmaking:found', onMatchFound);
+    socket.on('matchmaking:error', onError);
+
+    return () => {
+      socket.off('matchmaking:found', onMatchFound);
+      socket.off('matchmaking:error', onError);
+    };
+  }, []);
+
+  const handleFindMatch = () => {
+    setIsSearching(true);
+    const socket = getSocket();
+    const { guestId } = getGuestIdentity();
+    
+    socket.emit('matchmaking:find', {
+      userId: user?.id,
+      guestId,
+      displayName: user?.displayName || user?.username,
+    });
+  };
+
+  const handleCancelMatch = () => {
+    setIsSearching(false);
+    const socket = getSocket();
+    socket.emit('matchmaking:cancel');
+  };
+
   const matches = liveData?.matches || [];
   const activity = liveData?.activity || [];
 
-  const handleLogout = () => {
-    clearAuthSession();
-    setUserMenuOpen(false);
-    navigate('/');
-  };
-
-  const NAV_LINKS = [
-    { label: 'Arena', path: '/', active: true },
-    { label: 'Ranked', path: '/leaderboard' },
-    { label: 'Watch', path: '/watch' },
-    { label: 'Training', path: '/daily' },
-    { label: 'Tournaments', path: '/tournaments' },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#F5F5F0] font-sans">
+    <div className="min-h-screen bg-app-bg font-sans">
       {/* Match Modal */}
       {matchModal && (
         <MatchModal
@@ -89,109 +117,7 @@ export default function ArenaPage() {
         />
       )}
 
-      {/* Navbar */}
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-20">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-          {/* Logo */}
-          <button type="button" onClick={() => navigate('/')} className="text-xl font-bold text-slate-900 tracking-tight hover:opacity-80 transition">
-            CodeBattle
-          </button>
-
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <button
-                key={link.label}
-                type="button"
-                onClick={() => navigate(link.path)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                  link.active ? 'text-blue-600 border-b-2 border-blue-600 rounded-none' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Right side */}
-          <div className="flex items-center gap-3">
-            <button type="button" className="hidden md:flex text-slate-400 hover:text-slate-600 transition p-1.5">
-              <Settings size={20} />
-            </button>
-
-            {loggedIn && user ? (
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setUserMenuOpen((v) => !v)}
-                  className="flex items-center gap-2 hover:opacity-80 transition"
-                >
-                  <img
-                    src={avatarUrl(user.avatar || 'warrior')}
-                    alt={user.displayName}
-                    className="w-9 h-9 rounded-full border-2 border-slate-200 bg-slate-100"
-                  />
-                </button>
-                {userMenuOpen && (
-                  <div className="absolute right-0 top-12 bg-white border border-slate-200 rounded-xl shadow-xl w-52 z-30">
-                    <div className="px-4 py-3 border-b border-slate-100">
-                      <p className="font-bold text-slate-900 text-sm">{user.displayName || user.username}</p>
-                      <p className="text-xs text-slate-400">@{user.username}</p>
-                    </div>
-                    <div className="py-1">
-                      <button type="button" onClick={() => { navigate('/profile'); setUserMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition">
-                        View Profile
-                      </button>
-                      <button type="button" onClick={() => { navigate('/history'); setUserMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition">
-                        Match History
-                      </button>
-                      <button type="button" onClick={handleLogout}
-                        className="w-full text-left px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 transition flex items-center gap-2">
-                        <LogOut size={14} /> Sign out
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <button type="button" onClick={() => navigate('/login')}
-                  className="hidden sm:block text-sm font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 transition">
-                  Sign in
-                </button>
-                <button type="button" onClick={() => navigate('/register')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition shadow-sm shadow-blue-600/20">
-                  Register
-                </button>
-              </div>
-            )}
-
-            <button type="button" className="md:hidden text-slate-500" onClick={() => setMobileMenu((v) => !v)}>
-              {mobileMenu ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {mobileMenu && (
-          <div className="md:hidden border-t border-slate-100 bg-white px-4 py-3 space-y-1">
-            {NAV_LINKS.map((link) => (
-              <button key={link.label} type="button" onClick={() => { navigate(link.path); setMobileMenu(false); }}
-                className="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
-                {link.label}
-              </button>
-            ))}
-            {!loggedIn && (
-              <>
-                <button type="button" onClick={() => navigate('/login')} className="w-full text-left px-4 py-2.5 text-sm font-medium text-slate-700">Sign in</button>
-                <button type="button" onClick={() => navigate('/register')} className="w-full bg-blue-600 text-white py-2.5 rounded-lg text-sm font-bold mt-2">Register</button>
-              </>
-            )}
-          </div>
-        )}
-      </nav>
+      <AppHeader activeTab="Arena" />
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-6 py-8">
@@ -199,13 +125,23 @@ export default function ArenaPage() {
         <div className="bg-white border border-slate-200 rounded-2xl p-10 mb-10 text-center shadow-sm">
           <h1 className="text-3xl font-bold text-slate-900 mb-8">Enter the Arena</h1>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={() => setMatchModal('find')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3.5 rounded-lg font-bold text-base transition shadow-lg shadow-blue-600/20 flex items-center gap-2"
-            >
-              <Swords size={18} /> Find Match
-            </button>
+            {isSearching ? (
+              <button
+                type="button"
+                onClick={handleCancelMatch}
+                className="bg-rose-600 hover:bg-rose-700 text-white px-10 py-3.5 rounded-lg font-bold text-base transition shadow-lg shadow-rose-600/20 flex items-center gap-2 animate-pulse"
+              >
+                Cancel Search...
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleFindMatch}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3.5 rounded-lg font-bold text-base transition shadow-lg shadow-blue-600/20 flex items-center gap-2"
+              >
+                <Swords size={18} /> Find Match
+              </button>
+            )}
             <button
               type="button"
               onClick={() => setMatchModal('create')}

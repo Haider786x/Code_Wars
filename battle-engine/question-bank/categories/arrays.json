@@ -3,7 +3,10 @@
     "slug": "maximum-consecutive-ones",
     "title": "Maximum Consecutive Ones",
     "difficulty": "Easy",
-    "tags": ["array", "counting"],
+    "tags": [
+      "array",
+      "counting"
+    ],
     "description": "You are given a binary array `nums` consisting only of `0`s and `1`s. Your task is to determine the maximum number of consecutive `1`s that appear in the array.\n\nA consecutive sequence is a group of adjacent elements that all have the same value. In this problem, you are interested only in sequences of `1`s. Whenever a `0` is encountered, the current streak of consecutive `1`s ends and a new streak may begin later in the array.\n\nFor example, in the array `[1,1,0,1,1,1]`, the first streak of consecutive `1`s has length `2`, while the second streak has length `3`. Since `3` is larger, the answer is `3`.\n\nYour solution should efficiently process arrays of varying sizes, including large inputs. Consider how you can keep track of the current streak of `1`s while scanning through the array only once.\n\nReturn the length of the longest consecutive sequence of `1`s found in the array. If the array contains no `1`s, return `0`.\n\nThis problem tests your ability to traverse arrays, maintain running state, and identify contiguous segments within a sequence.",
     "constraints": [
       "1 <= nums.length <= 100000",
@@ -11,7 +14,7 @@
       "Expected time complexity: O(n)",
       "Expected auxiliary space: O(1)"
     ],
-    "timeLimitMinutes": 10,
+    "timeLimitMinutes": 5,
     "functionName": "findMaxConsecutiveOnes",
     "params": [
       {
@@ -23,35 +26,86 @@
     "returnType": "integer",
     "examples": [
       {
-        "args": [[1, 1, 0, 1, 1, 1]],
+        "args": [
+          [
+            1,
+            1,
+            0,
+            1,
+            1,
+            1
+          ]
+        ],
         "expected": 3,
         "explanation": "The longest streak of consecutive 1s is [1,1,1], which has length 3."
       },
       {
-        "args": [[1, 0, 1, 1, 0, 1]],
+        "args": [
+          [
+            1,
+            0,
+            1,
+            1,
+            0,
+            1
+          ]
+        ],
         "expected": 2,
         "explanation": "The longest streak of consecutive 1s has length 2."
       }
     ],
     "hiddenTestCases": [
       {
-        "args": [[1]],
+        "args": [
+          [
+            1
+          ]
+        ],
         "expected": 1
       },
       {
-        "args": [[0]],
+        "args": [
+          [
+            0
+          ]
+        ],
         "expected": 0
       },
       {
-        "args": [[1, 1, 1, 1, 1]],
+        "args": [
+          [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
         "expected": 5
       },
       {
-        "args": [[0, 0, 0, 0]],
+        "args": [
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
         "expected": 0
       },
       {
-        "args": [[1, 0, 1, 0, 1, 0, 1]],
+        "args": [
+          [
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1
+          ]
+        ],
         "expected": 1
       }
     ],
@@ -59,6 +113,1615 @@
       "python": "class Solution:\n    def findMaxConsecutiveOnes(self, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
       "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction findMaxConsecutiveOnes(nums) {\n    // Your code here\n}\n",
       "java": "public int findMaxConsecutiveOnes(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "two-sum",
+    "title": "Two Sum",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "hash-map",
+      "two-pointers"
+    ],
+    "description": "Given an array of integers `nums` and an integer `target`, return the **indices** of the two numbers that add up to `target`.\n\nYou may assume that each input has **exactly one solution**, and you may not use the same element twice.\n\nYou can return the answer in any order.\n\n**Example:** Given `nums = [2, 7, 11, 15]` and `target = 9`, the output is `[0, 1]` because `nums[0] + nums[1] = 2 + 7 = 9`.\n\n**Approach hint:** A brute-force double loop works in O(n²), but you can achieve O(n) by using a hash map that stores each number's index as you scan through the array. For each element, check whether `target - element` already exists in the map.\n\nReturn exactly two indices as an array.",
+    "constraints": [
+      "2 <= nums.length <= 10000",
+      "-10^9 <= nums[i] <= 10^9",
+      "-10^9 <= target <= 10^9",
+      "Only one valid answer exists",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "twoSum",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers"
+      },
+      {
+        "name": "target",
+        "type": "integer",
+        "description": "Target sum to find"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            2,
+            7,
+            11,
+            15
+          ],
+          9
+        ],
+        "expected": [
+          0,
+          1
+        ],
+        "explanation": "nums[0] + nums[1] = 2 + 7 = 9, so we return [0, 1]."
+      },
+      {
+        "args": [
+          [
+            3,
+            2,
+            4
+          ],
+          6
+        ],
+        "expected": [
+          1,
+          2
+        ],
+        "explanation": "nums[1] + nums[2] = 2 + 4 = 6, so we return [1, 2]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            3,
+            3
+          ],
+          6
+        ],
+        "expected": [
+          0,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          9
+        ],
+        "expected": [
+          3,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            -2,
+            -3,
+            -4,
+            -5
+          ],
+          -8
+        ],
+        "expected": [
+          2,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            4,
+            3,
+            0
+          ],
+          0
+        ],
+        "expected": [
+          0,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            1000000000,
+            -1000000000,
+            1,
+            -1
+          ],
+          0
+        ],
+        "expected": [
+          0,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            5,
+            5,
+            11
+          ],
+          10
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def twoSum(self, nums: list[int], target: int) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nfunction twoSum(nums, target) {\n    // Your code here\n}\n",
+      "java": "public int[] twoSum(int[] nums, int target) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "best-time-to-buy-and-sell-stock",
+    "title": "Best Time to Buy and Sell Stock",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "greedy",
+      "sliding-window"
+    ],
+    "description": "You are given an array `prices` where `prices[i]` is the price of a given stock on day `i`.\n\nYou want to maximize your profit by choosing a **single day to buy** one stock and choosing a **different day in the future to sell** that stock.\n\nReturn the **maximum profit** you can achieve from this transaction. If no profit is possible, return `0`.\n\n**Key constraint:** You must buy before you sell — i.e., the buy day index must be strictly less than the sell day index.\n\n**Example:** Given `prices = [7,1,5,3,6,4]`, the optimal strategy is to buy on day 1 (price = 1) and sell on day 4 (price = 6), giving a profit of `6 - 1 = 5`.\n\n**Approach hint:** Track the minimum price seen so far as you scan left to right. At each day, compute `current price - min price so far` and update the maximum profit accordingly. This gives an O(n) solution.",
+    "constraints": [
+      "1 <= prices.length <= 100000",
+      "0 <= prices[i] <= 10000",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "maxProfit",
+    "params": [
+      {
+        "name": "prices",
+        "type": "integer[]",
+        "description": "Array of stock prices per day"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            7,
+            1,
+            5,
+            3,
+            6,
+            4
+          ]
+        ],
+        "expected": 5,
+        "explanation": "Buy on day 1 (price=1) and sell on day 4 (price=6), profit = 6-1 = 5."
+      },
+      {
+        "args": [
+          [
+            7,
+            6,
+            4,
+            3,
+            1
+          ]
+        ],
+        "expected": 0,
+        "explanation": "Prices are decreasing every day, so no profitable transaction is possible. Return 0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            2,
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            2,
+            4,
+            1,
+            7
+          ]
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            9,
+            1,
+            8,
+            2,
+            7,
+            3,
+            6
+          ]
+        ],
+        "expected": 7
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def maxProfit(self, prices: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} prices\n * @return {number}\n */\nfunction maxProfit(prices) {\n    // Your code here\n}\n",
+      "java": "public int maxProfit(int[] prices) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "product-of-array-except-self",
+    "title": "Product of Array Except Self",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "prefix-product"
+    ],
+    "description": "Given an integer array `nums`, return an array `answer` such that `answer[i]` is equal to the **product of all elements of `nums` except `nums[i]`**.\n\nThe product of any prefix or suffix of `nums` is **guaranteed to fit** in a 32-bit integer.\n\nYou must write an algorithm that runs in **O(n)** time and **without using the division operation**.\n\n**Example:** Given `nums = [1,2,3,4]`, the output is `[24,12,8,6]` because:\n- `answer[0] = 2*3*4 = 24`\n- `answer[1] = 1*3*4 = 12`\n- `answer[2] = 1*2*4 = 8`\n- `answer[3] = 1*2*3 = 6`\n\n**Approach hint:** Use a **prefix product** array and a **suffix product** array. The prefix product at index `i` is the product of all elements to the left of `i`, and the suffix product is the product of all elements to the right. The answer at `i` is `prefix[i] * suffix[i]`. You can optimize space by computing the suffix on-the-fly.",
+    "constraints": [
+      "2 <= nums.length <= 100000",
+      "-30 <= nums[i] <= 30",
+      "Do not use the division operation",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1) (excluding the output array)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "productExceptSelf",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          24,
+          12,
+          8,
+          6
+        ],
+        "explanation": "Each element is the product of all others: [2*3*4, 1*3*4, 1*2*4, 1*2*3] = [24, 12, 8, 6]."
+      },
+      {
+        "args": [
+          [
+            -1,
+            1,
+            0,
+            -3,
+            3
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          9,
+          0,
+          0
+        ],
+        "explanation": "Because there is a 0 in the array, all products except at index 2 (where 0 lives) are 0."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          3,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": [
+          120,
+          60,
+          40,
+          30,
+          24
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            -2,
+            -3,
+            -4
+          ]
+        ],
+        "expected": [
+          -24,
+          -12,
+          -8,
+          -6
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          6,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            5,
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          24,
+          120,
+          60,
+          40,
+          30
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def productExceptSelf(self, nums: list[int]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nfunction productExceptSelf(nums) {\n    // Your code here\n}\n",
+      "java": "public int[] productExceptSelf(int[] nums) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "rotate-array",
+    "title": "Rotate Array",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "two-pointers",
+      "math"
+    ],
+    "description": "Given an integer array `nums`, rotate the array to the **right** by `k` steps, where `k` is non-negative.\n\n**Rotating right by 1 step** means the last element moves to the front, and every other element shifts one position to the right.\n\n**Example:** Given `nums = [1,2,3,4,5,6,7]` and `k = 3`, after rotation: `[5,6,7,1,2,3,4]`.\n\n**Note:** `k` may be larger than the length of the array. In that case, `k % n` effective rotations occur (rotating by `n` steps brings the array back to its original state).\n\n**Approach hint (in-place, O(1) space):** Reverse the entire array, then reverse the first `k` elements, then reverse the remaining `n-k` elements. This classic triple-reverse trick achieves the rotation in-place.\n\nReturn the rotated array.",
+    "constraints": [
+      "1 <= nums.length <= 100000",
+      "-2^31 <= nums[i] <= 2^31 - 1",
+      "0 <= k <= 100000",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "rotateArray",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers to rotate"
+      },
+      {
+        "name": "k",
+        "type": "integer",
+        "description": "Number of steps to rotate to the right"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          3
+        ],
+        "expected": [
+          5,
+          6,
+          7,
+          1,
+          2,
+          3,
+          4
+        ],
+        "explanation": "Rotate right 3 steps: [7,1,2,3,4,5,6] -> [6,7,1,2,3,4,5] -> [5,6,7,1,2,3,4]."
+      },
+      {
+        "args": [
+          [
+            -1,
+            -100,
+            3,
+            99
+          ],
+          2
+        ],
+        "expected": [
+          3,
+          99,
+          -1,
+          -100
+        ],
+        "explanation": "Rotate right 2 steps: [99,-1,-100,3] -> [3,99,-1,-100]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          0
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          1
+        ],
+        "expected": [
+          2,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          7
+        ],
+        "expected": [
+          4,
+          5,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          0
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          2
+        ],
+        "expected": [
+          5,
+          6,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          100
+        ],
+        "expected": [
+          10,
+          20,
+          30,
+          40,
+          50
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def rotateArray(self, nums: list[int], k: int) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number[]}\n */\nfunction rotateArray(nums, k) {\n    // Your code here\n}\n",
+      "java": "public int[] rotateArray(int[] nums, int k) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "find-the-duplicate-number",
+    "title": "Find the Duplicate Number",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "two-pointers",
+      "binary-search",
+      "cycle-detection"
+    ],
+    "description": "Given an array of integers `nums` containing `n + 1` integers where each integer is in the range `[1, n]` inclusive, there is **exactly one repeated number** in `nums`. Return that repeated number.\n\nYou must solve the problem **without modifying the array** and using **only O(1) extra space**.\n\n**Example:** Given `nums = [1,3,4,2,2]`, the duplicate is `2`.\n\n**Approach hint:** Treat the array as a linked list where `nums[i]` points to index `nums[i]`. Since there's a duplicate, there must be a cycle. Use **Floyd's cycle detection** (tortoise and hare) to find the entrance of the cycle, which corresponds to the duplicate number.\n\nAlternatively, you can use binary search on the value range `[1, n]`: for a midpoint `mid`, count how many elements in `nums` are ≤ `mid`. If the count exceeds `mid`, the duplicate lies in `[1, mid]`; otherwise it lies in `[mid+1, n]`.",
+    "constraints": [
+      "1 <= n <= 100000",
+      "nums.length == n + 1",
+      "1 <= nums[i] <= n",
+      "There is only one repeated number in nums",
+      "Do not modify the array",
+      "Use only O(1) extra space",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "findDuplicate",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of n+1 integers each in range [1, n] with exactly one duplicate"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            3,
+            4,
+            2,
+            2
+          ]
+        ],
+        "expected": 2,
+        "explanation": "The number 2 appears twice in the array."
+      },
+      {
+        "args": [
+          [
+            3,
+            1,
+            3,
+            4,
+            2
+          ]
+        ],
+        "expected": 3,
+        "explanation": "The number 3 appears twice in the array."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1,
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            2
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            5
+          ]
+        ],
+        "expected": 5
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findDuplicate(self, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction findDuplicate(nums) {\n    // Your code here\n}\n",
+      "java": "public int findDuplicate(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "missing-number",
+    "title": "Missing Number",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "math",
+      "bit-manipulation"
+    ],
+    "description": "Given an array `nums` containing `n` distinct numbers in the range `[0, n]`, return the **only number in the range that is missing** from the array.\n\nThe array contains `n` numbers, but the full range `[0, n]` has `n + 1` numbers, so exactly one is absent.\n\n**Example:** Given `nums = [3,0,1]`, the numbers 0, 1, 2, 3 are expected (n = 3), but `2` is missing, so return `2`.\n\n**Approach hints:**\n- **Math:** The expected sum of `[0, n]` is `n * (n + 1) / 2`. Subtract the actual sum of the array from this to find the missing number.\n- **XOR:** XOR all indices `0..n` with all array values. Duplicate values cancel out, leaving the missing number.\n\nBoth approaches run in O(n) time and O(1) space.",
+    "constraints": [
+      "1 <= nums.length <= 10000",
+      "0 <= nums[i] <= nums.length",
+      "All numbers in nums are unique",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "missingNumber",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of n distinct integers from the range [0, n] with one missing"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            0,
+            1
+          ]
+        ],
+        "expected": 2,
+        "explanation": "n=3, expected range [0,1,2,3]. Sum should be 6, actual sum is 4, missing = 2."
+      },
+      {
+        "args": [
+          [
+            0,
+            1
+          ]
+        ],
+        "expected": 2,
+        "explanation": "n=2, expected range [0,1,2]. Number 2 is missing."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            9,
+            6,
+            4,
+            2,
+            3,
+            5,
+            7,
+            0,
+            1
+          ]
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            2,
+            0,
+            3
+          ]
+        ],
+        "expected": 1
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def missingNumber(self, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction missingNumber(nums) {\n    // Your code here\n}\n",
+      "java": "public int missingNumber(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "contains-duplicate",
+    "title": "Contains Duplicate",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "hash-set",
+      "sorting"
+    ],
+    "description": "Given an integer array `nums`, return `true` if any value appears **at least twice** in the array, and return `false` if every element is **distinct**.\n\n**Example 1:** `nums = [1,2,3,1]` → `true` because `1` appears at indices 0 and 3.\n\n**Example 2:** `nums = [1,2,3,4]` → `false` because all elements are unique.\n\n**Approach hints:**\n- **Hash set:** Insert elements one by one. Before inserting, check if the element already exists in the set. If yes, return `true`. If you finish scanning with no duplicates found, return `false`. This is O(n) time and O(n) space.\n- **Sorting:** Sort the array and check adjacent elements for equality. O(n log n) time, O(1) space.\n\nChoose the approach that best fits your style.",
+    "constraints": [
+      "1 <= nums.length <= 100000",
+      "-10^9 <= nums[i] <= 10^9",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "containsDuplicate",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers to check for duplicates"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            1
+          ]
+        ],
+        "expected": true,
+        "explanation": "The value 1 appears at both index 0 and index 3."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": false,
+        "explanation": "All four elements are distinct, so no duplicates exist."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            1,
+            1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            3,
+            3,
+            4,
+            3,
+            2,
+            4,
+            2
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            -1,
+            -2,
+            -3,
+            -4,
+            -5
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            0,
+            0
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1000000000,
+            -1000000000,
+            999999999
+          ]
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def containsDuplicate(self, nums: list[int]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nfunction containsDuplicate(nums) {\n    // Your code here\n}\n",
+      "java": "public boolean containsDuplicate(int[] nums) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "maximum-subarray-kadane",
+    "title": "Maximum Subarray (Kadane's Algorithm)",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "dynamic-programming",
+      "divide-and-conquer"
+    ],
+    "description": "Given an integer array `nums`, find the **contiguous subarray** (containing at least one number) which has the **largest sum** and return its sum.\n\nA subarray is a contiguous part of an array. The subarray must contain at least one element.\n\n**Example:** Given `nums = [-2,1,-3,4,-1,2,1,-5,4]`, the subarray `[4,-1,2,1]` has the largest sum = `6`.\n\n**Approach — Kadane's Algorithm:**\nMaintain a variable `currentSum` that represents the maximum sum ending at the current position. For each element `x`:\n- `currentSum = max(x, currentSum + x)` — either start a new subarray at `x`, or extend the existing one.\n- Update `maxSum = max(maxSum, currentSum)`.\n\nThis runs in O(n) time and O(1) space.\n\nNote: The array may contain all negative numbers — in that case the answer is the largest (least negative) element.",
+    "constraints": [
+      "1 <= nums.length <= 100000",
+      "-10000 <= nums[i] <= 10000",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "maxSubArray",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers (may contain negatives)"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            -2,
+            1,
+            -3,
+            4,
+            -1,
+            2,
+            1,
+            -5,
+            4
+          ]
+        ],
+        "expected": 6,
+        "explanation": "The subarray [4,-1,2,1] has the largest sum of 6."
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Only one element, so the maximum subarray sum is 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            -2,
+            -1
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            -1,
+            7,
+            8
+          ]
+        ],
+        "expected": 23
+      },
+      {
+        "args": [
+          [
+            -3,
+            -2,
+            -1,
+            -4
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 15
+      },
+      {
+        "args": [
+          [
+            -1,
+            2,
+            3,
+            -9,
+            4,
+            5,
+            -2
+          ]
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          [
+            0,
+            -3,
+            1,
+            1
+          ]
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def maxSubArray(self, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction maxSubArray(nums) {\n    // Your code here\n}\n",
+      "java": "public int maxSubArray(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "move-zeroes",
+    "title": "Move Zeroes",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "two-pointers",
+      "in-place"
+    ],
+    "description": "Given an integer array `nums`, move all `0`s to the **end** of it while maintaining the **relative order** of the non-zero elements.\n\nYou must do this **in-place** without making a copy of the array.\n\n**Example:** Given `nums = [0,1,0,3,12]`, after moving zeroes: `[1,3,12,0,0]`. The non-zero elements `1, 3, 12` maintain their original order, and the two zeroes move to the end.\n\n**Approach hint:** Use a two-pointer approach. Keep a `lastNonZero` pointer that tracks where the next non-zero element should be placed. Scan through the array: whenever you find a non-zero element, swap it with `nums[lastNonZero]` and increment `lastNonZero`. This runs in O(n) time with a single pass.\n\nReturn the modified array.",
+    "constraints": [
+      "1 <= nums.length <= 10000",
+      "-2^31 <= nums[i] <= 2^31 - 1",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "moveZeroes",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of integers that may contain zeroes"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            3,
+            12
+          ]
+        ],
+        "expected": [
+          1,
+          3,
+          12,
+          0,
+          0
+        ],
+        "explanation": "Non-zero elements [1,3,12] move to the front in order; zeroes fill the remaining positions."
+      },
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": [
+          0
+        ],
+        "explanation": "Single zero element; array remains [0]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            0,
+            0,
+            0,
+            1,
+            5
+          ]
+        ],
+        "expected": [
+          4,
+          2,
+          1,
+          5,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            0,
+            2,
+            0,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            0,
+            2,
+            0,
+            -3
+          ]
+        ],
+        "expected": [
+          -1,
+          2,
+          -3,
+          0,
+          0
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def moveZeroes(self, nums: list[int]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nfunction moveZeroes(nums) {\n    // Your code here\n}\n",
+      "java": "public int[] moveZeroes(int[] nums) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "plus-one",
+    "title": "Plus One",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "math"
+    ],
+    "description": "You are given a **large integer** represented as an integer array `digits`, where each `digits[i]` is the `i`-th digit of the integer. The digits are ordered from the **most significant** to the **least significant** (left to right), and there are no leading zeroes.\n\nIncrement the large integer by **one** and return the resulting array of digits.\n\n**Example 1:** `digits = [1,2,3]` represents the number `123`. Adding one gives `124`, so return `[1,2,4]`.\n\n**Example 2:** `digits = [9,9,9]` represents `999`. Adding one gives `1000`, so return `[1,0,0,0]`.\n\n**Approach hint:** Process the array from right to left. Add 1 to the last digit. If the result is less than 10, you're done. If it equals 10, set the current digit to 0 and carry 1 to the next digit. If all digits become 0 due to carry propagation (e.g., all 9s), prepend a `1` to the result.\n\nReturn the resulting array of digits.",
+    "constraints": [
+      "1 <= digits.length <= 100",
+      "0 <= digits[i] <= 9",
+      "digits does not contain any leading zeros",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1) (amortized; O(n) only if array grows)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "plusOne",
+    "params": [
+      {
+        "name": "digits",
+        "type": "integer[]",
+        "description": "Array of digits representing a large non-negative integer"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          4
+        ],
+        "explanation": "123 + 1 = 124, represented as [1,2,4]."
+      },
+      {
+        "args": [
+          [
+            9,
+            9,
+            9
+          ]
+        ],
+        "expected": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "explanation": "999 + 1 = 1000, the carry propagates through all digits, so we need an extra digit at the front."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            9
+          ]
+        ],
+        "expected": [
+          1,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        "expected": [
+          1,
+          0,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            4,
+            3,
+            2,
+            1
+          ]
+        ],
+        "expected": [
+          4,
+          3,
+          2,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            9,
+            9
+          ]
+        ],
+        "expected": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            9,
+            9,
+            9
+          ]
+        ],
+        "expected": [
+          2,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            8,
+            9,
+            9,
+            9
+          ]
+        ],
+        "expected": [
+          9,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def plusOne(self, digits: list[int]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} digits\n * @return {number[]}\n */\nfunction plusOne(digits) {\n    // Your code here\n}\n",
+      "java": "public int[] plusOne(int[] digits) {\n    // Your code here\n    return new int[]{};\n}\n"
     },
     "approved": true
   }

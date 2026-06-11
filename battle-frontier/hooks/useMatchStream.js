@@ -9,7 +9,7 @@ const socketUrl = (
 
 let socket = null;
 
-function getSocket() {
+export function getSocket() {
   if (!socket) {
     socket = io(socketUrl, {
       transports: ['websocket', 'polling'],

@@ -1,1 +1,1697 @@
-[]
+[
+  {
+    "slug": "jump-game-can-reach-end",
+    "title": "Jump Game",
+    "difficulty": "Medium",
+    "tags": [
+      "greedy",
+      "array",
+      "dynamic programming"
+    ],
+    "description": "You are given an integer array `nums` where each element represents the maximum jump length from that position.\n\nReturn `true` if you can reach the last index starting from index `0`, or `false` otherwise.\n\n**Greedy Intuition:** Track the farthest index you can reach as you iterate. If at any point the current index exceeds the farthest reachable index, you cannot proceed.\n\n**Example 1:**\n- Input: `nums = [2, 3, 1, 1, 4]`\n- Output: `true`\n- Explanation: Jump 1 step from index 0 to index 1, then 3 steps to the last index.\n\n**Example 2:**\n- Input: `nums = [3, 2, 1, 0, 4]`\n- Output: `false`\n- Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.",
+    "constraints": [
+      "1 <= nums.length <= 10^4",
+      "0 <= nums[i] <= 10^5",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "canJump",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array where each element represents the max jump length from that index"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            2,
+            3,
+            1,
+            1,
+            4
+          ]
+        ],
+        "expected": true,
+        "explanation": "From index 0 jump to index 1 (or 2), then from index 1 jump to index 4 (the last). It is reachable."
+      },
+      {
+        "args": [
+          [
+            3,
+            2,
+            1,
+            0,
+            4
+          ]
+        ],
+        "expected": false,
+        "explanation": "Every path leads to index 3 which has value 0, so you can never move past it to reach index 4."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            0
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            0,
+            1
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            2,
+            0,
+            0
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            3,
+            2,
+            1,
+            0,
+            0
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            10,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def canJump(self, nums: list[int]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nfunction canJump(nums) {\n    // Your code here\n}\n",
+      "java": "public boolean canJump(int[] nums) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "jump-game-ii-minimum-jumps",
+    "title": "Jump Game II",
+    "difficulty": "Medium",
+    "tags": [
+      "greedy",
+      "array",
+      "dynamic programming"
+    ],
+    "description": "You are given an integer array `nums` where each element represents the maximum jump length from that position.\n\nReturn the **minimum number of jumps** to reach the last index. It is guaranteed that you can always reach the last index.\n\n**Greedy Intuition:** Use a greedy approach by always expanding to the farthest reachable position within the current jump boundary. When you exhaust the current boundary, increment the jump count and update the boundary to the farthest reachable position.\n\n**Example 1:**\n- Input: `nums = [2, 3, 1, 1, 4]`\n- Output: `2`\n- Explanation: Jump to index 1 first (max jump 3), then jump directly to index 4.\n\n**Example 2:**\n- Input: `nums = [2, 3, 0, 1, 4]`\n- Output: `2`\n- Explanation: Jump to index 1 (or 2), then jump to index 4.",
+    "constraints": [
+      "1 <= nums.length <= 10^4",
+      "0 <= nums[i] <= 1000",
+      "It is guaranteed that you can reach the last index",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "jump",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array where each element is the max jump length from that index"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            2,
+            3,
+            1,
+            1,
+            4
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Jump from index 0 to index 1, then from index 1 to index 4. Total 2 jumps."
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            0,
+            1,
+            4
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Jump from index 0 to index 1, then from index 1 to index 4. Total 2 jumps."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            5,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            3,
+            2,
+            1,
+            0,
+            4
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            6,
+            2,
+            4,
+            0,
+            5,
+            1,
+            1,
+            4,
+            2,
+            9
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            2,
+            3,
+            0,
+            2,
+            4
+          ]
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def jump(self, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction jump(nums) {\n    // Your code here\n}\n",
+      "java": "public int jump(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "best-time-buy-sell-stock-ii",
+    "title": "Best Time to Buy and Sell Stock II",
+    "difficulty": "Medium",
+    "tags": [
+      "greedy",
+      "array",
+      "dynamic programming"
+    ],
+    "description": "You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `i`-th day.\n\nOn each day, you may decide to buy and/or sell the stock. You can only hold **at most one share** of the stock at any time. However, you **can buy it then immediately sell it on the same day**.\n\nReturn the **maximum profit** you can achieve.\n\n**Greedy Intuition:** Capture every upward price movement. If `prices[i] > prices[i-1]`, add the difference to profit. This is equivalent to buying every valley and selling every peak.\n\n**Example 1:**\n- Input: `prices = [7, 1, 5, 3, 6, 4]`\n- Output: `7`\n- Explanation: Buy on day 2 (price=1) sell on day 3 (price=5), profit=4. Buy on day 4 (price=3) sell on day 5 (price=6), profit=3. Total profit = 4 + 3 = 7.\n\n**Example 2:**\n- Input: `prices = [1, 2, 3, 4, 5]`\n- Output: `4`\n- Explanation: Buy on day 1 and sell on day 5 (profit=4). Or equivalently collect each daily gain: 1+1+1+1=4.",
+    "constraints": [
+      "1 <= prices.length <= 3 * 10^4",
+      "0 <= prices[i] <= 10^4",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "maxProfit",
+    "params": [
+      {
+        "name": "prices",
+        "type": "integer[]",
+        "description": "Array of stock prices indexed by day"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            7,
+            1,
+            5,
+            3,
+            6,
+            4
+          ]
+        ],
+        "expected": 7,
+        "explanation": "Buy at 1 sell at 5 (profit 4), buy at 3 sell at 6 (profit 3). Total = 7."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 4,
+        "explanation": "Prices continuously rise. Total profit = (2-1)+(3-2)+(4-3)+(5-4) = 4."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            7,
+            6,
+            4,
+            3,
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            5
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            4,
+            5,
+            2,
+            9,
+            7
+          ]
+        ],
+        "expected": 11
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            3,
+            3,
+            5,
+            0,
+            0,
+            3,
+            1,
+            4
+          ]
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          [
+            1,
+            9,
+            1,
+            9,
+            1,
+            9
+          ]
+        ],
+        "expected": 24
+      },
+      {
+        "args": [
+          [
+            0,
+            10000
+          ]
+        ],
+        "expected": 10000
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def maxProfit(self, prices: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} prices\n * @return {number}\n */\nfunction maxProfit(prices) {\n    // Your code here\n}\n",
+      "java": "public int maxProfit(int[] prices) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "assign-cookies-max-satisfied-children",
+    "title": "Assign Cookies",
+    "difficulty": "Easy",
+    "tags": [
+      "greedy",
+      "array",
+      "sorting"
+    ],
+    "description": "You are trying to give cookies to children. Each child `i` has a greed factor `g[i]`, which is the minimum cookie size that will satisfy the child. Each cookie `j` has a size `s[j]`. You can assign at most one cookie to each child.\n\nA child `i` is satisfied if `s[j] >= g[i]`.\n\nReturn the **maximum number of satisfied children**.\n\n**Greedy Intuition:** Sort both arrays. Try to satisfy the least greedy child with the smallest sufficient cookie. Use two pointers to greedily match cookies to children.\n\n**Example 1:**\n- Input: `g = [1, 2, 3]`, `s = [1, 1]`\n- Output: `1`\n- Explanation: Only one cookie of size 1 can satisfy child with greed factor 1.\n\n**Example 2:**\n- Input: `g = [1, 2]`, `s = [1, 2, 3]`\n- Output: `2`\n- Explanation: Cookie of size 1 satisfies child 1 (greed=1), cookie of size 2 satisfies child 2 (greed=2).",
+    "constraints": [
+      "1 <= g.length <= 3 * 10^4",
+      "0 <= s.length <= 3 * 10^4",
+      "1 <= g[i] <= 2^31 - 1",
+      "1 <= s[j] <= 2^31 - 1",
+      "Expected time complexity: O(n log n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "findContentChildren",
+    "params": [
+      {
+        "name": "g",
+        "type": "integer[]",
+        "description": "Greed factors of children"
+      },
+      {
+        "name": "s",
+        "type": "integer[]",
+        "description": "Sizes of available cookies"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Only the child with greed factor 1 can be satisfied by one of the cookies of size 1. The remaining child cannot be satisfied."
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Both children can be satisfied: child 1 (g=1) with cookie size 1, child 2 (g=2) with cookie size 2."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          []
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            10,
+            9,
+            8
+          ],
+          [
+            5,
+            6,
+            7
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            1
+          ],
+          [
+            1,
+            2,
+            3,
+            5
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            3
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            3,
+            2,
+            1
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          [
+            5,
+            4,
+            3,
+            2,
+            1
+          ]
+        ],
+        "expected": 5
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findContentChildren(self, g: list[int], s: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} g\n * @param {number[]} s\n * @return {number}\n */\nfunction findContentChildren(g, s) {\n    // Your code here\n}\n",
+      "java": "public int findContentChildren(int[] g, int[] s) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "lemonade-change",
+    "title": "Lemonade Change",
+    "difficulty": "Easy",
+    "tags": [
+      "greedy",
+      "array",
+      "simulation"
+    ],
+    "description": "At a lemonade stand, each lemonade costs `$5`. Customers are standing in a queue to buy one lemonade each and pay with either a `$5`, `$10`, or `$20` bill. You must provide each customer the correct change.\n\nNote that you do not have any change initially.\n\nGiven an integer array `bills` where `bills[i]` is the bill the `i`-th customer pays, return `true` if you can provide every customer with the correct change, or `false` otherwise.\n\n**Greedy Intuition:** Greedily prefer giving a `$10` bill as change for `$20` bills (rather than three `$5` bills), because `$5` bills are more versatile.\n\n**Example 1:**\n- Input: `bills = [5, 5, 5, 10, 20]`\n- Output: `true`\n- Explanation: For the $10 bill, give back $5. For the $20 bill, give back $10 and $5. You always have enough change.\n\n**Example 2:**\n- Input: `bills = [5, 5, 10, 10, 20]`\n- Output: `false`\n- Explanation: For the $20 bill, you only have two $10 bills and no $5 bills. You cannot make change.",
+    "constraints": [
+      "1 <= bills.length <= 10^5",
+      "bills[i] is either 5, 10, or 20",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "lemonadeChange",
+    "params": [
+      {
+        "name": "bills",
+        "type": "integer[]",
+        "description": "Array of bill denominations paid by customers in order"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            5,
+            5,
+            5,
+            10,
+            20
+          ]
+        ],
+        "expected": true,
+        "explanation": "Collect $5 three times. For the $10, give $5 change. For the $20, give $10 + $5 change. All correct."
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            10,
+            10,
+            20
+          ]
+        ],
+        "expected": false,
+        "explanation": "When the $20 customer arrives, we only have two $10 bills. We cannot make $15 change without a $5 bill."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            5
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            10
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            20
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            10
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            5,
+            10
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            5,
+            5,
+            20,
+            20,
+            20
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            5,
+            5,
+            10,
+            5,
+            5,
+            10,
+            10,
+            20
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            10,
+            20,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            10,
+            5,
+            5,
+            20,
+            5,
+            20,
+            20
+          ]
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def lemonadeChange(self, bills: list[int]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} bills\n * @return {boolean}\n */\nfunction lemonadeChange(bills) {\n    // Your code here\n}\n",
+      "java": "public boolean lemonadeChange(int[] bills) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "gas-station-starting-index",
+    "title": "Gas Station",
+    "difficulty": "Medium",
+    "tags": [
+      "greedy",
+      "array"
+    ],
+    "description": "There are `n` gas stations along a circular route, where the amount of gas at the `i`-th station is `gas[i]`.\n\nYou have a car with an unlimited gas tank. It costs `cost[i]` of gas to travel from station `i` to the next station `(i+1)`.\n\nYou begin the journey with an empty tank at one of the gas stations.\n\nGiven two integer arrays `gas` and `cost`, return the **starting station's index** if you can travel around the circuit once in the clockwise direction, otherwise return `-1`. If a solution exists, it is **guaranteed to be unique**.\n\n**Greedy Intuition:** If total gas >= total cost, a solution always exists. To find the starting point, track the running tank. When tank goes negative, reset and try starting from the next station.\n\n**Example 1:**\n- Input: `gas = [1,2,3,4,5]`, `cost = [3,4,5,1,2]`\n- Output: `3`\n\n**Example 2:**\n- Input: `gas = [2,3,4]`, `cost = [3,4,3]`\n- Output: `-1`",
+    "constraints": [
+      "n == gas.length == cost.length",
+      "1 <= n <= 10^5",
+      "0 <= gas[i], cost[i] <= 10^4",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "canCompleteCircuit",
+    "params": [
+      {
+        "name": "gas",
+        "type": "integer[]",
+        "description": "Gas available at each station"
+      },
+      {
+        "name": "cost",
+        "type": "integer[]",
+        "description": "Gas cost to travel from station i to station i+1"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          [
+            3,
+            4,
+            5,
+            1,
+            2
+          ]
+        ],
+        "expected": 3,
+        "explanation": "Start at station 3 (0-indexed). gas-cost at each stop: 3, 4, -1 (topped off from 3), cumulative stays non-negative throughout the full circuit."
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            4,
+            3
+          ]
+        ],
+        "expected": -1,
+        "explanation": "Total gas = 9, total cost = 10. Not enough gas to complete the circuit, so return -1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            5
+          ],
+          [
+            4
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            4,
+            5,
+            2,
+            6,
+            5,
+            3
+          ],
+          [
+            3,
+            2,
+            7,
+            3,
+            2,
+            9
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            3,
+            1,
+            1
+          ],
+          [
+            1,
+            2,
+            2
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            1,
+            4
+          ],
+          [
+            3,
+            2,
+            1,
+            3
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0,
+            0,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1,
+            0
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            5,
+            8,
+            2,
+            8
+          ],
+          [
+            6,
+            5,
+            6,
+            6
+          ]
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} gas\n * @param {number[]} cost\n * @return {number}\n */\nfunction canCompleteCircuit(gas, cost) {\n    // Your code here\n}\n",
+      "java": "public int canCompleteCircuit(int[] gas, int[] cost) {\n    // Your code here\n    return -1;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "partition-labels",
+    "title": "Partition Labels",
+    "difficulty": "Medium",
+    "tags": [
+      "greedy",
+      "string",
+      "hash map",
+      "two pointers"
+    ],
+    "description": "You are given a string `s`. Partition the string into as many parts as possible so that each letter appears in **at most one part**.\n\nReturn a list of integers representing the **size of each partition**.\n\nNote: The concatenation of all parts in order must equal the original string `s`.\n\n**Greedy Intuition:** For each character, record its last occurrence. As you scan from left to right, extend the current partition boundary to the last occurrence of every character seen so far. When you reach the boundary, you have found a partition.\n\n**Example 1:**\n- Input: `s = \"ababcbacadefegdehijhklij\"`\n- Output: `[9, 7, 8]`\n- Explanation: The partitions are `\"ababcbaca\"`, `\"defegde\"`, `\"hijhklij\"`. Each letter appears in exactly one partition.\n\n**Example 2:**\n- Input: `s = \"eccbbbbdec\"`\n- Output: `[10]`\n- Explanation: All characters span the entire string so there is only one partition.",
+    "constraints": [
+      "1 <= s.length <= 500",
+      "s consists of lowercase English letters only",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1) — only 26 letters tracked"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "partitionLabels",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "Input string consisting of lowercase English letters"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          "ababcbacadefegdehijhklij"
+        ],
+        "expected": [
+          9,
+          7,
+          8
+        ],
+        "explanation": "Partition 1: 'ababcbaca' (length 9). Partition 2: 'defegde' (length 7). Partition 3: 'hijhklij' (length 8). Each letter is in exactly one part."
+      },
+      {
+        "args": [
+          "eccbbbbdec"
+        ],
+        "expected": [
+          10
+        ],
+        "explanation": "'e' appears at index 0 and 9, spanning the whole string. So the entire string is one partition."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "a"
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          "ab"
+        ],
+        "expected": [
+          1,
+          1
+        ]
+      },
+      {
+        "args": [
+          "aa"
+        ],
+        "expected": [
+          2
+        ]
+      },
+      {
+        "args": [
+          "abcabc"
+        ],
+        "expected": [
+          6
+        ]
+      },
+      {
+        "args": [
+          "abcdefgh"
+        ],
+        "expected": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "args": [
+          "caedbdedda"
+        ],
+        "expected": [
+          1,
+          9
+        ]
+      },
+      {
+        "args": [
+          "abab"
+        ],
+        "expected": [
+          4
+        ]
+      },
+      {
+        "args": [
+          "aabbcc"
+        ],
+        "expected": [
+          2,
+          2,
+          2
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def partitionLabels(self, s: str) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @return {number[]}\n */\nfunction partitionLabels(s) {\n    // Your code here\n}\n",
+      "java": "public int[] partitionLabels(String s) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "candy-minimum-distribution",
+    "title": "Candy",
+    "difficulty": "Hard",
+    "tags": [
+      "greedy",
+      "array"
+    ],
+    "description": "There are `n` children standing in a line. Each child is assigned a rating value given in the integer array `ratings`.\n\nYou are giving candies to these children subject to the following requirements:\n- Each child must have **at least one** candy.\n- Children with a **higher rating** than their immediate neighbor must get **more** candies than that neighbor.\n\nReturn the **minimum number of candies** you need to distribute.\n\n**Greedy Intuition:** Make two passes:\n1. Left to right: if `ratings[i] > ratings[i-1]`, give `candies[i] = candies[i-1] + 1`.\n2. Right to left: if `ratings[i] > ratings[i+1]`, ensure `candies[i] = max(candies[i], candies[i+1] + 1)`.\n\n**Example 1:**\n- Input: `ratings = [1, 0, 2]`\n- Output: `5`\n- Explanation: Give 2, 1, 2 candies respectively.\n\n**Example 2:**\n- Input: `ratings = [1, 2, 2]`\n- Output: `4`\n- Explanation: Give 1, 2, 1 candies respectively. Note the third child gets only 1 since the second and third have equal ratings.",
+    "constraints": [
+      "n == ratings.length",
+      "1 <= n <= 2 * 10^4",
+      "0 <= ratings[i] <= 2 * 10^4",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "candy",
+    "params": [
+      {
+        "name": "ratings",
+        "type": "integer[]",
+        "description": "Rating value of each child in line"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            0,
+            2
+          ]
+        ],
+        "expected": 5,
+        "explanation": "Optimal distribution is [2, 1, 2]. Child at index 0 has higher rating than child 1, so gets more. Child at index 2 has higher rating than child 1, so gets more."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            2
+          ]
+        ],
+        "expected": 4,
+        "explanation": "Optimal distribution is [1, 2, 1]. Index 1 > index 0 so gets more. Index 2 equals index 1 so no extra candy needed."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            2,
+            1
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 15
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            3,
+            2,
+            1
+          ]
+        ],
+        "expected": 15
+      },
+      {
+        "args": [
+          [
+            1,
+            3,
+            2,
+            2,
+            1
+          ]
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            1,
+            6,
+            10,
+            8,
+            7,
+            3,
+            2
+          ]
+        ],
+        "expected": 18
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def candy(self, ratings: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} ratings\n * @return {number}\n */\nfunction candy(ratings) {\n    // Your code here\n}\n",
+      "java": "public int candy(int[] ratings) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "task-scheduler-minimum-intervals",
+    "title": "Task Scheduler",
+    "difficulty": "Medium",
+    "tags": [
+      "greedy",
+      "array",
+      "hash map",
+      "sorting"
+    ],
+    "description": "You are given an array of CPU `tasks`, each labeled with a letter from `A` to `Z`, and a number `n`. Each CPU interval can be idle or allow the completion of one task. Tasks can be completed in any order, but there is a cooldown interval of `n` slots between two tasks with the **same label**.\n\nReturn the **minimum number of CPU intervals** required to finish all the tasks.\n\n**Greedy Intuition:** The task with the highest frequency is the bottleneck. The minimum intervals needed is `max(len(tasks), (max_freq - 1) * (n + 1) + count_of_tasks_with_max_freq)`.\n\n**Example 1:**\n- Input: `tasks = [\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"]`, `n = 2`\n- Output: `8`\n- Explanation: A -> B -> idle -> A -> B -> idle -> A -> B. Total 8 intervals.\n\n**Example 2:**\n- Input: `tasks = [\"A\",\"C\",\"A\",\"B\",\"D\",\"B\"]`, `n = 1`\n- Output: `6`\n- Explanation: A -> B -> C -> D -> A -> B. Total 6 intervals, no idle needed.",
+    "constraints": [
+      "1 <= tasks.length <= 10^4",
+      "tasks[i] is an uppercase English letter",
+      "0 <= n <= 100",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1) — only 26 task types"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "leastInterval",
+    "params": [
+      {
+        "name": "tasks",
+        "type": "string[]",
+        "description": "Array of task labels (uppercase letters A-Z)"
+      },
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "Cooldown interval between two tasks with the same label"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            "A",
+            "A",
+            "A",
+            "B",
+            "B",
+            "B"
+          ],
+          2
+        ],
+        "expected": 8,
+        "explanation": "Schedule: A B idle A B idle A B. The cooldown of 2 forces idle slots between each A and each B pair."
+      },
+      {
+        "args": [
+          [
+            "A",
+            "C",
+            "A",
+            "B",
+            "D",
+            "B"
+          ],
+          1
+        ],
+        "expected": 6,
+        "explanation": "Schedule: A B C D A B. All tasks can fill the cooldown slots so no idle time is needed."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            "A"
+          ],
+          0
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            "A",
+            "A",
+            "A"
+          ],
+          0
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            "A",
+            "A",
+            "A"
+          ],
+          2
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            "A",
+            "A",
+            "A",
+            "B",
+            "B",
+            "B"
+          ],
+          0
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            "A",
+            "A",
+            "A",
+            "B",
+            "B",
+            "B",
+            "C",
+            "C",
+            "C"
+          ],
+          2
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          2
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          4
+        ],
+        "expected": 17
+      },
+      {
+        "args": [
+          [
+            "A",
+            "A",
+            "A",
+            "B",
+            "B",
+            "B",
+            "C",
+            "D",
+            "E"
+          ],
+          2
+        ],
+        "expected": 9
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def leastInterval(self, tasks: list[str], n: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string[]} tasks\n * @param {number} n\n * @return {number}\n */\nfunction leastInterval(tasks, n) {\n    // Your code here\n}\n",
+      "java": "public int leastInterval(String[] tasks, int n) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "meeting-rooms-can-attend-all",
+    "title": "Meeting Rooms",
+    "difficulty": "Easy",
+    "tags": [
+      "greedy",
+      "sorting",
+      "intervals"
+    ],
+    "description": "Given an array of meeting time intervals `intervals` where `intervals[i] = [start_i, end_i]`, determine if a person could **attend all meetings** without any overlap.\n\nReturn `true` if a person can attend all the meetings, or `false` if there is any conflict (i.e., two meetings overlap).\n\nNote: Two meetings `[a, b]` and `[c, d]` overlap if `a < d` and `c < b`. A meeting that starts exactly when another ends (e.g., `[0,5]` and `[5,10]`) is **not** considered overlapping.\n\n**Greedy Intuition:** Sort intervals by start time. Check if any meeting starts before the previous one ends.\n\n**Example 1:**\n- Input: `intervals = [[0, 30], [5, 10], [15, 20]]`\n- Output: `false`\n- Explanation: The meeting `[0,30]` overlaps with both `[5,10]` and `[15,20]`.\n\n**Example 2:**\n- Input: `intervals = [[7, 10], [2, 4]]`\n- Output: `true`\n- Explanation: `[2,4]` ends before `[7,10]` starts. No overlap.",
+    "constraints": [
+      "0 <= intervals.length <= 10^4",
+      "intervals[i].length == 2",
+      "0 <= start_i < end_i <= 10^6",
+      "Expected time complexity: O(n log n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "canAttendMeetings",
+    "params": [
+      {
+        "name": "intervals",
+        "type": "integer[][]",
+        "description": "Array of meeting intervals where each interval is [start, end]"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              0,
+              30
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              15,
+              20
+            ]
+          ]
+        ],
+        "expected": false,
+        "explanation": "After sorting: [0,30], [5,10], [15,20]. Meeting [5,10] starts at 5 which is before [0,30] ends at 30. Overlap detected."
+      },
+      {
+        "args": [
+          [
+            [
+              7,
+              10
+            ],
+            [
+              2,
+              4
+            ]
+          ]
+        ],
+        "expected": true,
+        "explanation": "After sorting: [2,4], [7,10]. Meeting [7,10] starts at 7 which is after [2,4] ends at 4. No overlap."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          []
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              5
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              10
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              5
+            ],
+            [
+              4,
+              10
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              6,
+              9
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              7,
+              9
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def canAttendMeetings(self, intervals: list[list[int]]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} intervals\n * @return {boolean}\n */\nfunction canAttendMeetings(intervals) {\n    // Your code here\n}\n",
+      "java": "public boolean canAttendMeetings(int[][] intervals) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  }
+]

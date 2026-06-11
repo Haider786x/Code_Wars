@@ -14,7 +14,7 @@ import ReactMarkdown from 'react-markdown';
 import { Badge, PlayerCard } from '@/components/battle/PlayerCard.jsx';
 import { getCurrentIdentity } from '@/lib/identity/currentIdentity.js';
 import { api } from '@/lib/services/apiRequests.js';
-import { useMatchStream } from '@/hooks/useMatchStream.js';
+import { useMatchStream, getSocket } from '@/hooks/useMatchStream.js';
 
 export default function BattlePage({ id }) {
   const identity = useMemo(() => getCurrentIdentity(), []);
@@ -37,11 +37,30 @@ export default function BattlePage({ id }) {
   const [timeLeft, setTimeLeft] = useState('00:00');
   const [activeTab, setActiveTab] = useState('desc');
   const [matchResult, setMatchResult] = useState('');
+  const [spectatedPlayerId, setSpectatedPlayerId] = useState(null);
+
+  const isSpectator = useMemo(() => {
+    if (!matchData) return false;
+    return !matchData.players.includes(myParticipantId);
+  }, [matchData, myParticipantId]);
+
+  useEffect(() => {
+    if (isSpectator && matchData?.players?.length > 0 && !spectatedPlayerId) {
+      setSpectatedPlayerId(matchData.players[0]);
+    }
+  }, [isSpectator, matchData, spectatedPlayerId]);
 
   const { data: latestMessage } = useMatchStream(id, identity);
 
   useEffect(() => {
     if (!latestMessage) return;
+
+    if (latestMessage.type === 'PLAYER_CODE_SYNC') {
+      if (isSpectator && latestMessage.playerId === spectatedPlayerId) {
+        setCode(latestMessage.code);
+        setLanguage(latestMessage.language);
+      }
+    }
 
     if (latestMessage.type === 'CODE_FEEDBACK' && latestMessage.playerId === myParticipantId) {
       toast.dismiss();
@@ -115,7 +134,7 @@ export default function BattlePage({ id }) {
       } : null));
       toast('Race Started!');
     }
-  }, [latestMessage, myParticipantId]);
+  }, [latestMessage, myParticipantId, isSpectator, spectatedPlayerId]);
 
   useEffect(() => {
     const fetchMatch = async () => {
@@ -172,8 +191,15 @@ export default function BattlePage({ id }) {
 
   const handleLanguageChange = (newLang) => {
     setLanguage(newLang);
-    if (matchData?.problem?.template && matchData.problem.template[newLang]) {
-      setCode(matchData.problem.template[newLang]);
+    const newCode = matchData?.problem?.template?.[newLang] || '';
+    setCode(newCode);
+    if (!isSpectator && matchData) {
+      getSocket().emit('match:sync', {
+        matchId: matchData.matchId,
+        playerId: myParticipantId,
+        code: newCode,
+        language: newLang
+      });
     }
   };
 
@@ -261,7 +287,6 @@ export default function BattlePage({ id }) {
   const myDisplayName = participantById.get(myParticipantId)?.displayName || myNickname;
   const playerOneName = participantById.get(players[0])?.displayName || players[0] || 'Player 1';
   const playerTwoName = participantById.get(players[1])?.displayName || players[1] || 'Player 2';
-  const isSpectator = !players.includes(myParticipantId);
 
   let statusDotClass = 'bg-red-500';
 
@@ -453,6 +478,7 @@ export default function BattlePage({ id }) {
                 value={language}
                 onChange={(e) => handleLanguageChange(e.target.value)}
                 className="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold rounded-md px-2 py-1.5 focus:outline-none"
+                disabled={isSpectator}
               >
                 {Object.keys(matchData.problem.template).map((lang) => (
                   <option key={lang} value={lang}>
@@ -460,6 +486,23 @@ export default function BattlePage({ id }) {
                   </option>
                 ))}
               </select>
+
+              {isSpectator && matchData?.players?.length > 0 && (
+                <select
+                  value={spectatedPlayerId || ''}
+                  onChange={(e) => setSpectatedPlayerId(e.target.value)}
+                  className="bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold rounded-md px-2 py-1.5 focus:outline-none"
+                >
+                  {matchData.players.map((pId, idx) => {
+                    const participant = matchData.participants?.find((p) => p.participantId === pId);
+                    return (
+                      <option key={pId} value={pId}>
+                        Watching: {participant?.displayName || `Player ${idx + 1}`}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
 
               <button type="button" onClick={() => handleLanguageChange(language)} className="p-1.5 text-slate-400 hover:text-slate-600 transition">
                 <RotateCcw size={14} />
@@ -473,7 +516,18 @@ export default function BattlePage({ id }) {
               language={language}
               value={code}
               theme="light"
-              onChange={(value) => setCode(value || '')}
+              onChange={(value) => {
+                const val = value || '';
+                setCode(val);
+                if (!isSpectator && matchData) {
+                  getSocket().emit('match:sync', {
+                    matchId: matchData.matchId,
+                    playerId: myParticipantId,
+                    code: val,
+                    language
+                  });
+                }
+              }}
               options={{
                 minimap: { enabled: false },
                 fontSize: 14,

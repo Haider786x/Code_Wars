@@ -1,1 +1,1981 @@
-[]
+[
+  {
+    "slug": "validate-binary-search-tree",
+    "title": "Validate Binary Search Tree",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "recursion",
+      "dfs"
+    ],
+    "description": "Given an integer array `tree` representing a binary tree in **level-order (BFS) order**, determine if it is a valid **Binary Search Tree (BST)**.\n\nA valid BST is defined as follows:\n- The left subtree of a node contains only nodes with values **strictly less than** the node's value.\n- The right subtree of a node contains only nodes with values **strictly greater than** the node's value.\n- Both the left and right subtrees must also be valid BSTs.\n\nThe array uses `-1` to represent `null` (missing) nodes in the level-order encoding.\n\n**Example:**\n```\ntree = [5, 3, 7, 1, 4, 6, 8]\n```\nThis represents:\n```\n    5\n   / \\\n  3   7\n / \\ / \\\n1  4 6  8\n```\nEvery left child is smaller, every right child is larger → valid BST → `true`\n\n**Note:** Node values can be negative. The constraint `-1` is **only** used for null placeholders, so actual node values will never be `-1`.",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are unique integers in the range [-10^4, 10^4] (excluding -1, which denotes null)",
+      "The tree array represents a complete binary tree structure in level-order",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "isValidBST",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the binary tree, with -1 for null nodes"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            5,
+            3,
+            7,
+            1,
+            4,
+            6,
+            8
+          ]
+        ],
+        "expected": true,
+        "explanation": "The tree is a valid BST: left subtree values (1,3,4) are all less than 5, right subtree values (6,7,8) are all greater than 5, and this property holds recursively."
+      },
+      {
+        "args": [
+          [
+            5,
+            1,
+            4,
+            -1,
+            -1,
+            3,
+            6
+          ]
+        ],
+        "expected": false,
+        "explanation": "The root is 5, but its right child is 4, which is less than 5. This violates the BST property, so the answer is false."
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            -1,
+            -1,
+            6,
+            20
+          ]
+        ],
+        "expected": false,
+        "explanation": "Node 6 is in the right subtree of root 10, but 6 < 10. This violates the BST property."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            3
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            6,
+            -1,
+            -1,
+            3,
+            7
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            3,
+            1,
+            5,
+            -1,
+            2,
+            -1,
+            -1
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            100,
+            50,
+            200,
+            25,
+            75,
+            150,
+            300
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            100,
+            50,
+            200,
+            25,
+            75,
+            150,
+            90
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14,
+            1,
+            3,
+            5,
+            7,
+            9,
+            11,
+            13,
+            15
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14,
+            1,
+            3,
+            5,
+            9,
+            9,
+            11,
+            13,
+            15
+          ]
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isValidBST(self, tree: list[int]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @return {boolean}\n */\nfunction isValidBST(tree) {\n    // Your code here\n}\n",
+      "java": "public boolean isValidBST(int[] tree) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "search-in-bst",
+    "title": "Search in a Binary Search Tree",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "search"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order, and an integer `val`, find the node whose value equals `val` and return that value. If no such node exists, return `-1`.\n\nThe array uses `-1` to represent `null` (missing) nodes. Node values will never be `-1`.\n\n**Example:**\n```\ntree = [4, 2, 7, 1, 3, -1, -1]\nval = 2\n```\nThe BST looks like:\n```\n    4\n   / \\\n  2   7\n / \\\n1   3\n```\nNode with value `2` exists → return `2`.\n\nIf `val = 5`, no such node exists → return `-1`.\n\n**Hint:** Use the BST property to guide your search: if `val < current`, go left; if `val > current`, go right.",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are unique integers in the range [0, 10^4] (excluding -1, which denotes null)",
+      "val is an integer in the range [0, 10^4]",
+      "Expected time complexity: O(h) where h is the height of the BST",
+      "Expected auxiliary space: O(h)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "searchBST",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      },
+      {
+        "name": "val",
+        "type": "integer",
+        "description": "The value to search for in the BST"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            -1,
+            -1
+          ],
+          2
+        ],
+        "expected": 2,
+        "explanation": "The node with value 2 exists in the BST, so we return 2."
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            -1,
+            -1
+          ],
+          5
+        ],
+        "expected": -1,
+        "explanation": "No node with value 5 exists in the BST, so we return -1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            4
+          ],
+          4
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            4
+          ],
+          9
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            8,
+            3,
+            10,
+            1,
+            6,
+            -1,
+            14,
+            -1,
+            -1,
+            4,
+            7
+          ],
+          6
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            8,
+            3,
+            10,
+            1,
+            6,
+            -1,
+            14,
+            -1,
+            -1,
+            4,
+            7
+          ],
+          14
+        ],
+        "expected": 14
+      },
+      {
+        "args": [
+          [
+            8,
+            3,
+            10,
+            1,
+            6,
+            -1,
+            14,
+            -1,
+            -1,
+            4,
+            7
+          ],
+          99
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            50,
+            25,
+            75,
+            10,
+            30,
+            60,
+            90
+          ],
+          10
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            50,
+            25,
+            75,
+            10,
+            30,
+            60,
+            90
+          ],
+          45
+        ],
+        "expected": -1
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def searchBST(self, tree: list[int], val: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @param {number} val\n * @return {number}\n */\nfunction searchBST(tree, val) {\n    // Your code here\n}\n",
+      "java": "public int searchBST(int[] tree, int val) {\n    // Your code here\n    return -1;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "minimum-value-in-bst",
+    "title": "Minimum Value in BST",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search tree",
+      "tree"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order, return the **minimum value** stored in the BST.\n\nThe array uses `-1` to represent `null` (missing) nodes. Node values will never be `-1`.\n\n**Key Insight:** In a BST, the minimum value is always located at the **leftmost node** — keep going left until there is no more left child.\n\n**Example:**\n```\ntree = [8, 3, 10, 1, 6, -1, 14]\n```\nThe BST looks like:\n```\n      8\n     / \\\n    3   10\n   / \\    \\\n  1   6   14\n```\nThe leftmost node is `1` → return `1`.",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are integers in the range [0, 10^4] (excluding -1, which denotes null)",
+      "The input is guaranteed to be a valid BST",
+      "Expected time complexity: O(h) where h is the height of the BST",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "minValueBST",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            8,
+            3,
+            10,
+            1,
+            6,
+            -1,
+            14
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Following the leftmost path: 8 → 3 → 1. Node 1 has no left child, so 1 is the minimum."
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            7
+          ]
+        ],
+        "expected": 3,
+        "explanation": "The leftmost node is 3, which is the minimum value in the BST."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            42
+          ]
+        ],
+        "expected": 42
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            20,
+            2,
+            7,
+            15,
+            25
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            100,
+            50,
+            200,
+            25,
+            75,
+            150,
+            300,
+            10
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            7,
+            3,
+            9,
+            1,
+            5,
+            -1,
+            -1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            15,
+            10,
+            20,
+            8,
+            12,
+            -1,
+            -1
+          ]
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          [
+            50,
+            30,
+            70,
+            20,
+            40,
+            60,
+            80,
+            10,
+            25
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            5,
+            -1,
+            10,
+            -1,
+            -1,
+            -1,
+            15
+          ]
+        ],
+        "expected": 5
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def minValueBST(self, tree: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @return {number}\n */\nfunction minValueBST(tree) {\n    // Your code here\n}\n",
+      "java": "public int minValueBST(int[] tree) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "maximum-value-in-bst",
+    "title": "Maximum Value in BST",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search tree",
+      "tree"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order, return the **maximum value** stored in the BST.\n\nThe array uses `-1` to represent `null` (missing) nodes. Node values will never be `-1`.\n\n**Key Insight:** In a BST, the maximum value is always located at the **rightmost node** — keep going right until there is no more right child.\n\n**Example:**\n```\ntree = [8, 3, 10, 1, 6, -1, 14]\n```\nThe BST looks like:\n```\n      8\n     / \\\n    3   10\n   / \\    \\\n  1   6   14\n```\nThe rightmost node is `14` → return `14`.",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are integers in the range [0, 10^4] (excluding -1, which denotes null)",
+      "The input is guaranteed to be a valid BST",
+      "Expected time complexity: O(h) where h is the height of the BST",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "maxValueBST",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            8,
+            3,
+            10,
+            1,
+            6,
+            -1,
+            14
+          ]
+        ],
+        "expected": 14,
+        "explanation": "Following the rightmost path: 8 → 10 → 14. Node 14 has no right child, so 14 is the maximum."
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            7
+          ]
+        ],
+        "expected": 7,
+        "explanation": "The rightmost node is 7, which is the maximum value in the BST."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            42
+          ]
+        ],
+        "expected": 42
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            20,
+            2,
+            7,
+            15,
+            25
+          ]
+        ],
+        "expected": 25
+      },
+      {
+        "args": [
+          [
+            100,
+            50,
+            200,
+            25,
+            75,
+            150,
+            300
+          ]
+        ],
+        "expected": 300
+      },
+      {
+        "args": [
+          [
+            7,
+            3,
+            9,
+            -1,
+            -1,
+            8,
+            11
+          ]
+        ],
+        "expected": 11
+      },
+      {
+        "args": [
+          [
+            15,
+            10,
+            20,
+            8,
+            12,
+            -1,
+            25
+          ]
+        ],
+        "expected": 25
+      },
+      {
+        "args": [
+          [
+            50,
+            30,
+            70,
+            20,
+            40,
+            60,
+            80,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            90
+          ]
+        ],
+        "expected": 90
+      },
+      {
+        "args": [
+          [
+            3,
+            1,
+            -1
+          ]
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def maxValueBST(self, tree: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @return {number}\n */\nfunction maxValueBST(tree) {\n    // Your code here\n}\n",
+      "java": "public int maxValueBST(int[] tree) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "insert-into-bst",
+    "title": "Insert into a Binary Search Tree",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "insertion"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order and an integer `val`, insert `val` into the BST and return the **level-order (BFS) array** of the resulting tree.\n\nThe array uses `-1` to represent `null` (missing) nodes. It is guaranteed that `val` does not already exist in the BST.\n\n**Rules for insertion:**\n- If `val` is less than the current node, insert into the **left subtree**.\n- If `val` is greater than the current node, insert into the **right subtree**.\n- Insert at the first available `null` position following BST rules.\n\nThe returned array should represent the tree in level-order with `-1` for null nodes. Trim any trailing `-1`s from the output.\n\n**Example:**\n```\ntree = [4, 2, 7, 1, 3, -1, -1]\nval = 5\n```\nInsert 5: 5 < 7 (go left of 7), 7's left is null → place 5 there.\n```\n    4\n   / \\\n  2   7\n / \\ /\n1  3 5\n```\nResult: `[4, 2, 7, 1, 3, 5, -1]`",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values and val are unique integers in the range [0, 10^4] (excluding -1, which denotes null)",
+      "val does not exist in the original tree",
+      "The input is guaranteed to be a valid BST",
+      "Expected time complexity: O(h) where h is the height of the BST",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "insertIntoBST",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      },
+      {
+        "name": "val",
+        "type": "integer",
+        "description": "The value to insert into the BST"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            -1,
+            -1
+          ],
+          5
+        ],
+        "expected": [
+          4,
+          2,
+          7,
+          1,
+          3,
+          5,
+          -1
+        ],
+        "explanation": "5 > 4, go right to 7. 5 < 7, go left. 7's left is null, so insert 5 there. The resulting level-order array is [4, 2, 7, 1, 3, 5, -1]."
+      },
+      {
+        "args": [
+          [
+            40,
+            20,
+            60,
+            10,
+            30,
+            50,
+            70
+          ],
+          25
+        ],
+        "expected": [
+          40,
+          20,
+          60,
+          10,
+          30,
+          50,
+          70,
+          -1,
+          -1,
+          25,
+          -1
+        ],
+        "explanation": "25 < 40 → go left to 20. 25 > 20 → go right to 30. 25 < 30 → go left of 30, which is null. Insert 25 as the left child of 30."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            5
+          ],
+          3
+        ],
+        "expected": [
+          5,
+          3,
+          -1
+        ]
+      },
+      {
+        "args": [
+          [
+            5
+          ],
+          8
+        ],
+        "expected": [
+          5,
+          -1,
+          8
+        ]
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            -1,
+            -1
+          ],
+          0
+        ],
+        "expected": [
+          4,
+          2,
+          7,
+          1,
+          3,
+          -1,
+          -1,
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            -1,
+            -1
+          ],
+          8
+        ],
+        "expected": [
+          4,
+          2,
+          7,
+          1,
+          3,
+          -1,
+          8
+        ]
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            12,
+            20
+          ],
+          6
+        ],
+        "expected": [
+          10,
+          5,
+          15,
+          3,
+          7,
+          12,
+          20,
+          -1,
+          -1,
+          6,
+          -1
+        ]
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            12,
+            20
+          ],
+          18
+        ],
+        "expected": [
+          10,
+          5,
+          15,
+          3,
+          7,
+          12,
+          20,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          18,
+          -1
+        ]
+      },
+      {
+        "args": [
+          [
+            50,
+            25,
+            75
+          ],
+          10
+        ],
+        "expected": [
+          50,
+          25,
+          75,
+          10,
+          -1
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def insertIntoBST(self, tree: list[int], val: int) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @param {number} val\n * @return {number[]}\n */\nfunction insertIntoBST(tree, val) {\n    // Your code here\n}\n",
+      "java": "public int[] insertIntoBST(int[] tree, int val) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "kth-smallest-element-in-bst",
+    "title": "Kth Smallest Element in a BST",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "inorder traversal",
+      "recursion"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order and an integer `k`, return the **k-th smallest value** (1-indexed) among all node values in the BST.\n\nThe array uses `-1` to represent `null` (missing) nodes. Node values will never be `-1`.\n\n**Key Insight:** An **inorder traversal** (left → root → right) of a BST yields values in **sorted ascending order**. The k-th element of this sorted sequence is the answer.\n\n**Example:**\n```\ntree = [3, 1, 4, -1, 2, -1, -1]\nk = 1\n```\nThe BST looks like:\n```\n    3\n   / \\\n  1   4\n   \\\n    2\n```\nInorder traversal: `[1, 2, 3, 4]` → 1st smallest = `1`.",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are unique integers in the range [0, 10^4] (excluding -1, which denotes null)",
+      "1 <= k <= number of nodes in the tree",
+      "The input is guaranteed to be a valid BST",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "kthSmallest",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      },
+      {
+        "name": "k",
+        "type": "integer",
+        "description": "The rank (1-indexed) of the smallest element to find"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            1,
+            4,
+            -1,
+            2,
+            -1,
+            -1
+          ],
+          1
+        ],
+        "expected": 1,
+        "explanation": "Inorder traversal gives [1, 2, 3, 4]. The 1st smallest element is 1."
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            6,
+            2,
+            4,
+            -1,
+            -1,
+            1
+          ],
+          3
+        ],
+        "expected": 3,
+        "explanation": "Inorder traversal gives [1, 2, 3, 4, 5, 6]. The 3rd smallest element is 3."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            7
+          ],
+          2
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            7
+          ],
+          3
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14,
+            1,
+            3,
+            5,
+            7,
+            9,
+            11,
+            13,
+            15
+          ],
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14,
+            1,
+            3,
+            5,
+            7,
+            9,
+            11,
+            13,
+            15
+          ],
+          8
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14,
+            1,
+            3,
+            5,
+            7,
+            9,
+            11,
+            13,
+            15
+          ],
+          15
+        ],
+        "expected": 15
+      },
+      {
+        "args": [
+          [
+            20,
+            10,
+            30,
+            5,
+            15,
+            25,
+            35
+          ],
+          4
+        ],
+        "expected": 20
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def kthSmallest(self, tree: list[int], k: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @param {number} k\n * @return {number}\n */\nfunction kthSmallest(tree, k) {\n    // Your code here\n}\n",
+      "java": "public int kthSmallest(int[] tree, int k) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "lowest-common-ancestor-bst",
+    "title": "Lowest Common Ancestor of a BST",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "lca",
+      "recursion"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order, and two integers `p` and `q` representing the values of two nodes, return the **value of their Lowest Common Ancestor (LCA)**.\n\nThe **Lowest Common Ancestor** of two nodes `p` and `q` in a tree is the deepest node that is an ancestor of both `p` and `q` (a node is a descendant of itself).\n\nThe array uses `-1` to represent `null` (missing) nodes. It is guaranteed that both `p` and `q` exist in the tree.\n\n**Key Insight:** Use the BST property:\n- If both `p` and `q` are **less than** the current node → LCA is in the **left subtree**.\n- If both `p` and `q` are **greater than** the current node → LCA is in the **right subtree**.\n- Otherwise → the current node **is** the LCA.\n\n**Example:**\n```\ntree = [6, 2, 8, 0, 4, 7, 9, -1, -1, 3, 5]\np = 2, q = 8\n```\nLCA of 2 and 8 is `6` (the root), since one is in the left subtree and the other in the right.",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are unique integers in the range [0, 10^4] (excluding -1, which denotes null)",
+      "p and q exist in the BST and p != q",
+      "The input is guaranteed to be a valid BST",
+      "Expected time complexity: O(h) where h is the height of the BST",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "lowestCommonAncestor",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      },
+      {
+        "name": "p",
+        "type": "integer",
+        "description": "The value of the first node"
+      },
+      {
+        "name": "q",
+        "type": "integer",
+        "description": "The value of the second node"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            6,
+            2,
+            8,
+            0,
+            4,
+            7,
+            9,
+            -1,
+            -1,
+            3,
+            5
+          ],
+          2,
+          8
+        ],
+        "expected": 6,
+        "explanation": "2 is in the left subtree of 6 and 8 is in the right subtree. Since they split at 6, the LCA is 6."
+      },
+      {
+        "args": [
+          [
+            6,
+            2,
+            8,
+            0,
+            4,
+            7,
+            9,
+            -1,
+            -1,
+            3,
+            5
+          ],
+          2,
+          4
+        ],
+        "expected": 2,
+        "explanation": "Both 2 and 4 are in the left subtree. At node 2, we see that 4 is in the right subtree of 2. Since they split at 2, the LCA is 2."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            6,
+            2,
+            8,
+            0,
+            4,
+            7,
+            9,
+            -1,
+            -1,
+            3,
+            5
+          ],
+          3,
+          5
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            6,
+            2,
+            8,
+            0,
+            4,
+            7,
+            9,
+            -1,
+            -1,
+            3,
+            5
+          ],
+          7,
+          9
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            7
+          ],
+          3,
+          7
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            7
+          ],
+          5,
+          7
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            20,
+            10,
+            30,
+            5,
+            15,
+            25,
+            35
+          ],
+          5,
+          15
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            20,
+            10,
+            30,
+            5,
+            15,
+            25,
+            35
+          ],
+          5,
+          35
+        ],
+        "expected": 20
+      },
+      {
+        "args": [
+          [
+            20,
+            10,
+            30,
+            5,
+            15,
+            25,
+            35
+          ],
+          25,
+          35
+        ],
+        "expected": 30
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def lowestCommonAncestor(self, tree: list[int], p: int, q: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @param {number} p\n * @param {number} q\n * @return {number}\n */\nfunction lowestCommonAncestor(tree, p, q) {\n    // Your code here\n}\n",
+      "java": "public int lowestCommonAncestor(int[] tree, int p, int q) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "inorder-traversal-of-bst",
+    "title": "Inorder Traversal of BST",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "inorder traversal",
+      "sorting"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order, return the **inorder traversal** of the tree as an integer array.\n\nThe array uses `-1` to represent `null` (missing) nodes. Node values will never be `-1`.\n\n**Inorder traversal** visits nodes in the order: **left → root → right**.\n\n**Key property:** The inorder traversal of a BST always yields node values in **sorted ascending order**.\n\n**Example:**\n```\ntree = [4, 2, 6, 1, 3, 5, 7]\n```\nThe BST:\n```\n      4\n     / \\\n    2   6\n   / \\ / \\\n  1  3 5  7\n```\nInorder: left of 4 → [1, 2, 3], then root 4, then right of 4 → [5, 6, 7]\nResult: `[1, 2, 3, 4, 5, 6, 7]`",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are integers in the range [0, 10^4] (excluding -1, which denotes null)",
+      "The input is guaranteed to be a valid BST",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "inorderTraversal",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            6,
+            1,
+            3,
+            5,
+            7
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "explanation": "Inorder traversal visits: 1, 2, 3, 4, 5, 6, 7 — the sorted order of all node values."
+      },
+      {
+        "args": [
+          [
+            3,
+            1,
+            4,
+            -1,
+            2,
+            -1,
+            -1
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "explanation": "The BST has nodes 1, 2, 3, 4. Inorder traversal yields them in sorted order: [1, 2, 3, 4]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            5
+          ]
+        ],
+        "expected": [
+          5
+        ]
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            7
+          ]
+        ],
+        "expected": [
+          3,
+          5,
+          7
+        ]
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14
+          ]
+        ],
+        "expected": [
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14
+        ]
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            12,
+            20
+          ]
+        ],
+        "expected": [
+          3,
+          5,
+          7,
+          10,
+          12,
+          15,
+          20
+        ]
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            -1,
+            1,
+            4
+          ]
+        ],
+        "expected": [
+          1,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "args": [
+          [
+            5,
+            -1,
+            8,
+            -1,
+            -1,
+            7,
+            9
+          ]
+        ],
+        "expected": [
+          5,
+          7,
+          8,
+          9
+        ]
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14,
+            1,
+            3,
+            5,
+            7,
+            9,
+            11,
+            13,
+            15
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def inorderTraversal(self, tree: list[int]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @return {number[]}\n */\nfunction inorderTraversal(tree) {\n    // Your code here\n}\n",
+      "java": "public int[] inorderTraversal(int[] tree) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "range-sum-of-bst",
+    "title": "Range Sum of BST",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "dfs",
+      "range query"
+    ],
+    "description": "Given an integer array `tree` representing a **Binary Search Tree (BST)** in level-order (BFS) order, and two integers `low` and `high`, return the **sum of all node values** in the inclusive range `[low, high]`.\n\nThe array uses `-1` to represent `null` (missing) nodes. Node values will never be `-1`.\n\n**Optimization:** Use the BST property to prune your search:\n- If the current node's value is **less than** `low`, the answer lies entirely in the **right subtree**.\n- If the current node's value is **greater than** `high`, the answer lies entirely in the **left subtree**.\n- Otherwise, include the current node and explore both subtrees.\n\n**Example:**\n```\ntree = [10, 5, 15, 3, 7, -1, 18]\nlow = 7, high = 15\n```\nNodes in range [7, 15]: 7, 10, 15 → sum = `32`",
+    "constraints": [
+      "1 <= tree.length <= 10000",
+      "Node values are unique integers in the range [1, 10^5] (excluding -1, which denotes null)",
+      "1 <= low <= high <= 10^5",
+      "The input is guaranteed to be a valid BST",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(h) where h is the height of the BST"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "rangeSumBST",
+    "params": [
+      {
+        "name": "tree",
+        "type": "integer[]",
+        "description": "Level-order (BFS) representation of the BST, with -1 for null nodes"
+      },
+      {
+        "name": "low",
+        "type": "integer",
+        "description": "The lower bound of the range (inclusive)"
+      },
+      {
+        "name": "high",
+        "type": "integer",
+        "description": "The upper bound of the range (inclusive)"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            -1,
+            18
+          ],
+          7,
+          15
+        ],
+        "expected": 32,
+        "explanation": "Nodes with values in [7, 15] are: 7, 10, 15. Their sum is 7 + 10 + 15 = 32."
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            13,
+            18,
+            1,
+            -1,
+            6,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          6,
+          10
+        ],
+        "expected": 23,
+        "explanation": "Nodes in range [6, 10]: 6, 7, 10. Sum = 6 + 7 + 10 = 23."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            10
+          ],
+          5,
+          15
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            10
+          ],
+          11,
+          20
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            -1,
+            18
+          ],
+          1,
+          100
+        ],
+        "expected": 58
+      },
+      {
+        "args": [
+          [
+            10,
+            5,
+            15,
+            3,
+            7,
+            -1,
+            18
+          ],
+          15,
+          18
+        ],
+        "expected": 33
+      },
+      {
+        "args": [
+          [
+            20,
+            10,
+            30,
+            5,
+            15,
+            25,
+            35
+          ],
+          12,
+          28
+        ],
+        "expected": 60
+      },
+      {
+        "args": [
+          [
+            50,
+            25,
+            75,
+            10,
+            30,
+            60,
+            90
+          ],
+          30,
+          75
+        ],
+        "expected": 165
+      },
+      {
+        "args": [
+          [
+            8,
+            4,
+            12,
+            2,
+            6,
+            10,
+            14,
+            1,
+            3,
+            5,
+            7,
+            9,
+            11,
+            13,
+            15
+          ],
+          5,
+          11
+        ],
+        "expected": 54
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def rangeSumBST(self, tree: list[int], low: int, high: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} tree\n * @param {number} low\n * @param {number} high\n * @return {number}\n */\nfunction rangeSumBST(tree, low, high) {\n    // Your code here\n}\n",
+      "java": "public int rangeSumBST(int[] tree, int low, int high) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "convert-sorted-array-to-bst",
+    "title": "Convert Sorted Array to Height-Balanced BST",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search tree",
+      "tree",
+      "divide and conquer",
+      "recursion"
+    ],
+    "description": "Given an integer array `nums` sorted in **ascending order**, convert it to a **height-balanced Binary Search Tree (BST)** and return the tree as a **level-order (BFS) integer array**.\n\nA **height-balanced BST** is a BST where the depth of the two subtrees of every node never differs by more than 1.\n\nUse `-1` to represent `null` nodes in your output. Trim any trailing `-1`s from the output array.\n\n**Strategy:** Always choose the **middle element** of the current range as the root. This ensures balance.\n- For `[1, 2, 3, 4, 5, 6, 7]`, the middle element is `4` (index 3).\n- Left half `[1, 2, 3]` → left subtree, right half `[5, 6, 7]` → right subtree.\n- Recurse on each half.\n\n**Example:**\n```\nnums = [-10, -3, 0, 5, 9]\n```\nChoose middle = `0` as root. Left half = `[-10, -3]`, right half = `[5, 9]`.\nResult: `[0, -3, 9, -10, -1, 5, -1]`\n\n**Note:** When there are two middle elements (even-length array), choose the **lower middle** (index `(len-1)/2`). If your approach produces a different valid balanced BST, it will also be accepted as long as it is balanced and a valid BST.",
+    "constraints": [
+      "1 <= nums.length <= 10000",
+      "nums is sorted in strictly ascending order",
+      "Node values are integers in the range [-10^4, 10^4]",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "sortedArrayToBST",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "A sorted integer array in ascending order to be converted into a height-balanced BST"
+      }
+    ],
+    "returnType": "integer[]",
+    "examples": [
+      {
+        "args": [
+          [
+            -10,
+            -3,
+            0,
+            5,
+            9
+          ]
+        ],
+        "expected": [
+          0,
+          -3,
+          9,
+          -10,
+          -1,
+          5,
+          -1
+        ],
+        "explanation": "Middle of [-10,-3,0,5,9] is 0 (index 2). Left = [-10,-3], right = [5,9]. Middle of [-10,-3] is -3 (index 1, lower mid). Middle of [5,9] is 9 (index 1, lower mid). Result tree in level-order: [0, -3, 9, -10, -1, 5, -1]."
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          2,
+          1,
+          3
+        ],
+        "explanation": "Middle element is 2 (index 1). Left = [1], right = [3]. The resulting balanced BST in level-order is [2, 1, 3]."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": [
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [
+          1,
+          -1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        ],
+        "expected": [
+          4,
+          2,
+          6,
+          1,
+          3,
+          5,
+          7
+        ]
+      },
+      {
+        "args": [
+          [
+            -5,
+            -3,
+            -1,
+            0,
+            2,
+            4,
+            6
+          ]
+        ],
+        "expected": [
+          0,
+          -3,
+          4,
+          -5,
+          -1,
+          2,
+          6
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            3,
+            5,
+            7,
+            9,
+            11
+          ]
+        ],
+        "expected": [
+          5,
+          3,
+          9,
+          1,
+          -1,
+          7,
+          11
+        ]
+      },
+      {
+        "args": [
+          [
+            -4,
+            -2,
+            0,
+            2,
+            4
+          ]
+        ],
+        "expected": [
+          0,
+          -2,
+          4,
+          -4,
+          -1,
+          2,
+          -1
+        ]
+      },
+      {
+        "args": [
+          [
+            10,
+            20,
+            30,
+            40,
+            50,
+            60,
+            70,
+            80,
+            90
+          ]
+        ],
+        "expected": [
+          50,
+          30,
+          70,
+          20,
+          40,
+          60,
+          80,
+          10,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          90
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def sortedArrayToBST(self, nums: list[int]) -> list[int]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nfunction sortedArrayToBST(nums) {\n    // Your code here\n}\n",
+      "java": "public int[] sortedArrayToBST(int[] nums) {\n    // Your code here\n    return new int[]{};\n}\n"
+    },
+    "approved": true
+  }
+]

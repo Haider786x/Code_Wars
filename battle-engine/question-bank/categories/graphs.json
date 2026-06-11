@@ -1,1 +1,2640 @@
-[]
+[
+  {
+    "slug": "number-of-provinces",
+    "title": "Number of Provinces",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "union-find",
+      "dfs",
+      "bfs"
+    ],
+    "description": "There are `n` cities. Some of them are connected, while some are not. If city `a` is connected directly with city `b`, and city `b` is connected directly with city `c`, then city `a` is connected indirectly with city `c`.\n\nA **province** is a group of directly or indirectly connected cities and no other cities outside of the group.\n\nYou are given an `n x n` matrix `isConnected` where `isConnected[i][j] = 1` if the `i`th city and the `j`th city are directly connected, and `isConnected[i][j] = 0` otherwise.\n\nReturn the total number of **provinces**.\n\n**Example:**\nIf `isConnected = [[1,1,0],[1,1,0],[0,0,1]]`, cities 0 and 1 are connected forming one province, and city 2 is its own province — answer is `2`.",
+    "constraints": [
+      "1 <= n <= 200",
+      "n == isConnected.length == isConnected[i].length",
+      "isConnected[i][j] is 0 or 1",
+      "isConnected[i][i] == 1",
+      "isConnected[i][j] == isConnected[j][i]",
+      "Expected time complexity: O(n^2)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "findCircleNum",
+    "params": [
+      {
+        "name": "isConnected",
+        "type": "integer[][]",
+        "description": "n x n adjacency matrix where isConnected[i][j]=1 means city i and city j are directly connected"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Cities 0 and 1 are connected forming one province. City 2 is isolated forming another province. Total = 2."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 3,
+        "explanation": "All three cities are disconnected from each other. Each forms its own province. Total = 3."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 1,
+        "explanation": "All cities are connected to each other, forming a single province."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findCircleNum(self, isConnected: list[list[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} isConnected\n * @return {number}\n */\nfunction findCircleNum(isConnected) {\n    // Your code here\n}\n",
+      "java": "public int findCircleNum(int[][] isConnected) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "flood-fill",
+    "title": "Flood Fill",
+    "difficulty": "Easy",
+    "tags": [
+      "graphs",
+      "dfs",
+      "bfs",
+      "matrix"
+    ],
+    "description": "You are given an image represented by an `m x n` grid of integers `image`, where `image[i][j]` represents the pixel value of the image. You are also given three integers `sr`, `sc`, and `color`.\n\nPerform a **flood fill** starting from the pixel `image[sr][sc]`:\n- Starting pixel and all connected pixels of the **same color** (4-directionally: up, down, left, right) are changed to `color`.\n- Then, for each of those pixels, check adjacent pixels of the same original color, and so on.\n\nReturn the modified image after performing the flood fill.\n\n**Example:**\nGiven `image = [[1,1,1],[1,1,0],[1,0,1]]`, `sr = 1`, `sc = 1`, `color = 2`:\nAll `1`s connected to position (1,1) become `2`. Result: `[[2,2,2],[2,2,0],[2,0,1]]`.",
+    "constraints": [
+      "m == image.length",
+      "n == image[i].length",
+      "1 <= m, n <= 50",
+      "0 <= image[i][j] <= 65535",
+      "0 <= sr < m",
+      "0 <= sc < n",
+      "0 <= color <= 65535",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "floodFill",
+    "params": [
+      {
+        "name": "image",
+        "type": "integer[][]",
+        "description": "m x n grid of pixel color values"
+      },
+      {
+        "name": "sr",
+        "type": "integer",
+        "description": "Row index of the starting pixel"
+      },
+      {
+        "name": "sc",
+        "type": "integer",
+        "description": "Column index of the starting pixel"
+      },
+      {
+        "name": "color",
+        "type": "integer",
+        "description": "The new color to apply during flood fill"
+      }
+    ],
+    "returnType": "integer[][]",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ],
+          1,
+          1,
+          2
+        ],
+        "expected": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            0
+          ],
+          [
+            2,
+            0,
+            1
+          ]
+        ],
+        "explanation": "Starting at (1,1) with value 1. All 4-directionally connected pixels with value 1 are changed to 2. The isolated 1 at (2,2) is not connected, so it stays."
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          0,
+          0,
+          0
+        ],
+        "expected": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "explanation": "The new color is the same as the original color of the starting pixel, so no changes occur."
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              1
+            ]
+          ],
+          1,
+          1,
+          1
+        ],
+        "expected": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            1
+          ]
+        ],
+        "explanation": "Starting pixel already has the target color 1, no connected pixels of value 1 link to 0s, so only (1,1) and (1,2) remain as 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ],
+          0,
+          0,
+          5
+        ],
+        "expected": [
+          [
+            5
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          0,
+          0,
+          3
+        ],
+        "expected": [
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          1,
+          1,
+          4
+        ],
+        "expected": [
+          [
+            4,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            4
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ],
+          1,
+          1,
+          2
+        ],
+        "expected": [
+          [
+            1,
+            2,
+            1
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            1,
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ],
+          0,
+          0,
+          3
+        ],
+        "expected": [
+          [
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            0
+          ],
+          [
+            3,
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              2,
+              2,
+              2
+            ],
+            [
+              2,
+              2,
+              2
+            ],
+            [
+              2,
+              2,
+              2
+            ]
+          ],
+          0,
+          0,
+          2
+        ],
+        "expected": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          1,
+          1,
+          5
+        ],
+        "expected": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            5,
+            5,
+            0
+          ],
+          [
+            0,
+            5,
+            5,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def floodFill(self, image: list[list[int]], sr: int, sc: int, color: int) -> list[list[int]]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} image\n * @param {number} sr\n * @param {number} sc\n * @param {number} color\n * @return {number[][]}\n */\nfunction floodFill(image, sr, sc, color) {\n    // Your code here\n}\n",
+      "java": "public int[][] floodFill(int[][] image, int sr, int sc, int color) {\n    // Your code here\n    return new int[0][0];\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "number-of-islands",
+    "title": "Number of Islands",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "dfs",
+      "bfs",
+      "matrix",
+      "union-find"
+    ],
+    "description": "Given an `m x n` 2D binary grid `grid` which represents a map of `1`s (land) and `0`s (water), return the number of islands.\n\nAn **island** is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are surrounded by water.\n\n**Example:**\n```\ngrid = [\n  [1,1,1,1,0],\n  [1,1,0,1,0],\n  [1,1,0,0,0],\n  [0,0,0,0,0]\n]\n```\nThere is one connected group of land cells — so the answer is `1`.\n\nUse DFS/BFS to visit all cells of each island, marking visited land cells to avoid double-counting.",
+    "constraints": [
+      "m == grid.length",
+      "n == grid[i].length",
+      "1 <= m, n <= 300",
+      "grid[i][j] is 0 or 1",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "numIslands",
+    "params": [
+      {
+        "name": "grid",
+        "type": "integer[][]",
+        "description": "m x n binary matrix where 1 represents land and 0 represents water"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": 1,
+        "explanation": "All land cells are connected horizontally or vertically, forming a single island."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 3,
+        "explanation": "There are three separate groups of connected land cells: top-left 2x2 block, one cell at (2,2), and two cells at (3,3) and (3,4)."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 5,
+        "explanation": "Each land cell (1) is surrounded by water (0) on all four sides. None are connected, so there are 5 separate islands."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 4
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def numIslands(self, grid: list[list[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} grid\n * @return {number}\n */\nfunction numIslands(grid) {\n    // Your code here\n}\n",
+      "java": "public int numIslands(int[][] grid) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "clone-graph-node-count",
+    "title": "Clone Graph Node Count",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "dfs",
+      "bfs",
+      "hash-map"
+    ],
+    "description": "You are given a connected undirected graph represented as an adjacency list `adjList`, where `adjList[i]` is a list of indices (0-indexed) of nodes that node `i` is connected to.\n\nYour task is to **clone** (deep copy) the graph and return the **total number of nodes** reachable from node `0` in the cloned graph (which should equal the number of nodes in the original graph).\n\nThis tests your ability to perform a full graph traversal while tracking visited nodes — the same logic needed for a proper deep clone.\n\n**Example:**\nIf `adjList = [[1,3],[0,2],[1,3],[0,2]]`, nodes 0,1,2,3 form a cycle. All 4 nodes are reachable from node 0, so return `4`.\n\nUse DFS or BFS starting from node 0, counting each unique node visited exactly once.",
+    "constraints": [
+      "0 <= adjList.length <= 100",
+      "adjList[i] contains 0-indexed node indices",
+      "No self-loops or repeated edges",
+      "The graph is connected (all nodes reachable from node 0)",
+      "Expected time complexity: O(V + E)",
+      "Expected auxiliary space: O(V)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "cloneGraphNodeCount",
+    "params": [
+      {
+        "name": "adjList",
+        "type": "integer[][]",
+        "description": "Adjacency list where adjList[i] lists the 0-indexed neighbors of node i"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        ],
+        "expected": 4,
+        "explanation": "The graph has 4 nodes (0,1,2,3) all reachable from node 0. BFS/DFS from node 0 visits all 4 nodes."
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Two nodes connected by one edge. Both nodes are reachable from node 0."
+      },
+      {
+        "args": [
+          [
+            []
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Only one node (node 0) with no neighbors. Exactly 1 node is reachable."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            []
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3
+            ]
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              0,
+              2,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              4
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              0
+            ]
+          ]
+        ],
+        "expected": 5
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def cloneGraphNodeCount(self, adjList: list[list[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} adjList\n * @return {number}\n */\nfunction cloneGraphNodeCount(adjList) {\n    // Your code here\n}\n",
+      "java": "public int cloneGraphNodeCount(int[][] adjList) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "course-schedule",
+    "title": "Course Schedule",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "topological-sort",
+      "dfs",
+      "cycle-detection"
+    ],
+    "description": "There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array `prerequisites` where `prerequisites[i] = [a, b]` indicates that you **must** take course `b` first if you want to take course `a`.\n\nReturn `true` if you can finish all courses, otherwise return `false`.\n\nThis is essentially a **cycle detection** problem in a directed graph. If a cycle exists in the prerequisite graph, it is impossible to complete all courses.\n\n**Example:**\n- `numCourses = 2`, `prerequisites = [[1,0]]` → You must take 0 before 1. No cycle → `true`.\n- `numCourses = 2`, `prerequisites = [[1,0],[0,1]]` → 0 needs 1 and 1 needs 0 — a cycle → `false`.",
+    "constraints": [
+      "1 <= numCourses <= 2000",
+      "0 <= prerequisites.length <= 5000",
+      "prerequisites[i].length == 2",
+      "0 <= a, b < numCourses",
+      "All prerequisites[i] pairs are unique",
+      "Expected time complexity: O(V + E)",
+      "Expected auxiliary space: O(V + E)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "canFinish",
+    "params": [
+      {
+        "name": "numCourses",
+        "type": "integer",
+        "description": "Total number of courses labeled 0 to numCourses-1"
+      },
+      {
+        "name": "prerequisites",
+        "type": "integer[][]",
+        "description": "List of prerequisite pairs [a, b] meaning course b must be taken before course a"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          2,
+          [
+            [
+              1,
+              0
+            ]
+          ]
+        ],
+        "expected": true,
+        "explanation": "Course 1 requires course 0. You can take 0 then 1. No cycle exists, so it is possible to finish all courses."
+      },
+      {
+        "args": [
+          2,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": false,
+        "explanation": "Course 1 requires course 0, and course 0 requires course 1. This creates a cycle, making it impossible to finish all courses."
+      },
+      {
+        "args": [
+          4,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ]
+        ],
+        "expected": true,
+        "explanation": "Linear chain of prerequisites: 0 → 1 → 2 → 3. No cycle. All courses can be finished."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          1,
+          []
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          3,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          5,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              3
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          3,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          4,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          3,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          6,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              4
+            ]
+          ]
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} numCourses\n * @param {number[][]} prerequisites\n * @return {boolean}\n */\nfunction canFinish(numCourses, prerequisites) {\n    // Your code here\n}\n",
+      "java": "public boolean canFinish(int numCourses, int[][] prerequisites) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "find-path-exists-in-graph",
+    "title": "Find if Path Exists in Graph",
+    "difficulty": "Easy",
+    "tags": [
+      "graphs",
+      "dfs",
+      "bfs",
+      "union-find"
+    ],
+    "description": "There is a **bi-directional** graph with `n` vertices, where each vertex is labeled from `0` to `n - 1`. The edges in the graph are represented as a 2D integer array `edges`, where each `edges[i] = [u, v]` denotes a bi-directional edge between vertex `u` and vertex `v`.\n\nGiven the integers `source` and `destination`, return `true` if there is a **valid path** from vertex `source` to vertex `destination`, or `false` otherwise.\n\n**Example:**\nWith `n = 3`, `edges = [[0,1],[1,2],[2,0]]`, `source = 0`, `destination = 2` → The path 0 → 1 → 2 exists → `true`.\n\nYou can use DFS, BFS, or Union-Find to determine connectivity.",
+    "constraints": [
+      "1 <= n <= 2 * 10^5",
+      "0 <= edges.length <= 2 * 10^5",
+      "edges[i].length == 2",
+      "0 <= u, v < n",
+      "u != v",
+      "0 <= source, destination < n",
+      "There are no duplicate edges",
+      "Expected time complexity: O(V + E)",
+      "Expected auxiliary space: O(V + E)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "validPath",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "Number of vertices in the graph labeled 0 to n-1"
+      },
+      {
+        "name": "edges",
+        "type": "integer[][]",
+        "description": "List of bi-directional edges [u, v]"
+      },
+      {
+        "name": "source",
+        "type": "integer",
+        "description": "The starting vertex"
+      },
+      {
+        "name": "destination",
+        "type": "integer",
+        "description": "The target vertex"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          3,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          0,
+          2
+        ],
+        "expected": true,
+        "explanation": "A path exists: 0 → 1 → 2. The graph forms a triangle so all nodes are reachable from each other."
+      },
+      {
+        "args": [
+          6,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          0,
+          5
+        ],
+        "expected": false,
+        "explanation": "Nodes 0, 1, 2 form one component and nodes 3, 4, 5 form another. No path from 0 to 5 exists."
+      },
+      {
+        "args": [
+          1,
+          [],
+          0,
+          0
+        ],
+        "expected": true,
+        "explanation": "Source equals destination (both are 0). A trivial path of length 0 always exists."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          2,
+          [
+            [
+              0,
+              1
+            ]
+          ],
+          0,
+          1
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          2,
+          [],
+          0,
+          1
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          4,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          0,
+          3
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          4,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          0,
+          3
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          5,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          0,
+          4
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          5,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          1,
+          4
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          3,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          2,
+          0
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def validPath(self, n: int, edges: list[list[int]], source: int, destination: int) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @param {number[][]} edges\n * @param {number} source\n * @param {number} destination\n * @return {boolean}\n */\nfunction validPath(n, edges, source, destination) {\n    // Your code here\n}\n",
+      "java": "public boolean validPath(int n, int[][] edges, int source, int destination) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "all-paths-source-to-target-count",
+    "title": "All Paths From Source to Target — Count",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "dfs",
+      "backtracking",
+      "dag"
+    ],
+    "description": "Given a **directed acyclic graph (DAG)** of `n` nodes labeled from `0` to `n - 1`, represented as an adjacency list `graph` where `graph[i]` is a list of nodes you can visit from node `i`, return the **total number of paths** from node `0` to node `n - 1`.\n\nSince the graph is a DAG (no cycles), you can use DFS/backtracking without needing a visited set.\n\n**Example:**\n`graph = [[1,2],[3],[3],[]]` — paths from 0 to 3:\n- 0 → 1 → 3\n- 0 → 2 → 3\n\nTotal = `2`.\n\nNote: `n - 1` is always the target node (the last node).",
+    "constraints": [
+      "n == graph.length",
+      "2 <= n <= 15",
+      "0 <= graph[i][j] < n",
+      "graph[i][j] != i (no self-loops)",
+      "All elements of graph[i] are unique",
+      "The input graph is guaranteed to be a DAG",
+      "Expected time complexity: O(2^n * n)",
+      "Expected auxiliary space: O(2^n * n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "countPaths",
+    "params": [
+      {
+        "name": "graph",
+        "type": "integer[][]",
+        "description": "Adjacency list of a DAG where graph[i] lists nodes reachable from node i"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3
+            ],
+            [
+              3
+            ],
+            []
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Two paths from 0 to 3: (0→1→3) and (0→2→3)."
+      },
+      {
+        "args": [
+          [
+            [
+              4,
+              3,
+              1
+            ],
+            [
+              3,
+              2,
+              4
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            []
+          ]
+        ],
+        "expected": 4,
+        "explanation": "Four paths from 0 to 4: (0→4), (0→3→4), (0→1→3→4), (0→1→4), and (0→1→2→3→4). Wait, let's recount: 0→4, 0→3→4, 0→1→4, 0→1→3→4, 0→1→2→3→4 = 5. Actually for graph [[4,3,1],[3,2,4],[3],[4],[]], paths are: 0→4, 0→3→4, 0→1→4, 0→1→3→4, 0→1→2→3→4 = 5."
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            []
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Only one path exists: 0 → 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            []
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3
+            ],
+            [
+              3
+            ],
+            []
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              3
+            ],
+            [
+              3
+            ],
+            []
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            []
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3
+            ],
+            []
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            []
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4
+            ],
+            [
+              4
+            ],
+            [
+              4
+            ],
+            []
+          ]
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def countPaths(self, graph: list[list[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} graph\n * @return {number}\n */\nfunction countPaths(graph) {\n    // Your code here\n}\n",
+      "java": "public int countPaths(int[][] graph) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "minimum-vertices-to-reach-all-nodes",
+    "title": "Minimum Number of Vertices to Reach All Nodes",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "directed-graph",
+      "in-degree"
+    ],
+    "description": "Given a **directed acyclic graph** with `n` vertices labeled from `0` to `n - 1`, and a list of directed `edges` where `edges[i] = [from, to]` represents a directed edge from node `from` to node `to`.\n\nReturn the **count** of the smallest set of vertices from which all nodes in the graph are reachable.\n\n**Key insight:** A node can be reached from another node if and only if it has at least one incoming edge. Nodes with **no incoming edges (in-degree = 0)** cannot be reached from any other node and must be in the answer set.\n\n**Example:**\n`n = 6`, `edges = [[0,1],[0,2],[2,5],[3,4],[4,2]]`\nNodes with no incoming edge: 0 and 3. Answer = `2`.",
+    "constraints": [
+      "2 <= n <= 10^5",
+      "1 <= edges.length <= min(10^5, n * (n - 1) / 2)",
+      "edges[i].length == 2",
+      "0 <= from, to < n",
+      "All pairs (from, to) are distinct",
+      "Expected time complexity: O(V + E)",
+      "Expected auxiliary space: O(V)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "findSmallestSetOfVertices",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "Number of nodes in the DAG labeled 0 to n-1"
+      },
+      {
+        "name": "edges",
+        "type": "integer[][]",
+        "description": "List of directed edges [from, to]"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          6,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              2
+            ]
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Nodes 0 and 3 have no incoming edges. From 0 we can reach 1, 2, 5. From 3 we can reach 4, and then 2 and 5. So the minimum set size is 2."
+      },
+      {
+        "args": [
+          5,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ]
+          ]
+        ],
+        "expected": 3,
+        "explanation": "Nodes 0, 2, and 3 have no incoming edges. They form the minimum set of vertices from which all nodes are reachable."
+      },
+      {
+        "args": [
+          3,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        "expected": 1,
+        "explanation": "Only node 0 has no incoming edges. From node 0 we can reach nodes 1 and 2."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          2,
+          [
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          4,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          4,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          5,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          6,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          4,
+          [
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          7,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": 2
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findSmallestSetOfVertices(self, n: int, edges: list[list[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @param {number[][]} edges\n * @return {number}\n */\nfunction findSmallestSetOfVertices(n, edges) {\n    // Your code here\n}\n",
+      "java": "public int findSmallestSetOfVertices(int n, int[][] edges) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "keys-and-rooms",
+    "title": "Keys and Rooms",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "dfs",
+      "bfs"
+    ],
+    "description": "There are `n` rooms labeled from `0` to `n - 1` and all the rooms are locked except room `0`. Your goal is to visit all the rooms.\n\nWhen you visit a room, you may find a set of distinct keys in it. Each key has a number on it, denoting which room it unlocks, and you can take all of them with you to unlock the other rooms.\n\nGiven an array `rooms` where `rooms[i]` is the list of keys in room `i`, return `true` if you can visit **all** the rooms, or `false` otherwise.\n\nThis is a graph reachability problem — treat each room as a node and each key as a directed edge.\n\n**Example:**\n`rooms = [[1],[2],[3],[]]` — You start in room 0, get key 1, open room 1, get key 2, open room 2, get key 3, open room 3. All rooms visited → `true`.",
+    "constraints": [
+      "n == rooms.length",
+      "2 <= n <= 1000",
+      "0 <= rooms[i].length <= 1000",
+      "1 <= sum of rooms[i].length <= 3000",
+      "0 <= rooms[i][j] < n",
+      "All values in rooms[i] are unique",
+      "Expected time complexity: O(V + E)",
+      "Expected auxiliary space: O(V)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "canVisitAllRooms",
+    "params": [
+      {
+        "name": "rooms",
+        "type": "integer[][]",
+        "description": "rooms[i] contains the list of keys found in room i (keys are room labels they unlock)"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            []
+          ]
+        ],
+        "expected": true,
+        "explanation": "Start at room 0 (unlocked). Get key 1, unlock room 1. Get key 2, unlock room 2. Get key 3, unlock room 3. All 4 rooms visited."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3
+            ],
+            [
+              3,
+              0,
+              1
+            ],
+            [
+              2
+            ],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": false,
+        "explanation": "After visiting rooms 0, 1, 3 using the keys collected, room 2 can never be unlocked because key 2 is never found in any reachable room."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [],
+            [],
+            []
+          ]
+        ],
+        "expected": true,
+        "explanation": "Room 0 contains keys to all other rooms. All rooms can be visited immediately."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [],
+            [
+              3
+            ],
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              2
+            ],
+            [],
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3
+            ],
+            [
+              2
+            ],
+            [],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            []
+          ]
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def canVisitAllRooms(self, rooms: list[list[int]]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} rooms\n * @return {boolean}\n */\nfunction canVisitAllRooms(rooms) {\n    // Your code here\n}\n",
+      "java": "public boolean canVisitAllRooms(int[][] rooms) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "is-graph-bipartite",
+    "title": "Is Graph Bipartite?",
+    "difficulty": "Medium",
+    "tags": [
+      "graphs",
+      "bfs",
+      "dfs",
+      "graph-coloring"
+    ],
+    "description": "There is an **undirected graph** with `n` nodes, where each node is numbered between `0` and `n - 1`. You are given a 2D array `graph`, where `graph[u]` is an array of nodes that node `u` is adjacent to.\n\nThe graph does not contain self-loops and there are no repeated edges.\n\nA graph is **bipartite** if the nodes can be partitioned into two independent sets `A` and `B` such that every edge in the graph connects a node in set `A` and a node in set `B`.\n\nReturn `true` if and only if the graph is bipartite.\n\n**Approach:** Try to color the graph with 2 colors using BFS/DFS. If you ever find two adjacent nodes with the same color, the graph is not bipartite.\n\n**Example:**\n`graph = [[1,3],[0,2],[1,3],[2,0]]` forms a 4-cycle. 4-cycles are bipartite — `true`.\n`graph = [[1,2,3],[0,2],[0,1,3],[0,2]]` — triangle exists → `false`.",
+    "constraints": [
+      "n == graph.length",
+      "1 <= n <= 100",
+      "0 <= graph[u].length < n",
+      "0 <= graph[u][i] <= n - 1",
+      "graph[u] does not contain u",
+      "All values of graph[u] are unique",
+      "If graph[u] contains v, then graph[v] contains u",
+      "Expected time complexity: O(V + E)",
+      "Expected auxiliary space: O(V)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "isBipartite",
+    "params": [
+      {
+        "name": "graph",
+        "type": "integer[][]",
+        "description": "Adjacency list of an undirected graph where graph[u] lists all neighbors of node u"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        ],
+        "expected": true,
+        "explanation": "The graph is a 4-node cycle (0-1-2-3-0). We can color it: {0,2} in set A and {1,3} in set B. No two adjacent nodes share a color → bipartite."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        ],
+        "expected": false,
+        "explanation": "Nodes 0, 1, 2 form a triangle (each connected to each other). A triangle (odd cycle) cannot be 2-colored → not bipartite."
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              0
+            ],
+            [
+              3
+            ],
+            [
+              2
+            ]
+          ]
+        ],
+        "expected": true,
+        "explanation": "Two disconnected edges: 0-1 and 2-3. Each edge is trivially bipartite. Overall graph is bipartite."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [],
+            [],
+            [],
+            []
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              0
+            ],
+            [
+              3
+            ],
+            [
+              2
+            ],
+            [
+              5
+            ],
+            [
+              4
+            ]
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isBipartite(self, graph: list[list[int]]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} graph\n * @return {boolean}\n */\nfunction isBipartite(graph) {\n    // Your code here\n}\n",
+      "java": "public boolean isBipartite(int[][] graph) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  }
+]

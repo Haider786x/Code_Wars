@@ -1,1 +1,1304 @@
-[]
+[
+  {
+    "slug": "climbing-stairs",
+    "title": "Climbing Stairs",
+    "difficulty": "Easy",
+    "tags": [
+      "dynamic-programming",
+      "memoization",
+      "fibonacci"
+    ],
+    "description": "You are climbing a staircase. It takes `n` steps to reach the top.\n\nEach time you can either climb `1` or `2` steps. In how many distinct ways can you climb to the top?\n\n**Example:**\n- If `n = 2`, you can climb `(1+1)` or `(2)` → **2 ways**\n- If `n = 3`, you can climb `(1+1+1)`, `(1+2)`, or `(2+1)` → **3 ways**\n\nNotice that the number of ways to reach step `n` equals the number of ways to reach step `n-1` (then take 1 step) plus the number of ways to reach step `n-2` (then take 2 steps). This is essentially the Fibonacci sequence!\n\n**Approach:** Use dynamic programming — `dp[i] = dp[i-1] + dp[i-2]` with base cases `dp[1] = 1` and `dp[2] = 2`.",
+    "constraints": [
+      "1 <= n <= 45",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "climbStairs",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "The total number of steps to reach the top"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          2
+        ],
+        "expected": 2,
+        "explanation": "There are two ways: (1 step + 1 step) and (2 steps)."
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": 3,
+        "explanation": "There are three ways: (1+1+1), (1+2), and (2+1)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          5
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          10
+        ],
+        "expected": 89
+      },
+      {
+        "args": [
+          20
+        ],
+        "expected": 10946
+      },
+      {
+        "args": [
+          35
+        ],
+        "expected": 14930352
+      },
+      {
+        "args": [
+          45
+        ],
+        "expected": 1836311903
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def climbStairs(self, n: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nfunction climbStairs(n) {\n    // Your code here\n}\n",
+      "java": "public int climbStairs(int n) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "coin-change-minimum",
+    "title": "Coin Change (Minimum Coins)",
+    "difficulty": "Medium",
+    "tags": [
+      "dynamic-programming",
+      "breadth-first-search",
+      "array"
+    ],
+    "description": "You are given an integer array `coins` representing coins of different denominations and an integer `amount` representing a total amount of money.\n\nReturn the **fewest number of coins** that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return `-1`.\n\nYou may assume that you have an **infinite** number of each kind of coin.\n\n**Example:**\n- `coins = [1, 5, 11]`, `amount = 15` → Use one 11-coin and two 1-coins? No — actually one 5 and two 5s = 3 coins. But `11 + 1 + 1 + 1 + 1 = 5` coins; `5 + 5 + 5 = 3` coins. Answer: **3**\n- `coins = [2]`, `amount = 3` → Cannot make 3 with only 2-denomination coins. Answer: **-1**\n\n**Approach:** Build a DP array where `dp[i]` = minimum coins needed to make amount `i`. Initialize `dp[0] = 0` and `dp[i] = Infinity` for all other `i`. For each coin, update `dp[i] = min(dp[i], dp[i - coin] + 1)` for all reachable `i`.",
+    "constraints": [
+      "1 <= coins.length <= 12",
+      "1 <= coins[i] <= 2^31 - 1",
+      "0 <= amount <= 10^4",
+      "Expected time complexity: O(amount * coins.length)",
+      "Expected auxiliary space: O(amount)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "coinChange",
+    "params": [
+      {
+        "name": "coins",
+        "type": "integer[]",
+        "description": "Array of coin denominations available"
+      },
+      {
+        "name": "amount",
+        "type": "integer",
+        "description": "The total amount to make up"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            5
+          ],
+          11
+        ],
+        "expected": 3,
+        "explanation": "11 = 5 + 5 + 1. Three coins are needed."
+      },
+      {
+        "args": [
+          [
+            2
+          ],
+          3
+        ],
+        "expected": -1,
+        "explanation": "It is impossible to make 3 using only 2-denomination coins."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ],
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            5,
+            10,
+            25
+          ],
+          30
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            2,
+            5,
+            10
+          ],
+          3
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            5
+          ],
+          100
+        ],
+        "expected": 20
+      },
+      {
+        "args": [
+          [
+            186,
+            419,
+            83,
+            408
+          ],
+          6249
+        ],
+        "expected": 20
+      },
+      {
+        "args": [
+          [
+            3,
+            7,
+            405,
+            436
+          ],
+          8839
+        ],
+        "expected": 25
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} coins\n * @param {number} amount\n * @return {number}\n */\nfunction coinChange(coins, amount) {\n    // Your code here\n}\n",
+      "java": "public int coinChange(int[] coins, int amount) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "longest-increasing-subsequence",
+    "title": "Longest Increasing Subsequence",
+    "difficulty": "Medium",
+    "tags": [
+      "dynamic-programming",
+      "binary-search",
+      "array"
+    ],
+    "description": "Given an integer array `nums`, return the **length** of the longest strictly increasing subsequence.\n\nA **subsequence** is a sequence derived from the array by deleting some (or no) elements without changing the order of the remaining elements.\n\n**Example:**\n- `nums = [10, 9, 2, 5, 3, 7, 101, 18]`\n  - One LIS: `[2, 3, 7, 101]` → length **4**\n- `nums = [0, 1, 0, 3, 2, 3]`\n  - One LIS: `[0, 1, 2, 3]` → length **4**\n- `nums = [7, 7, 7, 7]`\n  - Since we need strictly increasing, only 1 element can be chosen → length **1**\n\n**Approach:** Let `dp[i]` = length of LIS ending at index `i`. For each `i`, check all `j < i`: if `nums[j] < nums[i]`, then `dp[i] = max(dp[i], dp[j] + 1)`. The answer is `max(dp)`. This gives O(n²). An O(n log n) solution using patience sorting / binary search also exists.",
+    "constraints": [
+      "1 <= nums.length <= 2500",
+      "-10^4 <= nums[i] <= 10^4",
+      "Expected time complexity: O(n log n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "lengthOfLIS",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "The input array of integers"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            10,
+            9,
+            2,
+            5,
+            3,
+            7,
+            101,
+            18
+          ]
+        ],
+        "expected": 4,
+        "explanation": "The LIS is [2, 3, 7, 101] with length 4."
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            3,
+            2,
+            3
+          ]
+        ],
+        "expected": 4,
+        "explanation": "The LIS is [0, 1, 2, 3] with length 4."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            7,
+            7,
+            7,
+            7
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            3,
+            2,
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            3,
+            10,
+            2,
+            1,
+            20
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            50,
+            3,
+            10,
+            7,
+            40,
+            80
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            1,
+            3,
+            6,
+            7,
+            9,
+            4,
+            10,
+            5,
+            6
+          ]
+        ],
+        "expected": 6
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction lengthOfLIS(nums) {\n    // Your code here\n}\n",
+      "java": "public int lengthOfLIS(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "maximum-subarray-dp",
+    "title": "Maximum Subarray (Dynamic Programming)",
+    "difficulty": "Easy",
+    "tags": [
+      "dynamic-programming",
+      "array",
+      "divide-and-conquer"
+    ],
+    "description": "Given an integer array `nums`, find the **contiguous subarray** (containing at least one number) which has the **largest sum** and return its sum.\n\nA **subarray** is a contiguous part of an array.\n\n**Example:**\n- `nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]`\n  - The subarray `[4, -1, 2, 1]` has the largest sum = **6**\n- `nums = [1]` → **1**\n- `nums = [5, 4, -1, 7, 8]` → **23**\n\n**Approach (Kadane's Algorithm):** Keep track of `currentSum` (the maximum sum ending at the current index) and `maxSum` (the global maximum). At each step:\n- `currentSum = max(nums[i], currentSum + nums[i])`\n- `maxSum = max(maxSum, currentSum)`\n\nThis runs in O(n) time and O(1) space.",
+    "constraints": [
+      "1 <= nums.length <= 10^5",
+      "-10^4 <= nums[i] <= 10^4",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "maxSubArray",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "The input array of integers (may contain negatives)"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            -2,
+            1,
+            -3,
+            4,
+            -1,
+            2,
+            1,
+            -5,
+            4
+          ]
+        ],
+        "expected": 6,
+        "explanation": "The subarray [4, -1, 2, 1] has the largest sum of 6."
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            -1,
+            7,
+            8
+          ]
+        ],
+        "expected": 23,
+        "explanation": "The entire array [5, 4, -1, 7, 8] sums to 23, which is the maximum."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            -2,
+            -3,
+            -1,
+            -4
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 15
+      },
+      {
+        "args": [
+          [
+            -1,
+            2,
+            3,
+            -9,
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            2,
+            -1,
+            2,
+            3,
+            4,
+            -1
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            -2,
+            1
+          ]
+        ],
+        "expected": 1
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction maxSubArray(nums) {\n    // Your code here\n}\n",
+      "java": "public int maxSubArray(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "unique-paths-grid",
+    "title": "Unique Paths in a Grid",
+    "difficulty": "Medium",
+    "tags": [
+      "dynamic-programming",
+      "math",
+      "combinatorics"
+    ],
+    "description": "A robot is located at the **top-left corner** of an `m x n` grid. The robot can only move either **down** or **right** at any point in time. The robot is trying to reach the **bottom-right corner** of the grid.\n\nHow many possible **unique paths** are there?\n\n**Example:**\n- `m = 3, n = 7` → **28** unique paths\n- `m = 3, n = 2` → **3** unique paths\n  - Right → Down → Down\n  - Down → Right → Down\n  - Down → Down → Right\n\n**Approach:** Use a 2D DP table where `dp[i][j]` = number of unique paths to reach cell `(i, j)`. The first row and first column are all 1s (only one way to reach any cell in them). For the rest: `dp[i][j] = dp[i-1][j] + dp[i][j-1]`. The answer is `dp[m-1][n-1]`.",
+    "constraints": [
+      "1 <= m, n <= 100",
+      "The answer is guaranteed to fit in a 32-bit integer",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n) or O(n) with space optimization"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "uniquePaths",
+    "params": [
+      {
+        "name": "m",
+        "type": "integer",
+        "description": "Number of rows in the grid"
+      },
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "Number of columns in the grid"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          3,
+          7
+        ],
+        "expected": 28,
+        "explanation": "There are 28 unique paths from the top-left to the bottom-right of a 3x7 grid."
+      },
+      {
+        "args": [
+          3,
+          2
+        ],
+        "expected": 3,
+        "explanation": "There are 3 unique paths: Right→Down→Down, Down→Right→Down, Down→Down→Right."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          1,
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          1,
+          10
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          10,
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          2,
+          2
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          3,
+          3
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          7,
+          3
+        ],
+        "expected": 28
+      },
+      {
+        "args": [
+          10,
+          10
+        ],
+        "expected": 48620
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} m\n * @param {number} n\n * @return {number}\n */\nfunction uniquePaths(m, n) {\n    // Your code here\n}\n",
+      "java": "public int uniquePaths(int m, int n) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "house-robber",
+    "title": "House Robber",
+    "difficulty": "Medium",
+    "tags": [
+      "dynamic-programming",
+      "array"
+    ],
+    "description": "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. The only constraint stopping you from robbing each of them is that **adjacent houses have security systems connected**, and it will automatically contact the police if **two adjacent houses** are broken into on the same night.\n\nGiven an integer array `nums` representing the amount of money of each house, return the **maximum amount of money you can rob tonight without alerting the police**.\n\n**Example:**\n- `nums = [1, 2, 3, 1]`\n  - Rob house 1 (money=1) and house 3 (money=3) → total **4**\n- `nums = [2, 7, 9, 3, 1]`\n  - Rob house 1 (2), house 3 (9), house 5 (1) → total **12**\n\n**Approach:** Let `dp[i]` = maximum money robbed from first `i` houses. Then `dp[i] = max(dp[i-1], dp[i-2] + nums[i])`. You can optimize to O(1) space using two variables.",
+    "constraints": [
+      "1 <= nums.length <= 100",
+      "0 <= nums[i] <= 400",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "rob",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array where nums[i] is the amount of money in the i-th house"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            1
+          ]
+        ],
+        "expected": 4,
+        "explanation": "Rob house 1 (money=1) and house 3 (money=3) for a total of 4."
+      },
+      {
+        "args": [
+          [
+            2,
+            7,
+            9,
+            3,
+            1
+          ]
+        ],
+        "expected": 12,
+        "explanation": "Rob house 1 (2), house 3 (9), and house 5 (1) for a total of 12."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            1,
+            2
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            100,
+            1,
+            100
+          ]
+        ],
+        "expected": 200
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            2
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            3,
+            1,
+            3,
+            100
+          ]
+        ],
+        "expected": 103
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def rob(self, nums: List[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction rob(nums) {\n    // Your code here\n}\n",
+      "java": "public int rob(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "word-break",
+    "title": "Word Break",
+    "difficulty": "Medium",
+    "tags": [
+      "dynamic-programming",
+      "trie",
+      "string",
+      "hash-table"
+    ],
+    "description": "Given a string `s` and a dictionary of strings `wordDict`, return `true` if `s` can be segmented into a space-separated sequence of one or more dictionary words.\n\nNote that the same word in the dictionary may be reused multiple times in the segmentation.\n\n**Example:**\n- `s = \"leetcode\"`, `wordDict = [\"leet\", \"code\"]`\n  - `\"leet\" + \"code\"` → `true`\n- `s = \"applepenapple\"`, `wordDict = [\"apple\", \"pen\"]`\n  - `\"apple\" + \"pen\" + \"apple\"` → `true` (reusing `\"apple\"`)\n- `s = \"catsandog\"`, `wordDict = [\"cats\", \"dog\", \"sand\", \"and\", \"cat\"]`\n  - No valid segmentation exists → `false`\n\n**Approach:** Let `dp[i]` = `true` if the first `i` characters of `s` can be segmented. `dp[0] = true` (empty string). For each position `i`, check all positions `j < i`: if `dp[j]` is true and `s[j..i]` is in the dictionary, set `dp[i] = true`.",
+    "constraints": [
+      "1 <= s.length <= 300",
+      "1 <= wordDict.length <= 1000",
+      "1 <= wordDict[i].length <= 20",
+      "s and wordDict[i] consist of only lowercase English letters",
+      "All the strings in wordDict are unique",
+      "Expected time complexity: O(n^2)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "wordBreak",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "The input string to segment"
+      },
+      {
+        "name": "wordDict",
+        "type": "string[]",
+        "description": "The dictionary of valid words"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          "leetcode",
+          [
+            "leet",
+            "code"
+          ]
+        ],
+        "expected": true,
+        "explanation": "The string can be segmented as 'leet' + 'code'."
+      },
+      {
+        "args": [
+          "catsandog",
+          [
+            "cats",
+            "dog",
+            "sand",
+            "and",
+            "cat"
+          ]
+        ],
+        "expected": false,
+        "explanation": "No valid segmentation of 'catsandog' exists using the given dictionary."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "a",
+          [
+            "a"
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "ab",
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "ab",
+          [
+            "a"
+          ]
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "applepenapple",
+          [
+            "apple",
+            "pen"
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "aaaaaaa",
+          [
+            "aaaa",
+            "aaa"
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "goalspecial",
+          [
+            "go",
+            "goal",
+            "goals",
+            "special"
+          ]
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "cars",
+          [
+            "car",
+            "ca",
+            "rs"
+          ]
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @param {string[]} wordDict\n * @return {boolean}\n */\nfunction wordBreak(s, wordDict) {\n    // Your code here\n}\n",
+      "java": "public boolean wordBreak(String s, java.util.List<String> wordDict) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "decode-ways",
+    "title": "Decode Ways",
+    "difficulty": "Medium",
+    "tags": [
+      "dynamic-programming",
+      "string"
+    ],
+    "description": "A message containing letters from `A-Z` can be encoded into numbers using the following mapping:\n\n```\n'A' -> \"1\"\n'B' -> \"2\"\n...\n'Z' -> \"26\"\n```\n\nTo decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, `\"11106\"` can be mapped into:\n- `\"AAJF\"` with the grouping `(1)(1)(10)(6)`\n- `\"KJF\"` with the grouping `(11)(10)(6)`\n\nNote that `\"06\"` cannot be mapped to `\"F\"` because `\"06\"` is different from `\"6\"` (a leading zero).\n\nGiven a string `s` containing only digits, return the **number of ways** to decode it. If there are no valid decodings, return `0`.\n\n**Approach:** Let `dp[i]` = number of ways to decode `s[0..i-1]`. `dp[0] = 1` (empty string). For each position, check if the single digit is valid (1-9) → add `dp[i-1]`. Check if the two-digit number is valid (10-26) → add `dp[i-2]`.",
+    "constraints": [
+      "1 <= s.length <= 100",
+      "s contains only digits and may contain leading zeros",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "numDecodings",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "The encoded string of digits to decode"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "12"
+        ],
+        "expected": 2,
+        "explanation": "'12' can be decoded as 'AB' (1,2) or 'L' (12), giving 2 ways."
+      },
+      {
+        "args": [
+          "226"
+        ],
+        "expected": 3,
+        "explanation": "'226' can be decoded as 'BZ' (2,26), 'VF' (22,6), or 'BBF' (2,2,6), giving 3 ways."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "0"
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "1"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "10"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "06"
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "11106"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "2101"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "111111111111111111111111111111111111111111111"
+        ],
+        "expected": 1836311903
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def numDecodings(self, s: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nfunction numDecodings(s) {\n    // Your code here\n}\n",
+      "java": "public int numDecodings(String s) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "minimum-path-sum-grid",
+    "title": "Minimum Path Sum in Grid",
+    "difficulty": "Medium",
+    "tags": [
+      "dynamic-programming",
+      "array",
+      "matrix"
+    ],
+    "description": "Given a `m x n` grid filled with **non-negative numbers**, find a path from the **top-left** to the **bottom-right**, which minimizes the sum of all numbers along its path.\n\n**Note:** You can only move either **down** or **right** at any point in time.\n\n**Example:**\n```\nGrid:\n1  3  1\n1  5  1\n4  2  1\n```\nThe path `1 → 3 → 1 → 1 → 1` has the minimum sum of **7**.\n\n**Approach:** Use a DP table where `dp[i][j]` = minimum path sum to reach cell `(i, j)`. Initialize `dp[0][0] = grid[0][0]`. Fill the first row and first column by accumulating values. Then for each remaining cell: `dp[i][j] = grid[i][j] + min(dp[i-1][j], dp[i][j-1])`.",
+    "constraints": [
+      "m == grid.length",
+      "n == grid[i].length",
+      "1 <= m, n <= 200",
+      "0 <= grid[i][j] <= 200",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n) or O(1) with in-place modification"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "minPathSum",
+    "params": [
+      {
+        "name": "grid",
+        "type": "integer[][]",
+        "description": "A 2D grid of non-negative integers"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            [
+              1,
+              3,
+              1
+            ],
+            [
+              1,
+              5,
+              1
+            ],
+            [
+              4,
+              2,
+              1
+            ]
+          ]
+        ],
+        "expected": 7,
+        "explanation": "The path 1→3→1→1→1 gives the minimum sum of 7."
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": 12,
+        "explanation": "The path 1→2→3→6 gives the minimum sum of 12."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            [
+              0
+            ]
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            [
+              5,
+              1,
+              1
+            ],
+            [
+              1,
+              5,
+              1
+            ],
+            [
+              1,
+              1,
+              5
+            ]
+          ]
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              4,
+              8,
+              6,
+              5
+            ],
+            [
+              2,
+              5,
+              9,
+              4,
+              3
+            ],
+            [
+              3,
+              6,
+              2,
+              7,
+              8
+            ]
+          ]
+        ],
+        "expected": 22
+      },
+      {
+        "args": [
+          [
+            [
+              3,
+              8,
+              6,
+              0,
+              5
+            ],
+            [
+              9,
+              7,
+              5,
+              6,
+              8
+            ],
+            [
+              7,
+              5,
+              9,
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": 28
+      }
+    ],
+    "starterCode": {
+      "python": "from typing import List\n\nclass Solution:\n    def minPathSum(self, grid: List[List[int]]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[][]} grid\n * @return {number}\n */\nfunction minPathSum(grid) {\n    // Your code here\n}\n",
+      "java": "public int minPathSum(int[][] grid) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "edit-distance",
+    "title": "Edit Distance",
+    "difficulty": "Hard",
+    "tags": [
+      "dynamic-programming",
+      "string"
+    ],
+    "description": "Given two strings `word1` and `word2`, return the **minimum number of operations** required to convert `word1` to `word2`.\n\nYou have the following three operations permitted on a word:\n- **Insert** a character\n- **Delete** a character\n- **Replace** a character\n\n**Example:**\n- `word1 = \"horse\"`, `word2 = \"ros\"`\n  - `horse → rorse` (replace 'h' with 'r')\n  - `rorse → rose` (delete 'r')\n  - `rose → ros` (delete 'e')\n  - Result: **3** operations\n- `word1 = \"intention\"`, `word2 = \"execution\"`\n  - Result: **5** operations\n\n**Approach:** Classic 2D DP. Let `dp[i][j]` = edit distance between `word1[0..i-1]` and `word2[0..j-1]`.\n- Base cases: `dp[i][0] = i`, `dp[0][j] = j`\n- If `word1[i-1] == word2[j-1]`: `dp[i][j] = dp[i-1][j-1]`\n- Else: `dp[i][j] = 1 + min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1])` (replace, delete, insert)",
+    "constraints": [
+      "0 <= word1.length, word2.length <= 500",
+      "word1 and word2 consist of lowercase English letters",
+      "Expected time complexity: O(m * n)",
+      "Expected auxiliary space: O(m * n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "minDistance",
+    "params": [
+      {
+        "name": "word1",
+        "type": "string",
+        "description": "The source string to transform"
+      },
+      {
+        "name": "word2",
+        "type": "string",
+        "description": "The target string to transform into"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "horse",
+          "ros"
+        ],
+        "expected": 3,
+        "explanation": "horse→rorse (replace h/r), rorse→rose (delete r), rose→ros (delete e). 3 operations total."
+      },
+      {
+        "args": [
+          "intention",
+          "execution"
+        ],
+        "expected": 5,
+        "explanation": "5 operations are needed to transform 'intention' into 'execution'."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "",
+          ""
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "abc",
+          ""
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "",
+          "abc"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "abc",
+          "abc"
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "a",
+          "b"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "kitten",
+          "sitting"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "sunday",
+          "saturday"
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} word1\n * @param {string} word2\n * @return {number}\n */\nfunction minDistance(word1, word2) {\n    // Your code here\n}\n",
+      "java": "public int minDistance(String word1, String word2) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  }
+]

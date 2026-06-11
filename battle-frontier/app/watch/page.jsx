@@ -6,6 +6,7 @@ import {
 
 import { api } from '@/lib/services/apiRequests.js';
 import { navigate } from '@/src/router.js';
+import { AppHeader } from '@/components/layout/AppHeader.jsx';
 
 const DIFFICULTY_COLORS = {
   Easy: 'text-emerald-600 bg-emerald-50 border-emerald-200',
@@ -105,7 +106,8 @@ export default function WatchPage() {
   const activity = data?.activity || [];
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] font-sans">
+    <div className="min-h-screen bg-app-bg font-sans">
+      <AppHeader activeTab="Watch" />
       {/* Header */}
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">

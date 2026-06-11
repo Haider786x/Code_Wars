@@ -1,1 +1,1146 @@
-[]
+[
+  {
+    "slug": "valid-palindrome",
+    "title": "Valid Palindrome",
+    "difficulty": "Easy",
+    "tags": [
+      "strings",
+      "two-pointers"
+    ],
+    "description": "A phrase is a **palindrome** if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\n\nGiven a string `s`, return `true` if it is a palindrome, or `false` otherwise.\n\n**Example:**\n- Input: `s = \"A man, a plan, a canal: Panama\"` → Output: `true` (cleaned: \"amanaplanacanalpanama\")\n- Input: `s = \"race a car\"` → Output: `false` (cleaned: \"raceacar\")\n- Input: `s = \" \"` → Output: `true` (empty string after cleaning is a palindrome)\n\nUse a two-pointer approach: one pointer from the left and one from the right, skipping non-alphanumeric characters and comparing lowercased characters.",
+    "constraints": [
+      "1 <= s.length <= 200000",
+      "s consists only of printable ASCII characters",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "isPalindrome",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "The input string to check"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          "A man, a plan, a canal: Panama"
+        ],
+        "expected": true,
+        "explanation": "After removing non-alphanumeric characters and lowercasing: 'amanaplanacanalpanama', which reads the same forward and backward."
+      },
+      {
+        "args": [
+          "race a car"
+        ],
+        "expected": false,
+        "explanation": "After cleaning: 'raceacar'. Reversed it is 'racaecar', which does not match."
+      },
+      {
+        "args": [
+          " "
+        ],
+        "expected": true,
+        "explanation": "After removing all non-alphanumeric characters, the string is empty, which is trivially a palindrome."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "a"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "ab"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "Was it a car or a cat I saw?"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "No lemon, no melon"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "0P"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "Never odd or even"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "Madam"
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @return {boolean}\n */\nfunction isPalindrome(s) {\n    // Your code here\n}\n",
+      "java": "public boolean isPalindrome(String s) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "reverse-string",
+    "title": "Reverse String",
+    "difficulty": "Easy",
+    "tags": [
+      "strings",
+      "two-pointers",
+      "in-place"
+    ],
+    "description": "Write a function that reverses a string. The input is given as an array of characters `s`.\n\nYou must do this **in-place** with `O(1)` extra memory — modify the input array directly and return it.\n\n**Example:**\n- Input: `s = ['h','e','l','l','o']` → Output: `['o','l','l','e','h']`\n- Input: `s = ['H','a','n','n','a','h']` → Output: `['h','a','n','n','a','H']`\n\nHint: Use two pointers — one at the start and one at the end — and swap characters until the pointers meet in the middle.",
+    "constraints": [
+      "1 <= s.length <= 100000",
+      "s[i] is a printable ASCII character",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "reverseString",
+    "params": [
+      {
+        "name": "s",
+        "type": "string[]",
+        "description": "Array of characters representing the string to reverse"
+      }
+    ],
+    "returnType": "string[]",
+    "examples": [
+      {
+        "args": [
+          [
+            "h",
+            "e",
+            "l",
+            "l",
+            "o"
+          ]
+        ],
+        "expected": [
+          "o",
+          "l",
+          "l",
+          "e",
+          "h"
+        ],
+        "explanation": "The array is reversed in-place: 'h' and 'o' are swapped, then 'e' and 'l' are swapped, middle 'l' stays."
+      },
+      {
+        "args": [
+          [
+            "H",
+            "a",
+            "n",
+            "n",
+            "a",
+            "h"
+          ]
+        ],
+        "expected": [
+          "h",
+          "a",
+          "n",
+          "n",
+          "a",
+          "H"
+        ],
+        "explanation": "The array is reversed in-place: 'H' and 'h' are swapped, 'a' and 'a' are swapped, 'n' and 'n' are swapped."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            "a"
+          ]
+        ],
+        "expected": [
+          "a"
+        ]
+      },
+      {
+        "args": [
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "expected": [
+          "b",
+          "a"
+        ]
+      },
+      {
+        "args": [
+          [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ]
+        ],
+        "expected": [
+          "E",
+          "D",
+          "C",
+          "B",
+          "A"
+        ]
+      },
+      {
+        "args": [
+          [
+            "1",
+            "2",
+            "3"
+          ]
+        ],
+        "expected": [
+          "3",
+          "2",
+          "1"
+        ]
+      },
+      {
+        "args": [
+          [
+            "z",
+            "y",
+            "x",
+            "w",
+            "v",
+            "u",
+            "t"
+          ]
+        ],
+        "expected": [
+          "t",
+          "u",
+          "v",
+          "w",
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      {
+        "args": [
+          [
+            "p",
+            "q",
+            "r",
+            "s"
+          ]
+        ],
+        "expected": [
+          "s",
+          "r",
+          "q",
+          "p"
+        ]
+      },
+      {
+        "args": [
+          [
+            "!"
+          ]
+        ],
+        "expected": [
+          "!"
+        ]
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def reverseString(self, s: list[str]) -> list[str]:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {character[]} s\n * @return {character[]}\n */\nfunction reverseString(s) {\n    // Your code here\n}\n",
+      "java": "public char[] reverseString(char[] s) {\n    // Your code here\n    return s;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "valid-anagram",
+    "title": "Valid Anagram",
+    "difficulty": "Easy",
+    "tags": [
+      "strings",
+      "hash-table",
+      "sorting"
+    ],
+    "description": "Given two strings `s` and `t`, return `true` if `t` is an **anagram** of `s`, and `false` otherwise.\n\nAn **anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.\n\n**Example:**\n- Input: `s = \"anagram\"`, `t = \"nagaram\"` → Output: `true`\n- Input: `s = \"rat\"`, `t = \"car\"` → Output: `false`\n\nApproach 1: Sort both strings and compare — O(n log n).\nApproach 2: Use a frequency count array or hash map — O(n) time, O(1) space (since there are only 26 lowercase letters).",
+    "constraints": [
+      "1 <= s.length, t.length <= 50000",
+      "s and t consist of lowercase English letters only",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "isAnagram",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "The first input string"
+      },
+      {
+        "name": "t",
+        "type": "string",
+        "description": "The second input string to check against"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          "anagram",
+          "nagaram"
+        ],
+        "expected": true,
+        "explanation": "Both strings contain: a×3, n×1, g×1, r×1, m×1. The character frequencies match exactly."
+      },
+      {
+        "args": [
+          "rat",
+          "car"
+        ],
+        "expected": false,
+        "explanation": "'rat' has r,a,t while 'car' has c,a,r. They do not share the same character multiset."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "a",
+          "a"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "ab",
+          "ba"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "ab",
+          "a"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "listen",
+          "silent"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "hello",
+          "world"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "aab",
+          "baa"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "aacc",
+          "ccac"
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isAnagram(self, s: str, t: str) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @param {string} t\n * @return {boolean}\n */\nfunction isAnagram(s, t) {\n    // Your code here\n}\n",
+      "java": "public boolean isAnagram(String s, String t) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "longest-common-prefix",
+    "title": "Longest Common Prefix",
+    "difficulty": "Easy",
+    "tags": [
+      "strings",
+      "trie"
+    ],
+    "description": "Write a function to find the **longest common prefix** string amongst an array of strings.\n\nIf there is no common prefix, return an empty string `\"\"`.\n\n**Example:**\n- Input: `strs = [\"flower\",\"flow\",\"flight\"]` → Output: `\"fl\"`\n- Input: `strs = [\"dog\",\"racecar\",\"car\"]` → Output: `\"\"`\n\nA simple approach: take the first string as the initial prefix, then iteratively trim it until it matches the beginning of every other string in the array. Each trim removes the last character. This runs in O(S) time where S is the sum of all characters across all strings.",
+    "constraints": [
+      "1 <= strs.length <= 200",
+      "0 <= strs[i].length <= 200",
+      "strs[i] consists of lowercase English letters only",
+      "Expected time complexity: O(S) where S is the total number of characters",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "longestCommonPrefix",
+    "params": [
+      {
+        "name": "strs",
+        "type": "string[]",
+        "description": "Array of strings to find the longest common prefix of"
+      }
+    ],
+    "returnType": "string",
+    "examples": [
+      {
+        "args": [
+          [
+            "flower",
+            "flow",
+            "flight"
+          ]
+        ],
+        "expected": "fl",
+        "explanation": "'fl' is the longest prefix shared by all three strings: 'flower', 'flow', and 'flight'."
+      },
+      {
+        "args": [
+          [
+            "dog",
+            "racecar",
+            "car"
+          ]
+        ],
+        "expected": "",
+        "explanation": "There is no common prefix among 'dog', 'racecar', and 'car', so the answer is an empty string."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            "a"
+          ]
+        ],
+        "expected": "a"
+      },
+      {
+        "args": [
+          [
+            "ab",
+            "a"
+          ]
+        ],
+        "expected": "a"
+      },
+      {
+        "args": [
+          [
+            "interview",
+            "inter",
+            "interact",
+            "interpose"
+          ]
+        ],
+        "expected": "inter"
+      },
+      {
+        "args": [
+          [
+            "",
+            "b"
+          ]
+        ],
+        "expected": ""
+      },
+      {
+        "args": [
+          [
+            "abc",
+            "abc",
+            "abc"
+          ]
+        ],
+        "expected": "abc"
+      },
+      {
+        "args": [
+          [
+            "prefix",
+            "suffix"
+          ]
+        ],
+        "expected": ""
+      },
+      {
+        "args": [
+          [
+            "reflower",
+            "flow",
+            "flight"
+          ]
+        ],
+        "expected": ""
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def longestCommonPrefix(self, strs: list[str]) -> str:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string[]} strs\n * @return {string}\n */\nfunction longestCommonPrefix(strs) {\n    // Your code here\n}\n",
+      "java": "public String longestCommonPrefix(String[] strs) {\n    // Your code here\n    return \"\";\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "roman-to-integer",
+    "title": "Roman to Integer",
+    "difficulty": "Easy",
+    "tags": [
+      "strings",
+      "math",
+      "hash-table"
+    ],
+    "description": "Roman numerals are represented by seven different symbols:\n\n| Symbol | Value |\n|--------|-------|\n| I      | 1     |\n| V      | 5     |\n| X      | 10    |\n| L      | 50    |\n| C      | 100   |\n| D      | 500   |\n| M      | 1000  |\n\nRoman numerals are usually written largest to smallest from left to right. However, there are six special **subtractive** cases:\n- `IV` = 4, `IX` = 9\n- `XL` = 40, `XC` = 90\n- `CD` = 400, `CM` = 900\n\nGiven a roman numeral string `s`, convert it to an integer.\n\n**Example:**\n- `\"III\"` → 3\n- `\"LVIII\"` → 58 (L=50, V=5, III=3)\n- `\"MCMXCIV\"` → 1994 (M=1000, CM=900, XC=90, IV=4)\n\nApproach: Iterate the string. If the current symbol's value is less than the next symbol's value, subtract it; otherwise add it.",
+    "constraints": [
+      "1 <= s.length <= 15",
+      "s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M')",
+      "It is guaranteed that s is a valid roman numeral in the range [1, 3999]",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "romanToInt",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "A valid Roman numeral string"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "III"
+        ],
+        "expected": 3,
+        "explanation": "I + I + I = 1 + 1 + 1 = 3."
+      },
+      {
+        "args": [
+          "LVIII"
+        ],
+        "expected": 58,
+        "explanation": "L = 50, V = 5, I = 1, I = 1, I = 1. Total = 58."
+      },
+      {
+        "args": [
+          "MCMXCIV"
+        ],
+        "expected": 1994,
+        "explanation": "M=1000, CM=900, XC=90, IV=4. Total = 1000+900+90+4 = 1994."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "I"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "IV"
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          "IX"
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          "XL"
+        ],
+        "expected": 40
+      },
+      {
+        "args": [
+          "XC"
+        ],
+        "expected": 90
+      },
+      {
+        "args": [
+          "CD"
+        ],
+        "expected": 400
+      },
+      {
+        "args": [
+          "MMMCMXCIX"
+        ],
+        "expected": 3999
+      },
+      {
+        "args": [
+          "DCXXI"
+        ],
+        "expected": 621
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def romanToInt(self, s: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nfunction romanToInt(s) {\n    // Your code here\n}\n",
+      "java": "public int romanToInt(String s) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "count-and-say",
+    "title": "Count and Say",
+    "difficulty": "Medium",
+    "tags": [
+      "strings",
+      "simulation"
+    ],
+    "description": "The **count-and-say** sequence is a sequence of digit strings defined by the recursive formula:\n\n- `countAndSay(1)` = `\"1\"`\n- `countAndSay(n)` is the **run-length encoding** of `countAndSay(n - 1)`\n\n**Run-length encoding (RLE)** replaces consecutive identical characters with the count followed by the character.\n\nFor example:\n- `\"3322251\"` → `\"23\" + \"32\" + \"15\" + \"11\"` = `\"23321511\"`\n\nThe first few terms of the sequence:\n```\nn=1: \"1\"\nn=2: \"11\"        (one 1)\nn=3: \"21\"        (two 1s)\nn=4: \"1211\"      (one 2, then one 1)\nn=5: \"111221\"    (one 1, one 2, two 1s)\nn=6: \"312211\"    (three 1s, two 2s, one 1)\n```\n\nGiven an integer `n`, return the `n`th term of the count-and-say sequence.",
+    "constraints": [
+      "1 <= n <= 30",
+      "Expected time complexity: O(2^n) in the worst case",
+      "Expected auxiliary space: O(2^n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "countAndSay",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "The term index in the count-and-say sequence (1-indexed)"
+      }
+    ],
+    "returnType": "string",
+    "examples": [
+      {
+        "args": [
+          1
+        ],
+        "expected": "1",
+        "explanation": "The base case: countAndSay(1) = '1'."
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": "1211",
+        "explanation": "countAndSay(3) = '21'. Reading '21': one 2 → '12', one 1 → '11'. Result: '1211'."
+      },
+      {
+        "args": [
+          6
+        ],
+        "expected": "312211",
+        "explanation": "countAndSay(5) = '111221'. Reading: three 1s → '31', two 2s → '22', one 1 → '11'. Result: '312211'."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          2
+        ],
+        "expected": "11"
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": "21"
+      },
+      {
+        "args": [
+          5
+        ],
+        "expected": "111221"
+      },
+      {
+        "args": [
+          7
+        ],
+        "expected": "13112221"
+      },
+      {
+        "args": [
+          8
+        ],
+        "expected": "1113213211"
+      },
+      {
+        "args": [
+          10
+        ],
+        "expected": "13211311123113112211"
+      },
+      {
+        "args": [
+          30
+        ],
+        "expected": "3113112221232112111312211312113211"
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def countAndSay(self, n: int) -> str:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @return {string}\n */\nfunction countAndSay(n) {\n    // Your code here\n}\n",
+      "java": "public String countAndSay(int n) {\n    // Your code here\n    return \"\";\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "implement-strstr",
+    "title": "Implement strStr (Needle in Haystack)",
+    "difficulty": "Easy",
+    "tags": [
+      "strings",
+      "two-pointers",
+      "string-matching"
+    ],
+    "description": "Given two strings `haystack` and `needle`, return the **index** of the first occurrence of `needle` in `haystack`, or `-1` if `needle` is not part of `haystack`.\n\nThis is equivalent to implementing the standard `strStr()` function in C.\n\n**Example:**\n- Input: `haystack = \"sadbutsad\"`, `needle = \"sad\"` → Output: `0` (first occurrence at index 0)\n- Input: `haystack = \"leetcode\"`, `needle = \"leeto\"` → Output: `-1`\n\n**Note:** If `needle` is an empty string, return `0` by convention.\n\nApproach: Slide a window of length `len(needle)` across `haystack` and check for a match. A more optimal solution uses the **KMP algorithm** for O(n + m) time.",
+    "constraints": [
+      "1 <= haystack.length, needle.length <= 10000",
+      "haystack and needle consist of only lowercase English letters",
+      "Expected time complexity: O(n * m) for naive, O(n + m) for KMP",
+      "Expected auxiliary space: O(1) for naive, O(m) for KMP"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "strStr",
+    "params": [
+      {
+        "name": "haystack",
+        "type": "string",
+        "description": "The string to search within"
+      },
+      {
+        "name": "needle",
+        "type": "string",
+        "description": "The substring to search for"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "sadbutsad",
+          "sad"
+        ],
+        "expected": 0,
+        "explanation": "'sad' first appears at index 0 in 'sadbutsad'."
+      },
+      {
+        "args": [
+          "leetcode",
+          "leeto"
+        ],
+        "expected": -1,
+        "explanation": "'leeto' does not appear anywhere in 'leetcode', so return -1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "hello",
+          "ll"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "aaaaa",
+          "bba"
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          "a",
+          "a"
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "mississippi",
+          "issip"
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          "aabaabaaf",
+          "aabaaf"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "abc",
+          "c"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "abcdef",
+          "abcdef"
+        ],
+        "expected": 0
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def strStr(self, haystack: str, needle: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} haystack\n * @param {string} needle\n * @return {number}\n */\nfunction strStr(haystack, needle) {\n    // Your code here\n}\n",
+      "java": "public int strStr(String haystack, String needle) {\n    // Your code here\n    return -1;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "length-of-last-word",
+    "title": "Length of Last Word",
+    "difficulty": "Easy",
+    "tags": [
+      "strings"
+    ],
+    "description": "Given a string `s` consisting of words and spaces, return the **length of the last word** in the string.\n\nA **word** is a maximal substring consisting of non-space characters only.\n\n**Example:**\n- Input: `s = \"Hello World\"` → Output: `5` (last word is \"World\", length 5)\n- Input: `s = \"   fly me   to   the moon  \"` → Output: `4` (last word is \"moon\", length 4)\n- Input: `s = \"luffy is still joyboy\"` → Output: `6` (last word is \"joyboy\", length 6)\n\nHint: Trim trailing spaces first, then scan backward from the end to find the start of the last word, counting until you hit a space or the beginning of the string.",
+    "constraints": [
+      "1 <= s.length <= 10000",
+      "s consists of only English letters and spaces ' '",
+      "There will be at least one word in s",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "lengthOfLastWord",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "A string of words separated by spaces"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "Hello World"
+        ],
+        "expected": 5,
+        "explanation": "The last word is 'World', which has length 5."
+      },
+      {
+        "args": [
+          "   fly me   to   the moon  "
+        ],
+        "expected": 4,
+        "explanation": "After trimming trailing spaces, the last word is 'moon', which has length 4."
+      },
+      {
+        "args": [
+          "luffy is still joyboy"
+        ],
+        "expected": 6,
+        "explanation": "The last word is 'joyboy', which has length 6."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "a"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "a "
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "day"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "Today is a nice day"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "   spaces   "
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          "one"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "hello world   "
+        ],
+        "expected": 5
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def lengthOfLastWord(self, s: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nfunction lengthOfLastWord(s) {\n    // Your code here\n}\n",
+      "java": "public int lengthOfLastWord(String s) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "add-binary",
+    "title": "Add Binary",
+    "difficulty": "Easy",
+    "tags": [
+      "strings",
+      "math",
+      "bit-manipulation"
+    ],
+    "description": "Given two binary strings `a` and `b`, return their **sum** as a binary string.\n\nA binary string consists only of `'0'` and `'1'` characters. You should not convert them to integers directly — handle the addition digit-by-digit like manual binary addition.\n\n**Example:**\n- Input: `a = \"11\"`, `b = \"1\"` → Output: `\"100\"` (3 + 1 = 4 in decimal, which is 100 in binary)\n- Input: `a = \"1010\"`, `b = \"1011\"` → Output: `\"10101\"` (10 + 11 = 21 in decimal)\n\nApproach: Start from the least significant bit (rightmost character) of both strings and work leftward, tracking a `carry` just like you would when adding decimal numbers by hand. Append each result bit to a list, then reverse and join at the end.",
+    "constraints": [
+      "1 <= a.length, b.length <= 10000",
+      "a and b consist only of '0' or '1' characters",
+      "Neither a nor b has leading zeros except for the zero itself",
+      "Expected time complexity: O(max(n, m))",
+      "Expected auxiliary space: O(max(n, m))"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "addBinary",
+    "params": [
+      {
+        "name": "a",
+        "type": "string",
+        "description": "First binary string operand"
+      },
+      {
+        "name": "b",
+        "type": "string",
+        "description": "Second binary string operand"
+      }
+    ],
+    "returnType": "string",
+    "examples": [
+      {
+        "args": [
+          "11",
+          "1"
+        ],
+        "expected": "100",
+        "explanation": "11 (3) + 1 (1) = 100 (4) in binary."
+      },
+      {
+        "args": [
+          "1010",
+          "1011"
+        ],
+        "expected": "10101",
+        "explanation": "1010 (10) + 1011 (11) = 10101 (21) in binary."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "0",
+          "0"
+        ],
+        "expected": "0"
+      },
+      {
+        "args": [
+          "1",
+          "1"
+        ],
+        "expected": "10"
+      },
+      {
+        "args": [
+          "1",
+          "0"
+        ],
+        "expected": "1"
+      },
+      {
+        "args": [
+          "1111",
+          "1111"
+        ],
+        "expected": "11110"
+      },
+      {
+        "args": [
+          "100",
+          "110010"
+        ],
+        "expected": "110110"
+      },
+      {
+        "args": [
+          "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101",
+          "110101001011101110001111100110001010100001101011101010000011011011001011101111001100000011011110011"
+        ],
+        "expected": "110111101100010011000101110110100000011101000101011001000011011000001100011110011010010011000000000"
+      },
+      {
+        "args": [
+          "0",
+          "1"
+        ],
+        "expected": "1"
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def addBinary(self, a: str, b: str) -> str:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} a\n * @param {string} b\n * @return {string}\n */\nfunction addBinary(a, b) {\n    // Your code here\n}\n",
+      "java": "public String addBinary(String a, String b) {\n    // Your code here\n    return \"\";\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "zigzag-conversion",
+    "title": "Zigzag Conversion",
+    "difficulty": "Medium",
+    "tags": [
+      "strings",
+      "simulation"
+    ],
+    "description": "The string `\"PAYPALISHIRING\"` is written in a zigzag pattern on a given number of rows like this (with 3 rows):\n\n```\nP   A   H   N\nA P L S I I G\nY   I   R\n```\n\nAnd then read line by line: `\"PAHNAPLSIIGYIR\"`.\n\nWrite the code that will take a string and make this conversion given a number of rows `numRows`.\n\n**Example:**\n- Input: `s = \"PAYPALISHIRING\"`, `numRows = 3` → Output: `\"PAHNAPLSIIGYIR\"`\n- Input: `s = \"PAYPALISHIRING\"`, `numRows = 4` → Output: `\"PINALSIGYAHRPI\"`\n\n```\nP     I    N\nA   L S  I G\nY A   H R\nP     I\n```\n\n**Approach:** Simulate the zigzag traversal by maintaining one string builder per row. Use a `currentRow` counter and a `direction` flag (+1 going down, -1 going up). Concatenate all rows at the end.",
+    "constraints": [
+      "1 <= s.length <= 1000",
+      "s consists of English letters (upper and lower case), ',' and '.'",
+      "1 <= numRows <= 1000",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "convert",
+    "params": [
+      {
+        "name": "s",
+        "type": "string",
+        "description": "The input string to convert"
+      },
+      {
+        "name": "numRows",
+        "type": "integer",
+        "description": "The number of rows for the zigzag pattern"
+      }
+    ],
+    "returnType": "string",
+    "examples": [
+      {
+        "args": [
+          "PAYPALISHIRING",
+          3
+        ],
+        "expected": "PAHNAPLSIIGYIR",
+        "explanation": "Row 0: P,A,H,N → 'PAHN'. Row 1: A,P,L,S,I,I,G → 'APLSIIG'. Row 2: Y,I,R → 'YIR'. Concatenated: 'PAHNAPLSIIGYIR'."
+      },
+      {
+        "args": [
+          "PAYPALISHIRING",
+          4
+        ],
+        "expected": "PINALSIGYAHRPI",
+        "explanation": "Row 0: P,I,N → 'PIN'. Row 1: A,L,S,I,G → 'ALSIG'. Row 2: Y,A,H,R → 'YAHR'. Row 3: P,I → 'PI'. Concatenated: 'PINALSIGYAHRPI'."
+      },
+      {
+        "args": [
+          "A",
+          1
+        ],
+        "expected": "A",
+        "explanation": "Single character with 1 row: the result is just 'A'."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "AB",
+          1
+        ],
+        "expected": "AB"
+      },
+      {
+        "args": [
+          "AB",
+          2
+        ],
+        "expected": "AB"
+      },
+      {
+        "args": [
+          "ABCDE",
+          2
+        ],
+        "expected": "ACEBD"
+      },
+      {
+        "args": [
+          "ABCDEFGH",
+          3
+        ],
+        "expected": "AEBDFHCG"
+      },
+      {
+        "args": [
+          "PAYPALISHIRING",
+          1
+        ],
+        "expected": "PAYPALISHIRING"
+      },
+      {
+        "args": [
+          "ABCDE",
+          4
+        ],
+        "expected": "ABCED"
+      },
+      {
+        "args": [
+          "ABCDEFGHIJ",
+          5
+        ],
+        "expected": "AIBHJCGDFEI"
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def convert(self, s: str, numRows: int) -> str:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} s\n * @param {number} numRows\n * @return {string}\n */\nfunction convert(s, numRows) {\n    // Your code here\n}\n",
+      "java": "public String convert(String s, int numRows) {\n    // Your code here\n    return \"\";\n}\n"
+    },
+    "approved": true
+  }
+]

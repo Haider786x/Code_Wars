@@ -4,6 +4,7 @@ import { ArrowLeft, User, Swords } from 'lucide-react';
 import { api } from '@/lib/services/apiRequests.js';
 import { navigate } from '@/src/router.js';
 import { getStoredUser, isLoggedIn, avatarUrl, getAuthHeaders } from '@/lib/auth/authStore.js';
+import { AppHeader } from '@/components/layout/AppHeader.jsx';
 
 function RatingLabel({ rating }) {
   if (rating >= 2000) return <span className="text-xs font-bold border border-slate-300 px-2 py-0.5 rounded uppercase tracking-wider text-slate-600">Grandmaster</span>;
@@ -133,30 +134,8 @@ export default function ProfilePage({ guestId: propGuestId }) {
   const avatar = myUser?.avatar || 'warrior';
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] font-sans">
-      {/* Slim header bar */}
-      <div className="bg-white border-b border-slate-200 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <button type="button" onClick={() => navigate('/')} className="flex items-center gap-2 text-slate-400 hover:text-slate-700 transition text-sm font-medium">
-            <ArrowLeft size={16} /> Arena
-          </button>
-          <div className="hidden sm:flex items-center gap-6 text-sm font-medium text-slate-500">
-            {['Arena', 'Ranked', 'Watch', 'Training', 'Profile'].map((l) => (
-              <span key={l} className={l === 'Profile' ? 'text-blue-600 border-b-2 border-blue-600 pb-0.5' : 'hover:text-slate-900 cursor-pointer'}
-                onClick={() => {
-                  if (l === 'Arena') navigate('/');
-                  else if (l === 'Ranked') navigate('/leaderboard');
-                  else if (l === 'Watch') navigate('/watch');
-                  else if (l === 'Training') navigate('/daily');
-                }}
-              >
-                {l}
-              </span>
-            ))}
-          </div>
-          <div className="w-20" />
-        </div>
-      </div>
+    <div className="min-h-screen bg-app-bg font-sans">
+      <AppHeader activeTab="Profile" />
 
       <div className="max-w-5xl mx-auto px-6 py-8">
         {loading && (

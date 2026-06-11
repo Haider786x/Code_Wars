@@ -1,1 +1,1265 @@
-[]
+[
+  {
+    "slug": "palindrome-number",
+    "title": "Palindrome Number",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "palindrome"
+    ],
+    "description": "Given an integer `x`, return `true` if `x` is a **palindrome**, and `false` otherwise.\n\nAn integer is a palindrome when it reads the same forward and backward. For example, `121` is a palindrome because it reads as `121` from left to right and from right to left. However, `-121` is not a palindrome because from left to right it reads as `-121`, and from right to left it becomes `121-`, which is not the same. Also, `10` is not a palindrome since it reads as `01` from right to left.\n\n**Note:** A negative number is never a palindrome. Numbers ending in 0 (except 0 itself) are not palindromes.\n\n**Example:**\n- Input: `x = 121` → Output: `true`\n- Input: `x = -121` → Output: `false`\n- Input: `x = 10` → Output: `false`",
+    "constraints": [
+      "-2^31 <= x <= 2^31 - 1",
+      "Expected time complexity: O(log10(n))",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "isPalindrome",
+    "params": [
+      {
+        "name": "x",
+        "type": "integer",
+        "description": "The integer to check"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          121
+        ],
+        "expected": true,
+        "explanation": "121 reads the same forwards and backwards."
+      },
+      {
+        "args": [
+          -121
+        ],
+        "expected": false,
+        "explanation": "Negative numbers are never palindromes — the minus sign breaks symmetry."
+      },
+      {
+        "args": [
+          10
+        ],
+        "expected": false,
+        "explanation": "Reads as '01' from right to left, which is not the same as '10'."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          0
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          1
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          11
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          1221
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          12321
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          123
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          100
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          -1
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          2147447412
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          2147483647
+        ],
+        "expected": false
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isPalindrome(self, x: int) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} x\n * @return {boolean}\n */\nfunction isPalindrome(x) {\n    // Your code here\n}\n",
+      "java": "public boolean isPalindrome(int x) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "reverse-integer",
+    "title": "Reverse Integer",
+    "difficulty": "Medium",
+    "tags": [
+      "math",
+      "integer"
+    ],
+    "description": "Given a signed 32-bit integer `x`, return `x` with its digits reversed. If reversing `x` causes the value to go outside the signed 32-bit integer range `[-2^31, 2^31 - 1]`, return `0`.\n\n**Assume the environment does not allow you to store 64-bit integers (signed or unsigned).**\n\n**Examples:**\n- Input: `x = 123` → Output: `321`\n- Input: `x = -123` → Output: `-321`\n- Input: `x = 120` → Output: `21` (leading zeros are dropped)\n- Input: `x = 1534236469` → Output: `0` (reversed value overflows 32-bit integer)",
+    "constraints": [
+      "-2^31 <= x <= 2^31 - 1",
+      "Return 0 if the reversed integer overflows",
+      "Expected time complexity: O(log10(n))",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "reverseInteger",
+    "params": [
+      {
+        "name": "x",
+        "type": "integer",
+        "description": "The signed 32-bit integer to reverse"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          123
+        ],
+        "expected": 321,
+        "explanation": "Digits 1, 2, 3 reversed give 3, 2, 1 → 321."
+      },
+      {
+        "args": [
+          -123
+        ],
+        "expected": -321,
+        "explanation": "Sign is preserved; digits 1, 2, 3 reversed give 321, so result is -321."
+      },
+      {
+        "args": [
+          120
+        ],
+        "expected": 21,
+        "explanation": "Trailing zero becomes a leading zero after reversal, which is dropped → 21."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          -1
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          100
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          1534236469
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          -2147483648
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          1000000003
+        ],
+        "expected": 3000000001
+      },
+      {
+        "args": [
+          900000
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          -900
+        ],
+        "expected": -9
+      },
+      {
+        "args": [
+          7
+        ],
+        "expected": 7
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def reverseInteger(self, x: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} x\n * @return {number}\n */\nfunction reverseInteger(x) {\n    // Your code here\n}\n",
+      "java": "public int reverseInteger(int x) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "power-of-two",
+    "title": "Power of Two",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "bit manipulation"
+    ],
+    "description": "Given an integer `n`, return `true` if it is a power of two, and `false` otherwise.\n\nAn integer `n` is a power of two if there exists an integer `k` such that `n == 2^k`.\n\n**Key insight:** A power of two in binary representation has exactly one `1` bit. For example:\n- `1` → `0001` ✓\n- `2` → `0010` ✓\n- `4` → `0100` ✓\n- `6` → `0110` ✗ (two 1-bits)\n\nYou can use the bit trick: `n > 0 && (n & (n - 1)) == 0`.\n\n**Examples:**\n- Input: `n = 1` → Output: `true` (2^0 = 1)\n- Input: `n = 16` → Output: `true` (2^4 = 16)\n- Input: `n = 3` → Output: `false`",
+    "constraints": [
+      "-2^31 <= n <= 2^31 - 1",
+      "Expected time complexity: O(1)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "isPowerOfTwo",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "The integer to check"
+      }
+    ],
+    "returnType": "boolean",
+    "examples": [
+      {
+        "args": [
+          1
+        ],
+        "expected": true,
+        "explanation": "2^0 = 1, so 1 is a power of two."
+      },
+      {
+        "args": [
+          16
+        ],
+        "expected": true,
+        "explanation": "2^4 = 16, so 16 is a power of two."
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": false,
+        "explanation": "3 cannot be expressed as 2^k for any integer k."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          0
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          -1
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          2
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          5
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          1073741824
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          1073741823
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          -2147483648
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          6
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          128
+        ],
+        "expected": true
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def isPowerOfTwo(self, n: int) -> bool:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @return {boolean}\n */\nfunction isPowerOfTwo(n) {\n    // Your code here\n}\n",
+      "java": "public boolean isPowerOfTwo(int n) {\n    // Your code here\n    return false;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "count-primes",
+    "title": "Count Primes",
+    "difficulty": "Medium",
+    "tags": [
+      "math",
+      "sieve of eratosthenes",
+      "prime numbers"
+    ],
+    "description": "Given an integer `n`, return the number of prime numbers that are strictly less than `n`.\n\nA **prime number** is a natural number greater than 1 that has no positive divisors other than 1 and itself.\n\nThe efficient approach is the **Sieve of Eratosthenes**: create a boolean array of size `n`, mark all multiples of each prime as composite, and count the remaining primes.\n\n**Examples:**\n- Input: `n = 10` → Output: `4` (primes are 2, 3, 5, 7)\n- Input: `n = 0` → Output: `0`\n- Input: `n = 1` → Output: `0`",
+    "constraints": [
+      "0 <= n <= 5 * 10^6",
+      "Expected time complexity: O(n log log n)",
+      "Expected auxiliary space: O(n)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "countPrimes",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "The upper bound (exclusive) for counting primes"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          10
+        ],
+        "expected": 4,
+        "explanation": "Primes less than 10 are: 2, 3, 5, 7 → count is 4."
+      },
+      {
+        "args": [
+          0
+        ],
+        "expected": 0,
+        "explanation": "No primes exist less than 0."
+      },
+      {
+        "args": [
+          1
+        ],
+        "expected": 0,
+        "explanation": "No primes exist less than 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          2
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          5
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          20
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          100
+        ],
+        "expected": 25
+      },
+      {
+        "args": [
+          1000
+        ],
+        "expected": 168
+      },
+      {
+        "args": [
+          10000
+        ],
+        "expected": 1229
+      },
+      {
+        "args": [
+          500000
+        ],
+        "expected": 41538
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          50
+        ],
+        "expected": 15
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def countPrimes(self, n: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nfunction countPrimes(n) {\n    // Your code here\n}\n",
+      "java": "public int countPrimes(int n) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "fizzbuzz-count",
+    "title": "FizzBuzz Count",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "fizzbuzz",
+      "divisibility"
+    ],
+    "description": "Given an integer `n`, return the count of numbers in the range `[1, n]` that are **FizzBuzz** numbers.\n\nA **FizzBuzz** number is one that is divisible by **both 3 and 5** (i.e., divisible by 15).\n\nNote: Numbers divisible only by 3 (Fizz) or only by 5 (Buzz) are NOT counted — only those divisible by both.\n\n**Examples:**\n- Input: `n = 15` → Output: `1` (only 15 itself qualifies)\n- Input: `n = 30` → Output: `2` (15 and 30 qualify)\n- Input: `n = 14` → Output: `0` (no number up to 14 is divisible by both 3 and 5)",
+    "constraints": [
+      "1 <= n <= 10^9",
+      "Expected time complexity: O(1)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "fizzBuzzCount",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "The upper bound (inclusive) of the range to check"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          15
+        ],
+        "expected": 1,
+        "explanation": "Only 15 is divisible by both 3 and 5 in the range [1, 15]."
+      },
+      {
+        "args": [
+          30
+        ],
+        "expected": 2,
+        "explanation": "15 and 30 are both divisible by 15 in the range [1, 30]."
+      },
+      {
+        "args": [
+          14
+        ],
+        "expected": 0,
+        "explanation": "No number in [1, 14] is divisible by both 3 and 5."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          1
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          45
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          100
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          150
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          1000
+        ],
+        "expected": 66
+      },
+      {
+        "args": [
+          1000000000
+        ],
+        "expected": 66666666
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          5
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          60
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          75
+        ],
+        "expected": 5
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def fizzBuzzCount(self, n: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nfunction fizzBuzzCount(n) {\n    // Your code here\n}\n",
+      "java": "public int fizzBuzzCount(int n) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "excel-sheet-column-number",
+    "title": "Excel Sheet Column Number",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "string",
+      "base conversion"
+    ],
+    "description": "Given a string `columnTitle` that represents the column title as it appears in an Excel sheet, return its corresponding column number.\n\nExcel columns are labeled alphabetically: A=1, B=2, ..., Z=26, AA=27, AB=28, ...\n\nThis is essentially a **base-26 number system** where:\n- `A` = 1, `B` = 2, ..., `Z` = 26\n- `AA` = 26×1 + 1 = 27\n- `AB` = 26×1 + 2 = 28\n- `ZY` = 26×26 + 25 = 701\n\nFor each character (left to right), multiply the running total by 26 and add the value of the current character.\n\n**Examples:**\n- Input: `columnTitle = \"A\"` → Output: `1`\n- Input: `columnTitle = \"AB\"` → Output: `28`\n- Input: `columnTitle = \"ZY\"` → Output: `701`",
+    "constraints": [
+      "1 <= columnTitle.length <= 7",
+      "columnTitle consists only of uppercase English letters",
+      "columnTitle is in the range [\"A\", \"FXSHRXW\"]",
+      "Expected time complexity: O(n) where n is the length of columnTitle",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "titleToNumber",
+    "params": [
+      {
+        "name": "columnTitle",
+        "type": "string",
+        "description": "The Excel column title string (uppercase letters only)"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          "A"
+        ],
+        "expected": 1,
+        "explanation": "A is the 1st column."
+      },
+      {
+        "args": [
+          "AB"
+        ],
+        "expected": 28,
+        "explanation": "AB = 26*1 + 2 = 28."
+      },
+      {
+        "args": [
+          "ZY"
+        ],
+        "expected": 701,
+        "explanation": "ZY = 26*26 + 25 = 676 + 25 = 701."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          "B"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "Z"
+        ],
+        "expected": 26
+      },
+      {
+        "args": [
+          "AA"
+        ],
+        "expected": 27
+      },
+      {
+        "args": [
+          "AZ"
+        ],
+        "expected": 52
+      },
+      {
+        "args": [
+          "BA"
+        ],
+        "expected": 53
+      },
+      {
+        "args": [
+          "ZZ"
+        ],
+        "expected": 702
+      },
+      {
+        "args": [
+          "AAA"
+        ],
+        "expected": 703
+      },
+      {
+        "args": [
+          "FXSHRXW"
+        ],
+        "expected": 2147483647
+      },
+      {
+        "args": [
+          "M"
+        ],
+        "expected": 13
+      },
+      {
+        "args": [
+          "XFD"
+        ],
+        "expected": 16384
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def titleToNumber(self, columnTitle: str) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {string} columnTitle\n * @return {number}\n */\nfunction titleToNumber(columnTitle) {\n    // Your code here\n}\n",
+      "java": "public int titleToNumber(String columnTitle) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "missing-number-math",
+    "title": "Missing Number (XOR)",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "array",
+      "bit manipulation"
+    ],
+    "description": "Given an array `nums` containing `n` distinct numbers in the range `[0, n]`, return the only number in the range that is missing from the array.\n\nThe array has `n` elements, but the range `[0, n]` has `n+1` values, so exactly one number is missing.\n\n**Approach — Gauss Formula:** The expected sum of numbers from 0 to n is `n*(n+1)/2`. Subtract the actual sum of the array to find the missing number.\n\n**Examples:**\n- Input: `nums = [3, 0, 1]` → Output: `2`\n- Input: `nums = [0, 1]` → Output: `2`\n- Input: `nums = [9,6,4,2,3,5,7,0,1]` → Output: `8`",
+    "constraints": [
+      "n == nums.length",
+      "1 <= n <= 10^4",
+      "0 <= nums[i] <= n",
+      "All the numbers of nums are unique",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "missingNumber",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Array of n distinct numbers in the range [0, n]"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          [
+            3,
+            0,
+            1
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Range is [0,3]. Numbers present: 0,1,3. Missing: 2."
+      },
+      {
+        "args": [
+          [
+            0,
+            1
+          ]
+        ],
+        "expected": 2,
+        "explanation": "Range is [0,2]. Numbers present: 0,1. Missing: 2."
+      },
+      {
+        "args": [
+          [
+            9,
+            6,
+            4,
+            2,
+            3,
+            5,
+            7,
+            0,
+            1
+          ]
+        ],
+        "expected": 8,
+        "explanation": "Range is [0,9]. All numbers are present except 8."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          [
+            0
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            0,
+            2
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            1,
+            0,
+            3
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6,
+            7,
+            8,
+            9
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            2,
+            0,
+            3,
+            1,
+            5,
+            6,
+            4,
+            8,
+            9
+          ]
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            5,
+            3,
+            1,
+            0,
+            2
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            2,
+            4
+          ]
+        ],
+        "expected": 3
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def missingNumber(self, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction missingNumber(nums) {\n    // Your code here\n}\n",
+      "java": "public int missingNumber(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "number-of-1-bits",
+    "title": "Number of 1 Bits",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "bit manipulation",
+      "popcount"
+    ],
+    "description": "Given a positive integer `n`, write a function that returns the number of set bits (1s) in its binary representation. This is also known as the **Hamming weight** or **popcount**.\n\n**Examples:**\n- `11` in binary is `00000000000000000000000000001011` → three `1`s → Output: `3`\n- `128` in binary is `00000000000000000000000010000000` → one `1` → Output: `1`\n- `2147483645` in binary is `01111111111111111111111111111101` → thirty `1`s → Output: `30`\n\n**Bit trick:** `n & (n - 1)` clears the lowest set bit. Count how many times you can do this before `n` becomes 0.",
+    "constraints": [
+      "1 <= n <= 2^31 - 1",
+      "Expected time complexity: O(k) where k is the number of set bits",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "hammingWeight",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "A positive 32-bit integer"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          11
+        ],
+        "expected": 3,
+        "explanation": "11 in binary is 1011, which has three 1 bits."
+      },
+      {
+        "args": [
+          128
+        ],
+        "expected": 1,
+        "explanation": "128 in binary is 10000000, which has exactly one 1 bit."
+      },
+      {
+        "args": [
+          2147483645
+        ],
+        "expected": 30,
+        "explanation": "Binary 01111111111111111111111111111101 has thirty 1 bits."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          2
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          7
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          15
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          255
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          65535
+        ],
+        "expected": 16
+      },
+      {
+        "args": [
+          2147483647
+        ],
+        "expected": 31
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          1023
+        ],
+        "expected": 10
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nfunction hammingWeight(n) {\n    // Your code here\n}\n",
+      "java": "public int hammingWeight(int n) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "hamming-distance",
+    "title": "Hamming Distance",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "bit manipulation"
+    ],
+    "description": "The **Hamming distance** between two integers is the number of positions at which the corresponding bits are different.\n\nGiven two integers `x` and `y`, return the Hamming distance between them.\n\n**Approach:** XOR the two integers — the result has a `1` at every bit position where `x` and `y` differ. Then count the number of `1` bits in the XOR result.\n\n**Examples:**\n- Input: `x = 1, y = 4` → `1 XOR 4 = 5 (0101)` → two differing bits → Output: `2`\n- Input: `x = 3, y = 1` → `3 XOR 1 = 2 (10)` → one differing bit → Output: `1`\n\nVisualized:\n```\n1   → 00001\n4   → 00100\nXOR → 00101  (two 1-bits, so Hamming distance = 2)\n```",
+    "constraints": [
+      "0 <= x, y <= 2^31 - 1",
+      "Expected time complexity: O(1)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 20,
+    "functionName": "hammingDistance",
+    "params": [
+      {
+        "name": "x",
+        "type": "integer",
+        "description": "First non-negative integer"
+      },
+      {
+        "name": "y",
+        "type": "integer",
+        "description": "Second non-negative integer"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          1,
+          4
+        ],
+        "expected": 2,
+        "explanation": "1 is 001, 4 is 100. They differ at 2 bit positions."
+      },
+      {
+        "args": [
+          3,
+          1
+        ],
+        "expected": 1,
+        "explanation": "3 is 11, 1 is 01. They differ at 1 bit position (the second bit)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          0,
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          0,
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          15,
+          0
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          7,
+          0
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          255,
+          0
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          2147483647,
+          0
+        ],
+        "expected": 31
+      },
+      {
+        "args": [
+          1,
+          1
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          5,
+          3
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          1023,
+          0
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          2147483647,
+          2147483646
+        ],
+        "expected": 1
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def hammingDistance(self, x: int, y: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} x\n * @param {number} y\n * @return {number}\n */\nfunction hammingDistance(x, y) {\n    // Your code here\n}\n",
+      "java": "public int hammingDistance(int x, int y) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  },
+  {
+    "slug": "climbing-stairs-math",
+    "title": "Climbing Stairs (Fibonacci)",
+    "difficulty": "Easy",
+    "tags": [
+      "math",
+      "dynamic programming",
+      "fibonacci"
+    ],
+    "description": "You are climbing a staircase. It takes `n` steps to reach the top.\n\nEach time you can either climb `1` or `2` steps. In how many **distinct ways** can you climb to the top?\n\nThis is equivalent to finding the `(n+1)`-th Fibonacci number. Think of it recursively: to reach step `n`, you either came from step `n-1` (1 step) or step `n-2` (2 steps), so:\n\n`ways(n) = ways(n-1) + ways(n-2)`\n\nwith base cases `ways(1) = 1` and `ways(2) = 2`.\n\n**Examples:**\n- Input: `n = 2` → Output: `2` (1+1, or 2)\n- Input: `n = 3` → Output: `3` (1+1+1, 1+2, or 2+1)\n- Input: `n = 4` → Output: `5`",
+    "constraints": [
+      "1 <= n <= 45",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 5,
+    "functionName": "climbStairs",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer",
+        "description": "The number of steps to reach the top"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [
+          2
+        ],
+        "expected": 2,
+        "explanation": "Two ways: (1+1) or (2)."
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": 3,
+        "explanation": "Three ways: (1+1+1), (1+2), (2+1)."
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": 5,
+        "explanation": "Five ways: (1+1+1+1), (1+1+2), (1+2+1), (2+1+1), (2+2)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          5
+        ],
+        "expected": 8
+      },
+      {
+        "args": [
+          6
+        ],
+        "expected": 13
+      },
+      {
+        "args": [
+          10
+        ],
+        "expected": 89
+      },
+      {
+        "args": [
+          20
+        ],
+        "expected": 10946
+      },
+      {
+        "args": [
+          30
+        ],
+        "expected": 1346269
+      },
+      {
+        "args": [
+          35
+        ],
+        "expected": 14930352
+      },
+      {
+        "args": [
+          40
+        ],
+        "expected": 165580141
+      },
+      {
+        "args": [
+          45
+        ],
+        "expected": 1836311903
+      },
+      {
+        "args": [
+          7
+        ],
+        "expected": 21
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def climbStairs(self, n: int) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nfunction climbStairs(n) {\n    // Your code here\n}\n",
+      "java": "public int climbStairs(int n) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  }
+]
