@@ -16,6 +16,6 @@ export default function () {
 
 export function teardown() {
   const metricsText = collectInfraMetrics();
-  // eslint-disable-next-line no-console
+   
   console.log(`\nScenario: 500 concurrent matches\n${metricsText}\n`);
 }

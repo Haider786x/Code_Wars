@@ -1,0 +1,17 @@
+[
+  {
+    "file": "arrays.json",
+    "totalQuestions": 1,
+    "validQuestions": 1,
+    "invalidQuestions": 0,
+    "results": [
+      {
+        "index": 0,
+        "slug": "maximum-consecutive-ones",
+        "title": "Maximum Consecutive Ones",
+        "valid": true,
+        "errors": []
+      }
+    ]
+  }
+]

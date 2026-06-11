@@ -100,7 +100,6 @@ const QuestionSchema = new Schema(
 );
 
 QuestionSchema.index({ difficulty: 1, approved: 1 });
-QuestionSchema.index({ slug: 1 }, { unique: true });
 QuestionSchema.index({ tags: 1 });
 
 const Question = mongoose.models.Question || mongoose.model('Question', QuestionSchema);

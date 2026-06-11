@@ -24,6 +24,7 @@ export function readBooleanEnv(name, defaultVal = false) {
  */
 export function cleanString(str) {
   if (typeof str !== 'string') return '';
+  // eslint-disable-next-line no-control-regex
   return str.trim().replace(/[\x00-\x1F\x7F]/g, '');
 }
 
@@ -57,4 +58,41 @@ export function sendError(res, status, message) {
  */
 export function logRouteError(context, error) {
   console.error(`[${context}]`, error?.message ?? error);
+}
+
+export function validatePlayerId(id) {
+  if (!id || typeof id !== 'string' || !/^[a-fA-F0-9]{24}$/.test(id)) {
+    throw new Error('Invalid userId');
+  }
+  return id;
+}
+
+export function validateGuestId(id) {
+  if (!id || typeof id !== 'string' || !/^user:[a-fA-F0-9]{24}$|^[a-z0-9-]{10,40}$/i.test(id)) {
+    throw new Error('Invalid guestId');
+  }
+  return id;
+}
+
+export function getCurrentIdentity(source = {}, options = {}) {
+  const { requireGuestId = true } = options;
+  const userId = cleanString(source.userId);
+  if (userId) {
+    return {
+      type: 'user',
+      userId: validatePlayerId(userId),
+    };
+  }
+
+  const fallbackGuestId = cleanString(source.guestId) || cleanString(source.playerId);
+  if (!fallbackGuestId && !requireGuestId) {
+    return {
+      type: 'guest',
+      guestId: null,
+    };
+  }
+  return {
+    type: 'guest',
+    guestId: validateGuestId(fallbackGuestId),
+  };
 }

@@ -29,6 +29,6 @@ export default function (data) {
 
 export function teardown() {
   const metricsText = collectInfraMetrics();
-  // eslint-disable-next-line no-console
+   
   console.log(`\nScenario: 500 spectators\n${metricsText}\n`);
 }

@@ -1,21 +1,17 @@
 // ─── Match Controller ─────────────────────────────────────────────────────────
 // Thin HTTP layer – validates input then delegates to match.service.
 
-import {
-  createMatch,
-  getMatchById,
-  joinMatch,
-  finishMatch,
-} from '../services/match.service.js';
+import { queueCodeRun, queueAnalysis, createMatch, getMatchById, joinMatch, enforceRateLimit } from '../server.js';
 import { cleanString, validateMatchId, sendError, logRouteError } from '../utils/helpers.js';
 
 // POST /match/create
 export async function createMatchHandler(req, res) {
   try {
-    const { guestId, userId, displayName, roomType, language } = req.body ?? {};
-    const match = await createMatch({ guestId, userId, displayName, roomType, language });
-    return res.status(201).json({ match });
+    await enforceRateLimit(req, res, 'matchCreate', [req.body?.playerId || 'anonymous']);
+    const result = await createMatch(req.body ?? {});
+    return res.status(201).json(result);
   } catch (err) {
+    if (err.status === 429) return; // rate limit response already sent
     logRouteError('createMatch', err);
     return sendError(res, 400, err.message);
   }
@@ -25,40 +21,63 @@ export async function createMatchHandler(req, res) {
 export async function getMatchHandler(req, res) {
   try {
     const matchId = validateMatchId(cleanString(req.params.matchId));
-    const match = await getMatchById(matchId);
-    return res.json({ match });
+    await enforceRateLimit(req, res, 'matchRead', [matchId]);
+    const result = await getMatchById(matchId);
+    return res.json(result);
   } catch (err) {
+    if (err.status === 429) return;
     logRouteError('getMatch', err);
     const status = err.message === 'Match not found' ? 404 : 400;
     return sendError(res, status, err.message);
   }
 }
 
-// POST /match/:matchId/join
+// POST /match/join
 export async function joinMatchHandler(req, res) {
   try {
-    const matchId = validateMatchId(cleanString(req.params.matchId));
-    const { guestId, userId, displayName } = req.body ?? {};
-    const match = await joinMatch(matchId, { guestId, userId, displayName });
-    return res.json({ match });
+    await enforceRateLimit(req, res, 'matchJoin', [req.body?.playerId || 'anonymous']);
+    const result = await joinMatch(req.body ?? {});
+    return res.json(result);
   } catch (err) {
+    if (err.status === 429) return;
     logRouteError('joinMatch', err);
     const status = err.message === 'Match not found' ? 404 : 400;
     return sendError(res, status, err.message);
   }
 }
 
-// POST /match/:matchId/finish
-export async function finishMatchHandler(req, res) {
+// POST /match/run
+export async function runCodeHandler(req, res) {
   try {
-    const matchId = validateMatchId(cleanString(req.params.matchId));
-    const { winnerId } = req.body ?? {};
-    if (!winnerId) return sendError(res, 400, 'winnerId is required');
-    const match = await finishMatch(matchId, { winnerId });
-    return res.json({ match });
+    const result = await queueCodeRun('run', req.body ?? {});
+    return res.json(result);
   } catch (err) {
-    logRouteError('finishMatch', err);
-    const status = err.message === 'Match not found' ? 404 : 400;
+    logRouteError('runCode', err);
+    const status = err.status || (err.message.includes('not found') ? 404 : 400);
+    return sendError(res, status, err.message);
+  }
+}
+
+// POST /match/submit
+export async function submitCodeHandler(req, res) {
+  try {
+    const result = await queueCodeRun('submit', req.body ?? {});
+    return res.json(result);
+  } catch (err) {
+    logRouteError('submitCode', err);
+    const status = err.status || (err.message.includes('not found') ? 404 : 400);
+    return sendError(res, status, err.message);
+  }
+}
+
+// POST /match/analyze
+export async function analyzeCodeHandler(req, res) {
+  try {
+    const result = await queueAnalysis(req.body ?? {});
+    return res.json(result);
+  } catch (err) {
+    logRouteError('analyzeCode', err);
+    const status = err.status || (err.message.includes('not found') ? 404 : 400);
     return sendError(res, status, err.message);
   }
 }

@@ -33,14 +33,20 @@ export const useMatchStream = (matchId, identity) => {
       }
     };
 
-    activeSocket.emit('match:join', {
-      matchId: activeMatchId,
-      guestId: identity?.type === 'guest' ? identity.guestId : undefined,
-      userId: identity?.type === 'user' ? identity.userId : undefined,
-    });
+    const joinMatch = () => {
+      activeSocket.emit('match:join', {
+        matchId: activeMatchId,
+        guestId: identity?.type === 'guest' ? identity.guestId : undefined,
+        userId: identity?.type === 'user' ? identity.userId : undefined,
+      });
+    };
+
+    joinMatch();
+    activeSocket.on('connect', joinMatch);
     activeSocket.on('match:update', handleMatchUpdate);
 
     return () => {
+      activeSocket.off('connect', joinMatch);
       activeSocket.off('match:update', handleMatchUpdate);
       activeSocket.emit('match:leave', activeMatchId);
     };

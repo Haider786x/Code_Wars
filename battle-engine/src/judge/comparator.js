@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // ─── Judge Comparator ─────────────────────────────────────────────────────────
 // After the sandbox executes the generated wrapper, this module:
 //   1. Parses the raw stdout (one JSON line per test case)
@@ -5,6 +6,10 @@
 //   3. Returns a structured verdict per test case
 //
 // All comparison happens here – the generated code just returns raw values.
+//
+// For linkedlist  → wrapper serialises to integer[]  → compared as arrays
+// For binarytree  → wrapper serialises to integer[]  (level-order, nulls trimmed)
+// For float/float[] → compared with 1e-5 tolerance
 
 const FLOAT_TOLERANCE = 1e-5;
 

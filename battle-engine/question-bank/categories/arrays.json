@@ -1,0 +1,65 @@
+[
+  {
+    "slug": "maximum-consecutive-ones",
+    "title": "Maximum Consecutive Ones",
+    "difficulty": "Easy",
+    "tags": ["array", "counting"],
+    "description": "You are given a binary array `nums` consisting only of `0`s and `1`s. Your task is to determine the maximum number of consecutive `1`s that appear in the array.\n\nA consecutive sequence is a group of adjacent elements that all have the same value. In this problem, you are interested only in sequences of `1`s. Whenever a `0` is encountered, the current streak of consecutive `1`s ends and a new streak may begin later in the array.\n\nFor example, in the array `[1,1,0,1,1,1]`, the first streak of consecutive `1`s has length `2`, while the second streak has length `3`. Since `3` is larger, the answer is `3`.\n\nYour solution should efficiently process arrays of varying sizes, including large inputs. Consider how you can keep track of the current streak of `1`s while scanning through the array only once.\n\nReturn the length of the longest consecutive sequence of `1`s found in the array. If the array contains no `1`s, return `0`.\n\nThis problem tests your ability to traverse arrays, maintain running state, and identify contiguous segments within a sequence.",
+    "constraints": [
+      "1 <= nums.length <= 100000",
+      "nums[i] is either 0 or 1",
+      "Expected time complexity: O(n)",
+      "Expected auxiliary space: O(1)"
+    ],
+    "timeLimitMinutes": 10,
+    "functionName": "findMaxConsecutiveOnes",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]",
+        "description": "Binary array containing only 0 and 1 values"
+      }
+    ],
+    "returnType": "integer",
+    "examples": [
+      {
+        "args": [[1, 1, 0, 1, 1, 1]],
+        "expected": 3,
+        "explanation": "The longest streak of consecutive 1s is [1,1,1], which has length 3."
+      },
+      {
+        "args": [[1, 0, 1, 1, 0, 1]],
+        "expected": 2,
+        "explanation": "The longest streak of consecutive 1s has length 2."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "args": [[1]],
+        "expected": 1
+      },
+      {
+        "args": [[0]],
+        "expected": 0
+      },
+      {
+        "args": [[1, 1, 1, 1, 1]],
+        "expected": 5
+      },
+      {
+        "args": [[0, 0, 0, 0]],
+        "expected": 0
+      },
+      {
+        "args": [[1, 0, 1, 0, 1, 0, 1]],
+        "expected": 1
+      }
+    ],
+    "starterCode": {
+      "python": "class Solution:\n    def findMaxConsecutiveOnes(self, nums: list[int]) -> int:\n        # Your code here\n        pass\n",
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction findMaxConsecutiveOnes(nums) {\n    // Your code here\n}\n",
+      "java": "public int findMaxConsecutiveOnes(int[] nums) {\n    // Your code here\n    return 0;\n}\n"
+    },
+    "approved": true
+  }
+]

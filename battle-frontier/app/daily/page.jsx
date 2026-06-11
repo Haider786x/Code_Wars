@@ -169,7 +169,9 @@ export default function DailyChallengePage() {
               <div className="p-5 overflow-y-auto max-h-96">
                 {activeTab === 'desc' && (
                   <div className="space-y-4 text-sm text-slate-300">
-                    <p>{problem.description}</p>
+                    <div className="prose-code:bg-white/10 prose-code:px-1 prose-code:rounded prose-code:text-amber-300 leading-relaxed">
+                      <ReactMarkdown>{problem.description || ''}</ReactMarkdown>
+                    </div>
                     {problem.task && (
                       <div className="bg-amber-950/30 border border-amber-700/30 p-3 rounded-lg text-amber-200">
                         <strong>Task:</strong> {problem.task}
@@ -197,13 +199,19 @@ export default function DailyChallengePage() {
                         <div className="p-3 grid grid-cols-2 gap-3 text-xs">
                           <div>
                             <span className="text-slate-500 block mb-1">Input:</span>
-                            <code className="text-slate-200 font-mono">{ex.input}</code>
+                            <code className="text-slate-200 font-mono break-all">{ex.input || (ex.args ? ex.args.map(a => JSON.stringify(a)).join(', ') : '')}</code>
                           </div>
                           <div>
                             <span className="text-slate-500 block mb-1">Output:</span>
-                            <code className="text-slate-200 font-mono">{ex.output}</code>
+                            <code className="text-slate-200 font-mono break-all">{ex.output || JSON.stringify(ex.expected)}</code>
                           </div>
                         </div>
+                        {ex.explanation && (
+                          <div className="px-3 py-2 border-t border-white/5 bg-white/5 text-xs">
+                            <span className="text-slate-500 font-semibold mr-2">Explain:</span>
+                            <span className="text-slate-300">{ex.explanation}</span>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>

@@ -307,14 +307,26 @@ export default function BattlePage({ id }) {
           <div className="flex-1 overflow-y-auto p-4 md:p-6 scrollbar-thin">
             {activeTab === 'desc' && (
               <div className="prose prose-sm max-w-none text-slate-600">
-                <p className="mb-4">{problem?.description}</p>
-                <div className="bg-blue-50 p-4 rounded-lg text-blue-800 text-sm mb-4 border border-blue-100">
-                  <strong>Task:</strong> {problem?.task}
+                <div className="mb-4 prose-code:bg-slate-100 prose-code:px-1 prose-code:rounded prose-code:text-rose-600">
+                  <ReactMarkdown>{problem?.description || ''}</ReactMarkdown>
                 </div>
-                <h3 className="text-slate-800 font-bold text-xs uppercase tracking-wider mb-2 mt-6">Input Format</h3>
-                <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-slate-700 font-mono text-xs">{problem?.input_format}</div>
-                <h3 className="text-slate-800 font-bold text-xs uppercase tracking-wider mb-2 mt-6">Output Format</h3>
-                <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-slate-700 font-mono text-xs">{problem?.output_format}</div>
+                {problem?.task && (
+                  <div className="bg-blue-50 p-4 rounded-lg text-blue-800 text-sm mb-4 border border-blue-100">
+                    <strong>Task:</strong> {problem.task}
+                  </div>
+                )}
+                {problem?.input_format && (
+                  <>
+                    <h3 className="text-slate-800 font-bold text-xs uppercase tracking-wider mb-2 mt-6">Input Format</h3>
+                    <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-slate-700 font-mono text-xs">{problem.input_format}</div>
+                  </>
+                )}
+                {problem?.output_format && (
+                  <>
+                    <h3 className="text-slate-800 font-bold text-xs uppercase tracking-wider mb-2 mt-6">Output Format</h3>
+                    <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-slate-700 font-mono text-xs">{problem.output_format}</div>
+                  </>
+                )}
               </div>
             )}
 
@@ -361,12 +373,18 @@ export default function BattlePage({ id }) {
                       <div className="bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
                         <div className="p-3 border-b border-slate-100 grid grid-cols-[60px_1fr] gap-2">
                           <span className="text-xs font-semibold text-slate-500">Input:</span>
-                          <code className="text-xs font-mono text-slate-800">{ex.input}</code>
+                          <code className="text-xs font-mono text-slate-800">{ex.input || (ex.args ? ex.args.map(a => JSON.stringify(a)).join(', ') : '')}</code>
                         </div>
                         <div className="p-3 grid grid-cols-[60px_1fr] gap-2">
                           <span className="text-xs font-semibold text-slate-500">Output:</span>
-                          <code className="text-xs font-mono text-slate-800">{ex.output}</code>
+                          <code className="text-xs font-mono text-slate-800">{ex.output || JSON.stringify(ex.expected)}</code>
                         </div>
+                        {ex.explanation && (
+                          <div className="p-3 grid grid-cols-[60px_1fr] gap-2 border-t border-slate-100 bg-blue-50/50">
+                            <span className="text-xs font-semibold text-slate-500">Explain:</span>
+                            <span className="text-xs text-slate-600">{ex.explanation}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))
