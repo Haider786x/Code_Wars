@@ -36,6 +36,12 @@ if (!process.env.GEMINI_API_KEY) {
   warnings.push('GEMINI_API_KEY is not set; AI review will use fallback text');
 }
 
+if (!process.env.CODESANDBOXER_URL) {
+  warnings.push('CODESANDBOXER_URL is not set; defaulting to http://localhost:3000 (will fail in production)');
+} else if (/localhost|127\.0\.0\.1/.test(process.env.CODESANDBOXER_URL)) {
+  warnings.push('CODESANDBOXER_URL points to localhost — ensure CodeSandboxer is accessible from the server');
+}
+
 for (const [name, value] of Object.entries(process.env)) {
   if (!name.endsWith('_MS') && !name.endsWith('_MAX') && !name.endsWith('_CONCURRENCY')) continue;
   if (Number.isNaN(Number(value)) || Number(value) <= 0) {

@@ -30,6 +30,8 @@ export default function ArenaPage() {
   const [liveData, setLiveData] = useState(null);
   const [timers, setTimers] = useState({});
   const [isSearching, setIsSearching] = useState(false);
+  const [tournaments, setTournaments] = useState([]);
+  const [tournamentsLoading, setTournamentsLoading] = useState(true);
 
   const user = getStoredUser();
   const loggedIn = isLoggedIn();
@@ -44,9 +46,25 @@ export default function ArenaPage() {
     } catch (_) { /* no-op when backend is down */ }
   };
 
+  const loadTournaments = async () => {
+    try {
+      const result = await api.getAction('/tournaments');
+      const active = (result || []).filter((t) => t.status !== 'COMPLETED');
+      setTournaments(active);
+    } catch (_) {
+      setTournaments([]); // graceful fallback on API error
+    } finally {
+      setTournamentsLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadLive();
-    const poll = setInterval(loadLive, 15000);
+    loadTournaments();
+    const poll = setInterval(() => {
+      loadLive();
+      loadTournaments();
+    }, 15000);
     return () => clearInterval(poll);
   }, []);
 
@@ -261,19 +279,50 @@ export default function ArenaPage() {
             {/* Tournament Card */}
             <div>
               <h2 className="text-base font-bold text-slate-900 uppercase tracking-wider mb-4">Tournament</h2>
-              <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-                <h3 className="font-bold text-slate-900 text-lg">Weekly Sprint</h3>
-                <p className="text-sm text-slate-400 mt-1 flex items-center gap-1.5">
-                  <Calendar size={13} /> Saturday 7 PM • Open Enrollment
-                </p>
-                <button
-                  type="button"
-                  onClick={() => navigate('/tournaments')}
-                  className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold text-sm transition shadow-md shadow-blue-600/20"
-                >
-                  Register Now
-                </button>
-              </div>
+              
+              {tournamentsLoading ? (
+                /* Skeleton Loader */
+                <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm animate-pulse space-y-3">
+                  <div className="h-4 bg-slate-200 rounded w-2/3" />
+                  <div className="h-3 bg-slate-100 rounded w-1/2" />
+                  <div className="h-10 bg-slate-200 rounded mt-5" />
+                </div>
+              ) : tournaments.length > 0 ? (
+                /* Active Tournament Details */
+                <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🏆</span>
+                    <h3 className="font-bold text-slate-900 text-base line-clamp-1">{tournaments[0].name}</h3>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {tournaments[0].format === 'SINGLE_ELIMINATION' ? 'Single Elimination' : 'Round Robin'} • {tournaments[0].participants?.length || 0}/{tournaments[0].maxParticipants} players
+                  </p>
+                  <p className="text-xs text-slate-400 mt-2 flex items-center gap-1.5">
+                    <Calendar size={13} /> {tournaments[0].startTime ? new Date(tournaments[0].startTime).toLocaleDateString() : 'Scheduled'} • {tournaments[0].problemDuration}m match
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/tournaments')}
+                    className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold text-sm transition shadow-md shadow-blue-600/20"
+                  >
+                    View Tournaments
+                  </button>
+                </div>
+              ) : (
+                /* No Active Tournaments / Graceful Fallback */
+                <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm text-center py-6">
+                  <div className="text-2xl mb-1">💤</div>
+                  <h3 className="font-bold text-slate-900 text-sm">No Active Tournaments</h3>
+                  <p className="text-xs text-slate-400 mt-1">Be the first to host a coding challenge!</p>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/tournaments')}
+                    className="mt-4 w-full bg-blue-50 hover:bg-blue-100 text-blue-600 py-2.5 rounded-lg font-bold text-sm transition"
+                  >
+                    + Create Tournament
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Activity Feed */}

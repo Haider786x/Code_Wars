@@ -39,6 +39,21 @@ export default function BattlePage({ id }) {
   const [matchResult, setMatchResult] = useState('');
   const [spectatedPlayerId, setSpectatedPlayerId] = useState(null);
 
+  // Editor configuration preferences
+  const [editorTheme, setEditorTheme] = useState(() => localStorage.getItem('editor.theme') || 'light');
+  const [editorFontSize, setEditorFontSize] = useState(() => Number(localStorage.getItem('editor.fontSize')) || 14);
+  const [editorMinimap, setEditorMinimap] = useState(() => localStorage.getItem('editor.minimap') === 'true');
+
+  useEffect(() => {
+    const handleStorage = () => {
+      setEditorTheme(localStorage.getItem('editor.theme') || 'light');
+      setEditorFontSize(Number(localStorage.getItem('editor.fontSize')) || 14);
+      setEditorMinimap(localStorage.getItem('editor.minimap') === 'true');
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
   const isSpectator = useMemo(() => {
     if (!matchData) return false;
     return !matchData.players.includes(myParticipantId);
@@ -515,7 +530,7 @@ export default function BattlePage({ id }) {
               height="100%"
               language={language}
               value={code}
-              theme="light"
+              theme={editorTheme}
               onChange={(value) => {
                 const val = value || '';
                 setCode(val);
@@ -529,8 +544,8 @@ export default function BattlePage({ id }) {
                 }
               }}
               options={{
-                minimap: { enabled: false },
-                fontSize: 14,
+                minimap: { enabled: editorMinimap },
+                fontSize: editorFontSize,
                 lineNumbers: 'on',
                 padding: { top: 16, bottom: 16 },
                 fontFamily: 'JetBrains Mono, monospace',

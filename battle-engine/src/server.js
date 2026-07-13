@@ -29,12 +29,17 @@ import { TournamentModel } from './models/Tournament.js';
 import { UserModel, AVAILABLE_AVATARS } from './models/User.js';
 import Question from './models/Question.js';
 import { languages } from './utils/lang.js';
+import { generateWrapper } from './judge/wrapperGenerator.js';
+import { compareResults } from './judge/comparator.js';
 
 const Verdict = {
-  ACCEPTED: 'Accepted',
-  WRONG_ANSWER: 'Wrong Answer',
-  COMPILE_ERROR: 'Compilation Error',
-  RUNTIME_ERROR: 'Runtime Error',
+  ACCEPTED:              'Accepted',
+  WRONG_ANSWER:          'Wrong Answer',
+  COMPILE_ERROR:         'Compilation Error',
+  RUNTIME_ERROR:         'Runtime Error',
+  TIME_LIMIT_EXCEEDED:   'Time Limit Exceeded',
+  MEMORY_LIMIT_EXCEEDED: 'Memory Limit Exceeded',
+  OUTPUT_LIMIT_EXCEEDED: 'Output Limit Exceeded',
 };
 
 const app = express();
@@ -56,8 +61,7 @@ const maxPlayerIdLength = readPositiveIntEnv('MAX_PLAYER_ID_LENGTH', 64);
 const maxGuestIdLength = readPositiveIntEnv('MAX_GUEST_ID_LENGTH', 64);
 const maxDisplayNameLength = readPositiveIntEnv('MAX_DISPLAY_NAME_LENGTH', 40);
 const maxProblemTitleLength = readPositiveIntEnv('MAX_PROBLEM_TITLE_LENGTH', 120);
-const judge0ApiUrl = process.env.JUDGE0_API_URL || 'https://judge0-ce.p.rapidapi.com/submissions';
-const judge0ApiKey = process.env.JUDGE0_API_KEY || '';
+const codesandboxerUrl = process.env.CODESANDBOXER_URL || 'http://localhost:3000';
 const executionRequestTimeoutMs = readPositiveIntEnv('EXECUTION_REQUEST_TIMEOUT_MS', 15000);
 const geminiRequestTimeoutMs = readPositiveIntEnv('GEMINI_REQUEST_TIMEOUT_MS', 20000);
 const shutdownTimeoutMs = readPositiveIntEnv('SHUTDOWN_TIMEOUT_MS', 10000);
@@ -538,28 +542,49 @@ app.use('/daily-challenge', dailyRoutes);
 app.use('/', userRoutes);
 app.use('/match', matchRoutes);
 
+// Clean up tasks
+async function cleanupOrphanedMatches() {
+  try {
+    const twentyMinutesAgo = new Date(Date.now() - 20 * 60000);
+    const result = await MatchModel.deleteMany({
+      status: 'WAITING',
+      createdAt: { $lt: twentyMinutesAgo },
+    });
+    if (result.deletedCount > 0) {
+      console.log(`[cleanup] Removed ${result.deletedCount} waiting matches`);
+    }
+  } catch (err) {
+    console.error('[cleanup] Error cleaning up waiting matches:', err);
+  }
+}
+
+async function cleanupExpiredGuestProfiles() {
+  try {
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60000);
+    const result = await PlayerModel.deleteMany({
+      userId: null,
+      createdAt: { $lt: twentyFourHoursAgo },
+    });
+    if (result.deletedCount > 0) {
+      console.log(`[cleanup] Removed ${result.deletedCount} expired guest profiles`);
+    }
+  } catch (err) {
+    console.error('[cleanup] Error cleaning up expired guest profiles:', err);
+  }
+}
+
 // ── End MVC Routes ────────────────────────────────────────────────────────
+
+const MAINTENANCE_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
 
 httpServer.listen(port, () => {
   console.log(`CodeBattle engine listening on http://localhost:${port}`);
   
-  // Periodic background task to clean up orphaned WAITING matches
-  // Runs every 10 minutes and deletes WAITING matches older than 20 minutes
+  // Periodic background maintenance loop
   setInterval(async () => {
-    try {
-      await connectDB();
-      const twentyMinutesAgo = new Date(Date.now() - 20 * 60000);
-      const result = await MatchModel.deleteMany({
-        status: 'WAITING',
-        createdAt: { $lt: twentyMinutesAgo },
-      });
-      if (result.deletedCount > 0) {
-        console.log(`Cleaned up ${result.deletedCount} orphaned WAITING matches`);
-      }
-    } catch (err) {
-      console.error('Error cleaning up orphaned matches:', err);
-    }
-  }, 10 * 60000);
+    await cleanupOrphanedMatches();
+    await cleanupExpiredGuestProfiles();
+  }, MAINTENANCE_INTERVAL_MS);
 });
 
 process.on('SIGTERM', () => shutdown(0));
@@ -1173,6 +1198,9 @@ async function setupQueuesAndWorkers() {
     'Timed out connecting Redis workers',
   );
   redisState.workers = true;
+
+  // Verify CodeSandboxer is reachable before processing jobs
+  await verifyCodeSandboxer();
 }
 
 async function setupRateLimitRedis() {
@@ -1223,9 +1251,10 @@ function workerLimiter(prefix, defaultMax, defaultDuration) {
 }
 
 function recordRedisError(message, error) {
-  redisState.error = `${message}: ${error.message}`;
+  const detail = error?.message || error?.code || String(error) || '(no detail)';
+  redisState.error = `${message}: ${detail}`;
   void reportMonitoringEvent('redis_failure', error, { message });
-  console.error(`${message}:`, error);
+  console.error(`[redis] ${message}: ${detail}`, error?.code ? `(code: ${error.code})` : '');
 }
 
 function withTimeout(promise, timeoutMs, message) {
@@ -1929,13 +1958,12 @@ async function processCode(data) {
     code,
     action,
     language = 'python',
-    version = '3.10.0',
     enqueuedAt,
   } = data;
 
-  let overallSuccess = true;
+  let overallSuccess = false;
   let errorMsg;
-  const testResults = [];
+  let testResults = [];
 
   if (enqueuedAt) {
     recordQueueProcessingLatency(Math.max(0, Date.now() - Number(enqueuedAt)));
@@ -1952,34 +1980,54 @@ async function processCode(data) {
     const question = await measureMongoQuery('question.process', () => Question.findById(match.problemId));
     if (!question) throw new Error('Question not found');
 
-    let casesToRun = question.test_cases;
+    let casesToRun = question.hiddenTestCases;
     if (action === 'RUN_TESTS') {
       casesToRun = casesToRun.slice(0, Math.ceil(casesToRun.length * 0.25) || 1);
     }
 
-    for (let i = 0; i < casesToRun.length; i += 1) {
-      const testCase = casesToRun[i];
-      const result = await runJudge0(code, language, testCase);
+    // Single execution call — wrapper embeds all test cases in one program
+    const execResult = await runCodeSandboxer(code, language, question, casesToRun);
 
-      testResults.push({
+    // Terminal statuses: comparator cannot help, short-circuit immediately
+    const terminalStatuses = new Set([
+      Verdict.COMPILE_ERROR,
+      Verdict.TIME_LIMIT_EXCEEDED,
+      Verdict.MEMORY_LIMIT_EXCEEDED,
+      Verdict.OUTPUT_LIMIT_EXCEEDED,
+      Verdict.RUNTIME_ERROR,
+    ]);
+
+    if (terminalStatuses.has(execResult.status)) {
+      errorMsg = execResult.stderr || execResult.status;
+      testResults = casesToRun.map((tc, i) => ({
         id: i + 1,
-        input: testCase.input,
-        expected: testCase.output,
-        actual: result.output || result.stderr,
-        status: result.status,
-        passed: result.status === Verdict.ACCEPTED,
-      });
+        input: tc.args,
+        expected: tc.expected,
+        actual: null,
+        status: execResult.status,
+        passed: false,
+        stderr: execResult.stderr,
+        executionTimeMs: execResult.executionTimeMs,
+      }));
+    } else {
+      // CodeSandboxer ran successfully — compare structured JSON-line stdout
+      const verdict = compareResults(execResult.stdout, casesToRun, question.returnType);
+      overallSuccess = verdict.passed;
 
-      if (result.status !== Verdict.ACCEPTED) {
-        overallSuccess = false;
-        if (result.status === Verdict.COMPILE_ERROR) {
-          errorMsg = result.stderr;
-          break;
-        }
-      }
+      testResults = verdict.results.map((r, i) => ({
+        id: i + 1,
+        input: casesToRun[i]?.args,
+        expected: r.expected,
+        actual: r.actual,
+        status: r.passed ? Verdict.ACCEPTED : (r.error ? Verdict.RUNTIME_ERROR : Verdict.WRONG_ANSWER),
+        passed: r.passed,
+        stderr: execResult.stderr || null,
+        executionTimeMs: execResult.executionTimeMs,
+      }));
 
-      if (i < casesToRun.length - 1) {
-        await sleep(300);
+      if (!verdict.passed) {
+        const firstFail = verdict.results.find((r) => !r.passed);
+        errorMsg = firstFail?.error || undefined;
       }
     }
   } catch (error) {
@@ -2204,75 +2252,126 @@ async function updatePlayerProfiles(match, language) {
   );
 }
 
-async function runJudge0(code, language, testCase) {
-  const judge0Ids = {
-    python: 71, // Python (3.8.1)
-    cpp: 54,    // C++ (GCC 9.2.0)
-    java: 62,   // Java (OpenJDK 13.0.1)
-    c: 50,      // C (GCC 9.2.0)
-    go: 60,     // Go (1.13.5)
-    javascript: 93, // Node.js (18.15.0)
+// ─── CodeSandboxer HTTP helper ────────────────────────────────────────────────
+
+/**
+ * POST to CodeSandboxer with retry logic.
+ * Retries on network errors and HTTP 5xx. Never retries on 4xx.
+ * Timeout is read from EXECUTION_REQUEST_TIMEOUT_MS.
+ *
+ * @param {string} url
+ * @param {RequestInit} options
+ * @param {number} [maxAttempts=3]
+ * @returns {Promise<{status:string, stdout:string, stderr:string, executionTimeMs:number}>}
+ */
+async function fetchWithRetry(url, options, maxAttempts = 3) {
+  let lastError;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), executionRequestTimeoutMs);
+
+    try {
+      const res = await fetch(url, { ...options, signal: controller.signal });
+
+      // 4xx — client-side problem, do not retry
+      if (res.status >= 400 && res.status < 500) {
+        const data = await res.json().catch(() => ({}));
+        return {
+          status: data.status || Verdict.RUNTIME_ERROR,
+          stdout: data.stdout || '',
+          stderr: data.stderr || `HTTP ${res.status}`,
+          executionTimeMs: 0,
+        };
+      }
+
+      if (!res.ok) {
+        // 5xx — eligible for retry
+        throw new Error(`CodeSandboxer HTTP ${res.status}`);
+      }
+
+      return await res.json();
+
+    } catch (err) {
+      lastError = err;
+
+      if (err.name === 'AbortError' || attempt === maxAttempts) break;
+
+      // Exponential backoff: 300 ms, 600 ms
+      await new Promise((resolve) => setTimeout(resolve, 300 * attempt));
+
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  const isTimeout = lastError?.name === 'AbortError';
+  return {
+    status: isTimeout ? Verdict.TIME_LIMIT_EXCEEDED : Verdict.RUNTIME_ERROR,
+    stdout: '',
+    stderr: isTimeout
+      ? `Execution timed out after ${executionRequestTimeoutMs}ms`
+      : `CodeSandboxer unreachable: ${lastError?.message}`,
+    executionTimeMs: 0,
   };
+}
 
-  const runtime = languages.find((lang) => lang.pistonLang === language);
-  const langKey = runtime?.pistonLang || language;
-  const languageId = judge0Ids[langKey] || 71;
+/**
+ * Generate a wrapped program for the given language and POST it to CodeSandboxer.
+ * All test cases are embedded in a single execution.
+ *
+ * @param {string}   code       - user's function source
+ * @param {string}   language   - 'python' | 'javascript' | 'java'
+ * @param {object}   question   - { functionName, params, returnType }
+ * @param {object[]} testCases  - array of { args, expected }
+ * @returns {Promise<{status:string, stdout:string, stderr:string, executionTimeMs:number}>}
+ */
+async function runCodeSandboxer(code, language, question, testCases) {
+  let cleanedCode = code;
 
-  const payload = {
-    source_code: code,
-    language_id: languageId,
-    stdin: testCase.input,
-  };
+  // Strip leading JS/C/Java-style block comments from Python code submissions
+  // (e.g. if JS comments are copied/pasted or left over from language switching)
+  if (language === 'python') {
+    cleanedCode = cleanedCode
+      .replace(/^\s*\/\*\*[\s\S]*?\*\/\s*/g, '')
+      .replace(/^\s*\/\*[\s\S]*?\*\/\s*/g, '');
+  }
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), executionRequestTimeoutMs);
+  // Generate a complete, self-contained program (all test cases embedded)
+  let sourceCode = generateWrapper(language, cleanedCode, question, testCases);
 
+  // CodeSandboxer requires Java entry class named "Main".
+  // wrapperGenerator emits "Solution" — patch here to keep the generator generic.
+  if (language === 'java') {
+    sourceCode = sourceCode
+      .replace(/public class Solution\b/g, 'public class Main')
+      .replace(/new Solution\(\)/g, 'new Main()');
+  }
+
+  return fetchWithRetry(`${codesandboxerUrl}/execute`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ language, sourceCode }),
+  });
+}
+
+/**
+ * Verify CodeSandboxer is reachable before the worker starts consuming jobs.
+ * Logs a warning but does NOT exit — the engine can start without it.
+ */
+async function verifyCodeSandboxer() {
   try {
-    const headers = { 
-      'Content-Type': 'application/json',
-      'X-RapidAPI-Key': process.env.JUDGE0_API_KEY || judge0ApiKey || '',
-      'X-RapidAPI-Host': new URL(judge0ApiUrl).hostname
-    };
-
-    const response = await fetch(`${judge0ApiUrl}?base64_encoded=false&wait=true`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(payload),
-      signal: controller.signal,
+    const res = await fetch(`${codesandboxerUrl}/ready`, {
+      signal: AbortSignal.timeout(5000),
     });
-
-    if (!response.ok) {
-      const text = await response.text();
-      return { status: Verdict.RUNTIME_ERROR, stderr: `Judge0 HTTP ${response.status}: ${text}` };
+    const data = await res.json();
+    if (data.status !== 'ok') throw new Error(JSON.stringify(data));
+    console.log('[runner] CodeSandboxer ready:', data);
+    if (data.runtimes?.java === false) {
+      console.warn('[runner] Java is disabled on this CodeSandboxer deployment.');
     }
-
-    const data = await response.json();
-
-    if (data.status?.id === 6) {
-      return { status: Verdict.COMPILE_ERROR, stderr: data.compile_output || data.stderr };
-    }
-    if (data.status?.id > 6) {
-      return {
-        status: Verdict.RUNTIME_ERROR,
-        stderr: data.stderr || data.message || `Runtime Error (Status ${data.status?.id})`,
-      };
-    }
-    if (data.status?.id === 5) {
-      return { status: Verdict.RUNTIME_ERROR, stderr: 'Time Limit Exceeded' };
-    }
-
-    const actual = (data.stdout || '').trim();
-    const expected = testCase.output.map((output) => output.trim());
-    const isCorrect = expected.includes(actual);
-
-    return { status: isCorrect ? Verdict.ACCEPTED : Verdict.WRONG_ANSWER, output: actual };
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      return { status: Verdict.RUNTIME_ERROR, stderr: 'Judge0 request timed out' };
-    }
-    return { status: Verdict.RUNTIME_ERROR, stderr: `API Exception: ${error.message}` };
-  } finally {
-    clearTimeout(timeout);
+  } catch (err) {
+    console.error('[runner] CodeSandboxer unreachable at startup:', err.message);
   }
 }
 

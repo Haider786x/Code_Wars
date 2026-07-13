@@ -41,12 +41,12 @@ export async function getLeaderboard(req, res) {
     await connectDB();
 
     const [players, total] = await Promise.all([
-      PlayerModel.find({})
+      PlayerModel.find({ userId: { $ne: null } })
         .sort({ rating: -1, wins: -1 })
         .skip(skip)
         .limit(limit)
         .lean(),
-      PlayerModel.countDocuments(),
+      PlayerModel.countDocuments({ userId: { $ne: null } }),
     ]);
 
     return res.json({
