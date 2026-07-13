@@ -1,40 +1,37 @@
-# CodeBattle
+# Code Wars
 
-## Real-Time 1v1 Competitive Coding Platform
+A real-time, head-to-head 1v1 competitive programming platform. Create rooms, challenge peers, and write code in sync with your opponent. Matches run securely on our isolated code execution runner, showing instant feedback, live spectating, and post-match AI-powered feedback.
 
-CodeBattle turns competitive programming into a live head-to-head duel. Players create a room, share a code, solve the same problem at the same time, and get real-time feedback as submissions are run.
+---
 
-## Features
+## ⚡ Key Highlights & Architecture
 
-- Live 1v1 coding battles with synchronized timers
-- Room codes for quick create/join flow
-- Multi-language code execution through the Piston API
-- Real-time match updates with Socket.IO
-- MongoDB-backed matches and questions
-- Redis-backed Socket.IO fanout, background jobs, and match timers for scale
-- Optional Gemini-powered post-match code analysis
-- React + Vite frontend with Monaco Editor
-
-## Architecture
+* **Live Editor Sync:** Real-time Monaco editor updates synchronized via Socket.IO, with storage-event-driven configuration (Font Size, Theme, Minimap) configured from the dashboard.
+* **Isolated Sandbox Execution:** Code runs against a dedicated microservice (`CodeSandboxer`) utilizing sandboxed runners instead of third-party public APIs (e.g., Piston or Judge0), ensuring fast execution, custom comparator testing, and strict timeout bounds.
+* **Resilient Lifecycle & ELO:**
+  * Registered users start at a standard baseline of `1200 ELO`.
+  * Temporary guest profiles start at `0 ELO` and are automatically filtered out from public ELO Leaderboards.
+  * Idle guest documents and matching history are garbage collected by an idempotent background cleanup process after 24 hours.
+* **Scaling Ready:** Redis-backed BullMQ queues handle code submissions, delay timers, and pub-sub socket fanout across multiple API instances.
 
 ```mermaid
 graph TD
     User([Client / Frontend])
 
-    subgraph "Node.js Backend"
+    subgraph "Node.js Backend (Code Wars Engine)"
         API[Express Match API]
         Engine[Game State Logic]
-        Runner[Code Runner]
-        Referee[AI Review]
-        Realtime[Socket.IO]
-        Jobs[BullMQ Workers]
+        Runner[Code Execution Controller]
+        Referee[AI Review Generator]
+        Realtime[Socket.IO Gateway]
+        Jobs[BullMQ Queue Manager]
     end
 
-    subgraph "External Services"
-        DB[(MongoDB)]
-        Redis[(Redis)]
-        Piston[Piston API]
-        Gemini[Gemini API]
+    subgraph "Execution & Storage Layers"
+        DB[(MongoDB Atlas)]
+        Redis[(Upstash Redis)]
+        Sandboxer[CodeSandboxer Microservice]
+        Gemini[Google Gemini API]
     end
 
     User -->|HTTP| API
@@ -43,97 +40,93 @@ graph TD
     Engine --> DB
     API --> Jobs
     Jobs --> Runner
-    Runner --> Piston
+    Runner --> Sandboxer
     Runner --> Engine
     Jobs --> Referee
     Referee --> Gemini
     Engine --> Realtime
     Referee --> Realtime
-    Realtime <-->|Fanout| Redis
-    Jobs <-->|Queues + Delays| Redis
+    Realtime <-->|Fanout Adapter| Redis
+    Jobs <-->|Queues + Delay Timers| Redis
 ```
 
-## Match Lifecycle
+---
 
-1. A player creates a room and selects a match duration.
-2. A second player joins with the room code.
-3. The backend starts the race, stores the timer, and broadcasts the start event.
-4. Players run tests or submit final solutions.
-5. The backend executes code through Piston and broadcasts verdicts.
-6. The first accepted final submission wins, or the match expires when time runs out.
+## 🚀 Quick Start
 
-## Quick Start
+### 1. Prerequisites
+* **Node.js** `>= 20.0.0`
+* **MongoDB** (Local instance or Mongo Atlas URI)
+* **Redis** (Local or Upstash connection string)
+* **CodeSandboxer** (Running instance URL)
+* *Optional:* **Google Gemini API Key** (for post-match AI code analysis)
 
-### Prerequisites
-
-- Node.js 18+
-- MongoDB local instance or Atlas connection string
-- Optional Gemini API key for AI review
-
-### Install
-
+### 2. Dependency Installation
+Install dependencies in both directories:
 ```bash
+# Backend
 cd battle-engine
 npm install
 
+# Frontend
 cd ../battle-frontier
 npm install
 ```
 
-### Environment
+### 3. Environment Setup
+Configure your environment variables before booting.
 
 Create `battle-engine/.env`:
-
 ```env
 PORT=3000
-MONGO_URI=mongodb://localhost:27017/codebattle
+MONGO_URI=mongodb://localhost:27017/codewars
 REDIS_URL=redis://localhost:6379
 CORS_ORIGIN=http://localhost:2000
-GEMINI_API_KEY=your_gemini_key_here
+CODESANDBOXER_URL=http://localhost:4000
+GEMINI_API_KEY=your_gemini_api_key
+EXECUTION_REQUEST_TIMEOUT_MS=10000
 ```
-
-`REDIS_URL` is optional for local development, but use it in production so multiple backend instances can share Socket.IO events, queued work, and delayed match timers. For production you can also set `REQUIRE_REDIS=true`, `RUN_WORKERS=false` on API-only instances, `RUN_WORKERS=true` on worker instances, and `BULLMQ_PREFIX=codebattle` for the Redis key namespace.
-
-The BullMQ queue names are `code`, `analysis`, and `timers`; the Redis keys are namespaced by `BULLMQ_PREFIX`. If Redis is optional and unavailable, `/health` reports `redis.mode` as `local-fallback`.
-
-For production, set `NODE_ENV=production`, `REQUIRE_REDIS=true`, explicit `CORS_ORIGIN`, and run the backend readiness check:
-
-```bash
-cd battle-engine
-npm run check:prod
-```
-
-The backend includes request IDs, security headers, Redis-backed rate limits, bounded code payloads, external API timeouts, graceful shutdown, and active match timer recovery.
+*Note: If `REDIS_URL` is omitted, the backend falls back gracefully to local memory mode for queues, though this is not recommended for production.*
 
 Create `battle-frontier/.env`:
-
 ```env
 VITE_API_GATEWAY_URL=http://localhost:3000
 VITE_WS_GATEWAY_URL=http://localhost:3000
 ```
 
-### Run
-
+### 4. Running Locally
+Launch both servers concurrently:
 ```bash
+# Start backend (http://localhost:3000)
 cd battle-engine
 npm run dev
-```
 
-```bash
-cd battle-frontier
+# Start frontend (http://localhost:2000)
+cd ../battle-frontier
 npm run dev
 ```
 
-The backend defaults to `http://localhost:3000`. The frontend runs on `http://localhost:2000`.
+---
 
-## Tech Stack
+## 🛠️ Production Readiness
 
-| Layer | Technology |
-| --- | --- |
-| Backend API | Express |
-| Real-time updates | Socket.IO with Redis adapter |
-| Background jobs | BullMQ and Redis |
-| Database | MongoDB and Mongoose |
-| Code execution | Piston API |
-| AI review | Google Gemini |
-| Frontend | React, Vite, Tailwind CSS, Monaco Editor |
+Before pushing to staging or production, run the automated health check script to verify configuration integrity:
+```bash
+cd battle-engine
+npm run check:prod
+```
+The script validates database availability, environment keys, queue setups, and connectivity to `CodeSandboxer`.
+
+### Recommended Hosting Setup
+* **Frontend:** Hosted on **Vercel** (framework preset: Vite)
+* **Backend:** Hosted on **Render** (as a Web Service with Node runtime)
+* **Database & Queues:** MongoDB Atlas + Upstash Redis (Serverless)
+
+Make sure the backend's `CORS_ORIGIN` environment variable is updated to point exactly to your Vercel deployment domain.
+
+---
+
+## 🤝 Contributing & License
+Feel free to open issues or pull requests. Clean up unused styling and run `npm run lint` inside both packages before committing.
+
+Distributed under the MIT License. See `LICENSE` for details.

@@ -88,11 +88,9 @@ export default function RegisterPage() {
 
       <div className="w-full max-w-lg">
         {/* Logo */}
-        <div className="flex items-center justify-center gap-2 mb-10">
-          <div className="bg-blue-600 p-2 rounded-lg shadow-lg shadow-blue-600/20">
-            <Swords size={22} className="text-white" />
-          </div>
-          <span className="text-2xl font-bold text-slate-900 tracking-tight">CodeBattle</span>
+        <div className="flex items-center justify-center gap-2.5 mb-10">
+          <img src="/logo.png" alt="Code Wars Logo" className="w-10 h-10 rounded-xl shadow-md" />
+          <span className="text-2xl font-bold text-slate-900 tracking-tight">Code Wars</span>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">

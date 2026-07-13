@@ -598,10 +598,8 @@ const PageHeader = ({ statusDotClass, matchResult, matchData }) => (
   <header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-10">
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2">
-        <div className="bg-blue-600 text-white p-1.5 rounded-lg shadow-lg shadow-blue-600/20">
-          <Swords size={20} />
-        </div>
-        <span className="text-xl font-bold text-slate-800 tracking-tight">CodeBattle.</span>
+        <img src="/logo.png" alt="Code Wars Logo" className="w-8 h-8 rounded-lg shadow-sm" />
+        <span className="text-xl font-bold text-slate-800 tracking-tight">Code Wars</span>
       </div>
       <div className="h-4 w-px bg-slate-200 mx-2" />
       <div className="flex items-center gap-2 text-xs font-mono text-slate-500">

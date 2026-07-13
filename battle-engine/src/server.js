@@ -578,7 +578,7 @@ async function cleanupExpiredGuestProfiles() {
 const MAINTENANCE_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
 
 httpServer.listen(port, () => {
-  console.log(`CodeBattle engine listening on http://localhost:${port}`);
+  console.log(`Code Wars engine listening on http://localhost:${port}`);
   
   // Periodic background maintenance loop
   setInterval(async () => {

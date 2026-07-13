@@ -44,9 +44,10 @@ export function AppHeader({ activeTab = 'Arena' }) {
         <button
           type="button"
           onClick={() => navigate('/')}
-          className="text-xl font-bold text-slate-900 tracking-tight hover:opacity-80 transition"
+          className="flex items-center gap-2 text-xl font-bold text-slate-900 tracking-tight hover:opacity-80 transition"
         >
-          CodeBattle
+          <img src="/logo.png" alt="Code Wars Logo" className="w-8 h-8 rounded-lg shadow-sm" />
+          <span>Code Wars</span>
         </button>
 
         {/* Desktop nav */}

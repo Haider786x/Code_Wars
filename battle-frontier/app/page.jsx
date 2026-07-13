@@ -361,14 +361,17 @@ export default function ArenaPage() {
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white mt-16">
         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-          <span className="font-bold text-slate-900">CodeBattle</span>
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="Code Wars Logo" className="w-6 h-6 rounded-md opacity-60" />
+            <span className="font-bold text-slate-900">Code Wars</span>
+          </div>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-slate-600 transition">About</a>
             <a href="#" className="hover:text-slate-600 transition">Contact</a>
             <a href="#" className="hover:text-slate-600 transition">Terms</a>
             <a href="#" className="hover:text-slate-600 transition">Privacy</a>
           </div>
-          <span>© 2024 CodeBattle. All rights reserved.</span>
+          <span>© 2026 Code Wars. All rights reserved.</span>
         </div>
       </footer>
     </div>
